@@ -181,6 +181,22 @@ CREATE TABLE gral.tbMunicipios(
    CONSTRAINT FK_gral_tbEstadosCiviles_acce_tbUsuarios_estacivi_UsuModificacion_user_Id  FOREIGN KEY(estacivi_UsuModificacion) 	REFERENCES acce.tbUsuarios(user_Id)
 );
 
+--********TABLA CARGOS****************---
+CREATE TABLE cons.tbCargos(
+	carg_Id					INT IDENTITY,
+	carg_Nombre				NVARCHAR(150) NOT NULL,
+	carg_UsuCreacion		INT NOT NULL,
+	carg_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_carg_FechaCreacion DEFAULT(GETDATE()),
+	carg_UsuModificacion	INT,
+	carg_FechaModificacion	DATETIME,
+	carg_Estado				BIT NOT NULL CONSTRAINT DF_carg_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbCargos											PRIMARY KEY(carg_Id),
+	CONSTRAINT FK_tbCargos_tbUsuarios_carg_UsuCreacion_user_Id		FOREIGN KEY(carg_UsuCreacion)	  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbCargos_tbUsuarios_carg_UsuModificacion_user_Id	FOREIGN KEY(carg_UsuModificacion) REFERENCES acce.tbUsuarios(user_Id)
+);
+
+
 /*
 INSERT DE LA BASE DE DATOS
 */
@@ -332,18 +348,25 @@ END
 
 
 /*Procedimientos de departamentos*/
+--Departamentos (vista)
 GO
 CREATE OR ALTER VIEW gral.VW_tbDepartamentos
 AS
 	SELECT depa_Id, 
 		   depa_Nombre, 
 		   depa_UsuCreacion, 
+		   T2.user_NombreUsuario AS depa_UsuCreacionNombre,
 		   depa_FechaCreacion, 
 		   depa_UsuModificacion, 
+		   T3.user_NombreUsuario AS depa_UsuModificacionNombre,
 		   depa_FechaModificacion
-	FROM [gral].[tbDepartamentos]
+	FROM [gral].[tbDepartamentos] T1 INNER JOIN [acce].[tbUsuarios] T2
+	ON T1.depa_UsuCreacion = T2.user_Id LEFT JOIN [acce].[tbUsuarios] T3
+	ON T1.depa_UsuModificacion = T3.user_Id
 	WHERE [depa_Estado] = 1
 
+
+--Procedimiento listar departamentos
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Listado
 AS
@@ -351,3 +374,127 @@ BEGIN
 	SELECT * FROM gral.VW_tbDepartamentos
 END
 
+/*Procedimientos de cargos*/
+--Cargos vista
+GO
+CREATE OR ALTER VIEW cons.VW_tbCargos
+AS
+	SELECT carg_Id,
+		   carg_Nombre,
+		   carg_UsuCreacion,
+		   T2.user_NombreUsuario AS carg_UsuCreacionNombre,
+		   carg_FechaCreacion,
+		   carg_UsuModificacion,
+		   T3.user_NombreUsuario AS carg_UsuModificacionNombre,
+		   carg_FechaModificacion
+	FROM cons.tbCargos T1 INNER JOIN [acce].[tbUsuarios] T2 
+	ON T1.carg_UsuCreacion = T2.user_Id LEFT JOIN [acce].[tbUsuarios] T3
+	ON T1.carg_UsuModificacion = T3.user_Id
+
+--Procedimiento listar cargos
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbCargos_List
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbCargos
+END
+
+--Procedimiento insertar cargos
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbCargos_Insert
+	@carg_Nombre		NVARCHAR(150),
+	@carg_UsuCreacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT carg_Nombre 
+					   FROM cons.tbCargos 
+					   WHERE carg_Nombre = @carg_Nombre)
+			BEGIN			
+				INSERT INTO cons.tbCargos(carg_Nombre, carg_UsuCreacion)
+				VALUES(@carg_Nombre, @carg_UsuCreacion)
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE IF EXISTS (SELECT carg_Nombre 
+					    FROM cons.tbCargos 
+					    WHERE carg_Nombre = @carg_Nombre
+						AND carg_Estado = 0)
+			BEGIN
+				UPDATE cons.tbCargos
+				SET carg_Estado = 1
+				WHERE carg_Nombre = @carg_Nombre
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE
+			SELECT 'Ya existe un cargo con este nombre'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Procedimiento editar cargos
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbCargos_Update 
+	@carg_Id				INT,
+	@carg_Nombre			NVARCHAR(150),
+	@carg_UsuModificacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT carg_Id FROM cons.tbCargos WHERE carg_Id = @carg_Id)
+			BEGIN 
+				SELECT 'El registro que intenta editar no existe'
+			END
+		ELSE
+			BEGIN
+				IF NOT EXISTS (SELECT carg_Nombre 
+					   FROM cons.tbCargos 
+					   WHERE carg_Nombre = @carg_Nombre
+					   AND carg_Id != @carg_Id)
+					BEGIN
+						UPDATE cons.tbCargos 
+						SET carg_Nombre = @carg_Nombre,
+							carg_UsuModificacion = @carg_UsuModificacion,
+							carg_FechaModificacion = GETDATE()
+						WHERE carg_Id = @carg_Id
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE IF EXISTS (SELECT carg_Nombre 
+								FROM cons.tbCargos
+								WHERE carg_Estado = 0
+								AND carg_Nombre = @carg_Nombre)
+					BEGIN
+						UPDATE cons.tbCargos
+						SET carg_Estado = 1
+						WHERE carg_Nombre = @carg_Nombre
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE
+					SELECT 'Ya existe un cargo con este nombre'
+			END
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+----Procedimiento insertar departamentos
+--GO
+--CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
+--	@depa_Id			CHAR(4),
+--	@depa_Nombre		NVARCHAR(150),
+--	@depa_UsuCreacion	INT
+--AS
+--BEGIN
+--	BEGIN TRY
+--		INSERT INTO gral.tbDepartamentos(depa_Id, depa_Nombre, depa_UsuCreacion)
+--	END TRY
+--	BEGIN CATCH
+
+--	END CATCH
+--END
