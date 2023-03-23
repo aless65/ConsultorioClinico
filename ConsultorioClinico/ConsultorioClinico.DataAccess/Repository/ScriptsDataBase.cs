@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Consultorio.DataAccess.Repository
 {
-    class ScriptsDataBase
+    public class ScriptsDataBase
     {
+        #region 
+        public static string UDP_Listar_Departamentos = "gral.UDP_tbDepartamentos_Listado";
+        #endregion
     }
 }

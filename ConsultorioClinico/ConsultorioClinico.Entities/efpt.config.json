@@ -40,6 +40,10 @@
       {
          "Name": "[gral].[tbMunicipios]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[gral].[VW_tbDepartamentos]",
+         "ObjectType": 3
       }
    ],
    "UiHint": "DESKTOP-6FS11M8\\MSSQLSERVER1.CONSULTORIOCLINICO",

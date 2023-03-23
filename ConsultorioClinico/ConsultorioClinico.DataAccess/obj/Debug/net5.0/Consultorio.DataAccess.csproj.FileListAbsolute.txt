@@ -1,0 +1,15 @@
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\bin\Debug\net5.0\Consultorio.DataAccess.deps.json
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\bin\Debug\net5.0\Consultorio.DataAccess.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\bin\Debug\net5.0\ref\Consultorio.DataAccess.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\bin\Debug\net5.0\Consultorio.DataAccess.pdb
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\bin\Debug\net5.0\Consultorio.Entities.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\bin\Debug\net5.0\Consultorio.Entities.pdb
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.csproj.AssemblyReference.cache
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.AssemblyInfoInputs.cache
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.AssemblyInfo.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.csproj.CopyComplete
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\ref\Consultorio.DataAccess.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\ConsultorioClinico.DataAccess\obj\Debug\net5.0\Consultorio.DataAccess.pdb
