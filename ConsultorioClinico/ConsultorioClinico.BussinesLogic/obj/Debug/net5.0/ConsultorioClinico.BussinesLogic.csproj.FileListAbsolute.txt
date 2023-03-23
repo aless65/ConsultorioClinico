@@ -1,0 +1,12 @@
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\bin\Debug\net5.0\ConsultorioClinico.BussinesLogic.deps.json
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\bin\Debug\net5.0\ConsultorioClinico.BussinesLogic.dll
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\bin\Debug\net5.0\ref\ConsultorioClinico.BussinesLogic.dll
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\bin\Debug\net5.0\ConsultorioClinico.BussinesLogic.pdb
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ConsultorioClinico.BussinesLogic.csproj.AssemblyReference.cache
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ConsultorioClinico.BussinesLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ConsultorioClinico.BussinesLogic.AssemblyInfoInputs.cache
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ConsultorioClinico.BussinesLogic.AssemblyInfo.cs
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ConsultorioClinico.BussinesLogic.csproj.CoreCompileInputs.cache
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ConsultorioClinico.BussinesLogic.dll
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ref\ConsultorioClinico.BussinesLogic.dll
+C:\Users\LAB01\source\repos\ConsultorioClinico\ConsultorioClinico.BussinesLogic\obj\Debug\net5.0\ConsultorioClinico.BussinesLogic.pdb
