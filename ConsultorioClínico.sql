@@ -176,7 +176,7 @@ CREATE TABLE gral.tbMunicipios(
 	estacivi_FechaModificacion	DATETIME,
 	estacivi_Estado				BIT NOT NULL CONSTRAINT DF_estacivi_Estado DEFAULT(1)
    
-   CONSTRAINT PK_gral_tbEstadosCiviles 												PRIMARY KEY(estacivi_Id),
+   CONSTRAINT PK_gral_tbEstadosCiviles_estacivi_Id 										PRIMARY KEY(estacivi_Id),
    CONSTRAINT FK_gral_tbEstadosCiviles_acce_tbUsuarios_estacivi_UsuCreacion_user_Id  	FOREIGN KEY(estacivi_UsuCreacion) 		REFERENCES acce.tbUsuarios(user_Id),
    CONSTRAINT FK_gral_tbEstadosCiviles_acce_tbUsuarios_estacivi_UsuModificacion_user_Id  FOREIGN KEY(estacivi_UsuModificacion) 	REFERENCES acce.tbUsuarios(user_Id)
 );
@@ -191,11 +191,62 @@ CREATE TABLE cons.tbCargos(
 	carg_FechaModificacion	DATETIME,
 	carg_Estado				BIT NOT NULL CONSTRAINT DF_carg_Estado DEFAULT(1)
 
-	CONSTRAINT PK_tbCargos											PRIMARY KEY(carg_Id),
+	CONSTRAINT PK_tbCargos_carg_Id									PRIMARY KEY(carg_Id),
 	CONSTRAINT FK_tbCargos_tbUsuarios_carg_UsuCreacion_user_Id		FOREIGN KEY(carg_UsuCreacion)	  REFERENCES acce.tbUsuarios(user_Id),
 	CONSTRAINT FK_tbCargos_tbUsuarios_carg_UsuModificacion_user_Id	FOREIGN KEY(carg_UsuModificacion) REFERENCES acce.tbUsuarios(user_Id)
 );
 
+--********TABLA ÁREAS****************---
+CREATE TABLE cons.tbAreas(
+	area_Id					INT IDENTITY,
+	area_Nombre				NVARCHAR(150) NOT NULL,
+	area_UsuCreacion		INT NOT NULL,
+	area_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_area_FechaCreacion DEFAULT(GETDATE()),
+	area_UsuModificacion	INT,
+	area_FechaModificacion	DATETIME,
+	area_Estado				BIT NOT NULL CONSTRAINT DF_area_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbAreas_area_Id									PRIMARY KEY(area_Id),
+	CONSTRAINT FK_tbAreas_tbUsuarios_area_UsuCreacion_user_Id		FOREIGN KEY(area_UsuCreacion)	  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbAreas_tbUsuarios_area_UsuModificacion_user_Id	FOREIGN KEY(area_UsuModificacion) REFERENCES acce.tbUsuarios(user_Id)
+);
+
+--********TABLA PROVEEDORES****************---
+CREATE TABLE cons.tbProveedores(
+	prov_Id					INT IDENTITY,
+	prov_Nombre				NVARCHAR(300) NOT NULL,
+	prov_Correo				NVARCHAR(300) NOT NULL,
+	prov_Telefono			NVARCHAR(20) NOT NULL,
+	prov_UsuCreacion		INT NOT NULL,
+	prov_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_prov_FechaCreacion DEFAULT(GETDATE()),
+	prov_UsuModificacion	INT,
+	prov_FechaModificacion	DATETIME,
+	prov_Estado				BIT NOT NULL CONSTRAINT DF_prov_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbProveedores_prov_Id									PRIMARY KEY(prov_Id),
+	CONSTRAINT FK_tbProveedores_tbUsuarios_prov_UsuCreacion_user_Id		FOREIGN KEY(prov_UsuCreacion)	  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbProveedores_tbUsuarios_prov_UsuModificacion_user_Id FOREIGN KEY(prov_UsuModificacion) REFERENCES acce.tbUsuarios(user_Id)
+);
+
+--********TABLA MEDICAMENTOS****************---
+CREATE TABLE cons.tbMedicamentos(
+	medi_Id					INT IDENTITY,
+	medi_Nombre				NVARCHAR(200) NOT NULL,
+	prov_Id					INT NOT NULL,
+	medi_PrecioCompra		DECIMAL(18,2) NOT NULL,
+	medi_PrecioVenta		DECIMAL(18,2) NOT NULL,
+	medi_Stock				INT NOT NULL,
+	medi_UsuCreacion		INT NOT NULL,
+	medi_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_medi_FechaCreacion DEFAULT(GETDATE()),
+	medi_UsuModificacion	INT,
+	medi_FechaModificacion	DATETIME,
+	medi_Estado				BIT NOT NULL CONSTRAINT DF_medi_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbMedicamentos_medi_Id								 PRIMARY KEY(medi_Id),
+	CONSTRAINT FK_tbMedicamentos_tbUsuarios_medi_UsuCreacion_user_Id     FOREIGN KEY(medi_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbMedicamentos_tbUsuarios_medi_UsuModificacion_user_Id FOREIGN KEY(medi_UsuModificacion) REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbMedicamentos_tbProveedores_prov_Id					 FOREIGN KEY(prov_Id)			   REFERENCES cons.tbProveedores(prov_Id)
+);
 
 /*
 INSERT DE LA BASE DE DATOS
@@ -314,6 +365,204 @@ VALUES('0101','La Ceiba ','01', 1),
       ('1803','El Negrito','18', 1),
 	  ('1804','El Progreso','18', 1),
       ('1805','Jocon','18', 1)
+GO
+INSERT INTO gral.tbEstadosCiviles(estacivi_Nombre, estacivi_UsuCreacion)
+VALUES ('Soltero(a)', 1),
+	   ('Casado(a)', 1),
+	   ('Viudo(a)', 1),
+	   ('Unión Libre', 1)
+
+GO
+INSERT INTO cons.tbCargos(carg_Nombre, carg_UsuCreacion)
+VALUES ('Médico general', 1)
+
+	  --********TABLA CLÍNICAS****************---
+CREATE TABLE cons.tbClinicas(
+	clin_Id					INT IDENTITY,
+	clin_Nombre				NVARCHAR(200) NOT NULL,
+	muni_Id					CHAR(4) NOT NULL,
+	clin_Direccion			NVARCHAR(500) NOT NULL,
+	empe_Id					INT NOT NULL,
+	clin_UsuCreacion		INT NOT NULL,
+	clin_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_clin_FechaCreacion DEFAULT(GETDATE()),
+	clin_UsuModificacion	INT,
+	clin_FechaModificacion	DATETIME,
+	clin_Estado				BIT NOT NULL CONSTRAINT DF_clin_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbClinicas_clin_Id								 PRIMARY KEY(clin_Id),
+	CONSTRAINT FK_tbClinicas_tbUsuarios_clin_UsuCreacion_user_Id     FOREIGN KEY(clin_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbClinicas_tbUsuarios_clin_UsuModificacion_user_Id FOREIGN KEY(clin_UsuModificacion) REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbClinicas_tbClinicas_muni_Id						 FOREIGN KEY(muni_Id)			   REFERENCES gral.tbMunicipios(muni_Id)
+);
+
+INSERT INTO cons.tbClinicas(clin_Nombre, 
+							muni_Id, 
+							clin_Direccion, 
+							empe_Id, 
+							clin_UsuCreacion)
+VALUES ('Los Andes', '0501', 'Residencial Los Andes, calle no sé avenida peor', 1, 1)
+
+--********TABLA EMPLEADOS****************---
+CREATE TABLE cons.tbEmpleados(
+	empe_Id					INT IDENTITY,
+	empe_Nombres			NVARCHAR(200) NOT NULL,
+	empe_Apellido			NVARCHAR(200) NOT NULL,
+	empe_Identidad			VARCHAR(13) NOT NULL,
+	empe_Sexo				CHAR NOT NULL,
+	estacivi_Id				INT NOT NULL,
+	empe_FechaNacimiento	DATETIME NOT NULL,
+	muni_Id					CHAR(4) NOT NULL,
+	empe_Direccion			NVARCHAR(500) NOT NULL,
+	empe_Telefono			NVARCHAR(20) NOT NULL,
+	empe_Correo				NVARCHAR(120) NOT NULL,
+	empe_FechaInicio		DATE NOT NULL,
+	empe_FechaFinal			DATE,
+	carg_Id					INT NOT NULL,
+	clin_Id					INT NOT NULL,
+	empe_UsuCreacion		INT NOT NULL,
+	empe_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_empe_FechaCreacion DEFAULT(GETDATE()),
+	empe_UsuModificacion	INT,
+	empe_FechaModificacion	DATETIME,
+	empe_Estado				BIT NOT NULL CONSTRAINT DF_empe_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbEmpleados_empe_Id									PRIMARY KEY(empe_Id),
+	CONSTRAINT FK_tbEmpleados_tbUsuarios_empe_UsuCreacion_user_Id		FOREIGN KEY(empe_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbEmpleados_tbUsuarios_empe_UsuModificacion_user_Id	FOREIGN KEY(empe_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbEmpleados_tbEstadosCiviles_estacivi_Id				FOREIGN KEY(estacivi_Id)		   REFERENCES gral.tbEstadosCiviles(estacivi_Id),
+	CONSTRAINT FK_tbEmpleados_tbMunicipios_muni_Id						FOREIGN KEY(muni_Id)			   REFERENCES gral.tbMunicipios(muni_Id),
+	CONSTRAINT CK_tbEmpleados_empe_Sexo									CHECK(empe_Sexo IN ('F', 'M')),
+	CONSTRAINT FK_tbEmpleados_tbClinicas_clin_Id						FOREIGN KEY(clin_Id)			   REFERENCES cons.tbClinicas(clin_Id),
+	CONSTRAINT FK_tbEmpleados_tbCargos_carg_Id							FOREIGN KEY(carg_Id)			   REFERENCES cons.tbCargos(carg_Id)
+);
+
+INSERT INTO cons.tbEmpleados(empe_Nombres, empe_Apellido, 
+							 empe_Identidad, empe_Sexo, 
+							 estacivi_Id, empe_FechaNacimiento, 
+							 muni_Id, empe_Direccion,
+							 empe_Telefono, empe_Correo,
+							 empe_FechaInicio, empe_FechaFinal,
+							 carg_Id, clin_Id,
+							 empe_UsuCreacion)
+VALUES('Juan','Molina','0501200506728','M',1,'2005-05-06','0501','calle las brisas','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1)
+
+
+ALTER TABLE cons.tbClinicas
+ADD CONSTRAINT FK_tbClientes_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES cons.tbEmpleados(empe_Id)
+
+GO
+CREATE TABLE cons.tbPacientes(
+	paci_Id					INT IDENTITY,
+	paci_Nombres			NVARCHAR(200) NOT NULL,
+	paci_Apellidos			NVARCHAR(200) NOT NULL,
+	paci_Identidad			VARCHAR(13) NOT NULL,
+	paci_TipoSangre			CHAR(4),
+	paci_FechaNacimiento	DATE NOT NULL,
+	estacivi_Id				INT NOT NULL,
+	paci_Telefono			NVARCHAR(20) NOT NULL,
+	paci_UsuCreacion		INT NOT NULL,
+	paci_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_paci_FechaCreacion DEFAULT(GETDATE()),
+	paci_UsuModificacion	INT,
+	paci_FechaModificacion	DATETIME,
+	paci_Estado				BIT NOT NULL CONSTRAINT DF_paci_Estado DEFAULT(1)
+	
+	CONSTRAINT PK_tbPacientes_paci_Id									PRIMARY KEY(paci_Id),
+	CONSTRAINT FK_tbPacientes_tbUsuarios_paci_UsuCreacion_user_Id		FOREIGN KEY(paci_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbPacientes_tbUsuarios_paci_UsuModificacion_user_Id	FOREIGN KEY(paci_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbPacientes_tbEstadosCiviles_estacivi_Id				FOREIGN KEY(estacivi_Id)		   REFERENCES gral.tbEstadosCiviles(estacivi_Id),
+);
+
+CREATE TABLE cons.tbConsultorios(
+	consltro_Id					INT IDENTITY,
+	consltro_Nombre				NVARCHAR(20) NOT NULL,
+	area_Id						INT NOT NULL,
+	empe_Id						INT NOT NULL,
+	consltro_UsuCreacion		INT NOT NULL,
+	consltro_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_consltro_FechaCreacion DEFAULT(GETDATE()),
+	consltro_UsuModificacion	INT,
+	consltro_FechaModificacion	DATETIME,
+	consltro_Estado				BIT NOT NULL CONSTRAINT DF_consltro_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbConsultorios_consltro_Id									PRIMARY KEY(consltro_Id),
+	CONSTRAINT FK_tbConsultorios_tbUsuarios_consltro_UsuCreacion_user_Id		FOREIGN KEY(consltro_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbConsultorios_tbUsuarios_consltro_UsuModificacion_user_Id	FOREIGN KEY(consltro_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbConsultorios_tbAreas_area_Id								FOREIGN KEY(area_Id)				   REFERENCES cons.tbAreas(area_Id),
+	CONSTRAINT FK_tbConsultorios_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES cons.tbEmpleados(empe_Id)
+);
+
+CREATE TABLE cons.tbConsultas(
+	cons_Id					INT IDENTITY,
+	cons_Inicio				DATETIME NOT NULL,
+	cons_Final				DATETIME NOT NULL,
+	paci_Id					INT NOT NULL,
+	consltro_Id				INT NOT NULL,
+	cons_Costo				DECIMAL(18,2),
+	cons_UsuCreacion		INT NOT NULL,
+	cons_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_cons_FechaCreacion DEFAULT(GETDATE()),
+	cons_UsuModificacion	INT,
+	cons_FechaModificacion	DATETIME,
+	cons_Estado				BIT NOT NULL CONSTRAINT DF_cons_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbConsultas_cons_Id									PRIMARY KEY(cons_Id),
+	CONSTRAINT FK_tbConsultas_tbUsuarios_cons_UsuCreacion_user_Id		FOREIGN KEY(cons_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbConsultas_tbUsuarios_cons_UsuModificacion_user_Id	FOREIGN KEY(cons_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbConsultas_tbPacientes_paci_Id						FOREIGN KEY(paci_Id)			   REFERENCES cons.tbPacientes(paci_Id),
+	CONSTRAINT FK_tbConsultas_tbConsultorios_consltro_Id				FOREIGN KEY(consltro_Id)		   REFERENCES cons.tbConsultorios(consltro_Id)
+);
+
+CREATE TABLE cons.tbMetodosPago(
+	meto_Id					INT IDENTITY,
+	meto_Nombre				NVARCHAR(60) NOT NULL,
+	meto_UsuCreacion		INT NOT NULL,
+	meto_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_meto_FechaCreacion DEFAULT(GETDATE()),
+	meto_UsuModificacion	INT,
+	meto_FechaModificacion	DATETIME,
+	meto_Estado				BIT NOT NULL CONSTRAINT DF_meto_Estado DEFAULT(1)
+	
+	CONSTRAINT PK_tbMetodosPago_meto_Id									PRIMARY KEY(meto_Id),
+	CONSTRAINT FK_tbMetodosPago_tbUsuarios_meto_UsuCreacion_user_Id		FOREIGN KEY(meto_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbMetodosPago_tbUsuarios_meto_UsuModificacion_user_Id	FOREIGN KEY(meto_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id)
+);
+
+CREATE TABLE cons.tbFacturas(
+	fact_Id					INT IDENTITY,
+	fact_Fecha				DATETIME NOT NULL,
+	paci_Id					INT NOT NULL,
+	empe_Id					INT NOT NULL,
+	meto_Id					INT NOT NULL,
+	fact_UsuCreacion		INT NOT NULL,
+	fact_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_fact_FechaCreacion DEFAULT(GETDATE()),
+	fact_UsuModificacion	INT,
+	fact_FechaModificacion	DATETIME,
+	fact_Estado				BIT NOT NULL CONSTRAINT DF_fact_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbFacturas_fact_Id									PRIMARY KEY(fact_Id),
+	CONSTRAINT FK_tbFacturas_tbUsuarios_fact_UsuCreacion_user_Id		FOREIGN KEY(fact_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbFacturas_tbUsuarios_fact_UsuModificacion_user_Id	FOREIGN KEY(fact_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbFacturas_tbPacientes_paci_Id						FOREIGN KEY(paci_Id)			   REFERENCES cons.tbPacientes(paci_Id),
+	CONSTRAINT FK_tbFacturas_tbPacientes_empe_Id						FOREIGN KEY(empe_Id)			   REFERENCES cons.tbEmpleados(empe_Id),
+	CONSTRAINT FK_tbFacturas_tbMetodosPago_empe_Id						FOREIGN KEY(meto_Id)			   REFERENCES cons.tbMetodosPago(meto_Id)
+);
+
+CREATE TABLE cons.tbFacturasDetalles(
+	factdeta_Id					INT IDENTITY,
+	fact_Id						INT NOT NULL,
+	cons_Id						INT NOT NULL,
+	medi_Id						INT NOT NULL,
+	factdeta_Precio				DECIMAL(18,2),
+	factdeta_Cantidad			INT NOT NULL,
+	factdeta_UsuCreacion		INT NOT NULL,
+	factdeta_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_factdeta_FechaCreacion DEFAULT(GETDATE()),
+	factdeta_UsuModificacion	INT,
+	factdeta_FechaModificacion	DATETIME,
+	factdeta_Estado				BIT NOT NULL CONSTRAINT DF_factdeta_Estado DEFAULT(1)
+
+	CONSTRAINT PK_tbFacturasDetalles_factdeta_Id									PRIMARY KEY(factdeta_Id),
+	CONSTRAINT FK_tbFacturasDetalles_tbUsuarios_factdeta_UsuCreacion_user_Id		FOREIGN KEY(factdeta_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbFacturasDetalles_tbUsuarios_factdeta_UsuModificacion_user_Id	FOREIGN KEY(factdeta_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
+	CONSTRAINT FK_tbFacturasDetalles_tbFacturas_fact_Id								FOREIGN KEY(fact_Id)				   REFERENCES cons.tbFacturas(fact_Id),
+	CONSTRAINT FK_tbFacturasDetalles_tbConsultas_cons_Id							FOREIGN KEY(cons_Id)				   REFERENCES cons.tbConsultas(cons_Id),
+	CONSTRAINT FK_tbFacturasDetalles_tbMedicamentos_medi_Id							FOREIGN KEY(medi_Id)			       REFERENCES cons.tbMedicamentos(medi_Id)
+);
 
 /*Procedimientos de login y restablecimiento de contraseña*/
 GO
@@ -483,18 +732,25 @@ BEGIN
 	END CATCH
 END
 
-----Procedimiento insertar departamentos
---GO
---CREATE OR ALTER PROCEDURE gral.UDP_tbDepartamentos_Insert
---	@depa_Id			CHAR(4),
---	@depa_Nombre		NVARCHAR(150),
---	@depa_UsuCreacion	INT
---AS
---BEGIN
---	BEGIN TRY
---		INSERT INTO gral.tbDepartamentos(depa_Id, depa_Nombre, depa_UsuCreacion)
---	END TRY
---	BEGIN CATCH
+--Procedimiento eliminar cargos
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbCargos_Delete
+	@carg_Id	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT carg_Id FROM cons.tbCargos WHERE carg_Id = @carg_Id)
+			BEGIN
+				SELECT 'El registro que intenta eliminar no existe'
+			END
+		ELSE
+			UPDATE cons.tbCargos
+			SET carg_Estado = 0
+			WHERE carg_Id = @carg_Id
 
---	END CATCH
---END
+			SELECT 'El registro ha sido eliminado con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
