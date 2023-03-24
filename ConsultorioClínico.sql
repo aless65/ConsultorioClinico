@@ -87,13 +87,14 @@ CREATE TABLE acce.tbUsuarios(
 --********* PROCEDIMIENTO INSERTAR USUARIOS ADMIN**************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_InsertUsuario
-	@user_NombreUsuario NVARCHAR(100),	@user_Contrasena NVARCHAR(200),
-	@user_EsAdmin BIT,					@role_Id INT, 
-	@empe_Id INT										
+	@user_NombreUsuario		NVARCHAR(100),	
+	@user_Contrasena		NVARCHAR(200),
+	@user_EsAdmin			BIT,					
+	@role_Id				INT, 
+	@empe_Id				INT										
 AS
 BEGIN
 	DECLARE @password NVARCHAR(MAX)=(SELECT HASHBYTES('Sha2_512', @user_Contrasena));
-
 	INSERT acce.tbUsuarios(user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion)
 	VALUES(@user_NombreUsuario, @password, @user_EsAdmin, @role_Id, @empe_Id, 1);
 END;
@@ -249,7 +250,7 @@ CREATE TABLE cons.tbMedicamentos(
 );
 
 /*
-INSERT DE LA BASE DE DATOS
+INSERTS DE LA BASE DE DATOS
 */
 
 GO
@@ -369,14 +370,61 @@ GO
 INSERT INTO gral.tbEstadosCiviles(estacivi_Nombre, estacivi_UsuCreacion)
 VALUES ('Soltero(a)', 1),
 	   ('Casado(a)', 1),
+	   ('Divorciado(a)', 1),
 	   ('Viudo(a)', 1),
 	   ('Unión Libre', 1)
 
 GO
 INSERT INTO cons.tbCargos(carg_Nombre, carg_UsuCreacion)
-VALUES ('Médico general', 1)
+VALUES ('Médico general', 1),
+		('Secretaria de  Gerencia', 1),
+		('Encargada de Carnets Sanitarios y Pre-Nupciales', 1),
+		('Administrador', 1),
+		('Operario de Limpieza', 1),
+		('Auditor Medico', 1),
+		('Jefe de Enfermeria', 1),
+		('Director Medico', 1),
+		('Gerente', 1)
+GO
+INSERT INTO cons.tbAreas(area_Nombre,area_UsuCreacion,area_FechaCreacion,area_UsuModificacion,area_FechaModificacion,area_Estado)
+VALUES ('Anestesiología', 1, GETDATE(), NULL, NULL, 1),
+       ('Cardiología', 1, GETDATE(), NULL, NULL, 1),
+       ('Cuidados Intensivos', 1, GETDATE(), NULL, NULL, 1),
+       ('Ginecología', 1, GETDATE(), NULL, NULL, 1),
+       ('Dermatología', 1, GETDATE(), NULL, NULL, 1),
+       ('Traumatología', 1, GETDATE(), NULL, NULL, 1),
+       ('Farmacia', 1, GETDATE(), NULL, NULL, 1),
+       ('Medicina Preventiva', 1, GETDATE(), NULL, NULL, 1),
+       ('Radiodiagnóstico', 1, GETDATE(), NULL, NULL, 1),
+       ('Laboratorio Clínico', 1, GETDATE(), NULL, NULL, 1);
 
-	  --********TABLA CLÍNICAS****************---
+GO
+INSERT INTO cons.tbProveedores (prov_Nombre, prov_Correo, prov_Telefono, prov_UsuCreacion, prov_FechaCreacion, prov_UsuModificacion, prov_FechaModificacion, prov_Estado)
+VALUES ('Konica HealthCare, INC', 'Konica@gmail.com', '9155-1234', 1, GETDATE(),NULL ,NULL, 1),
+		('Vinno Technology CO.,LTD', 'Vinno@gmail.com', '9555-5678', 1, GETDATE(),NULL ,NULL, 1),
+		('Neusoft Medical', 'neusoftmedical@gmail.com', '8555-9012', 1, GETDATE(),NULL ,NULL, 1),
+		('VioPlast S.A.', 'vioplast@gmail.com', '8975-3456', 1, GETDATE(),NULL ,NULL, 1),
+		('Grupo Vital S.A.S', 'grupovital@hotmail.com', '9901-7890', 1, GETDATE(),NULL ,NULL, 1),
+		('iCRco, Inc', 'icrco@hotmail.com', '9761-2345', 1, GETDATE(),NULL ,NULL, 1),
+		('Ingenieria Tecnologica', 'ingenieriatecnologica@gmail.com', '8771-6789', 1, GETDATE(),NULL ,NULL, 1),
+		('EKF Diagnostics', 'ekfdiagnostics@gmail.com', '9551-0123', 1, GETDATE(),NULL ,NULL, 1),
+		('GlobalDentt.CO', 'globaldentt@gmail.com', '3362-4567', 1,GETDATE(),NULL ,NULL,  1),
+		('IndustriasMedicol', 'industriasmedicol@gmail.com', '8791-8901', 1, GETDATE(),NULL ,NULL, 1)
+
+GO
+INSERT INTO cons.tbMedicamentos (medi_Nombre, prov_Id, medi_PrecioCompra, medi_PrecioVenta, medi_Stock, medi_UsuCreacion, medi_FechaCreacion, medi_UsuModificacion, medi_FechaModificacion, medi_Estado) 
+VALUES		('Halothano', 1, 10.50, 15.00, 100, 1, GETDATE(), NULL, NULL, 1),
+			('Ketamina', 2, 8.75, 12.00, 200, 1, GETDATE(), NULL, NULL, 1),
+			('Epinefrina', 1, 5.00, 8.50, 50, 1, GETDATE(), NULL, NULL, 1),
+			('Diazepam', 3, 12.25, 18.00, 75, 1, GETDATE(), NULL, NULL, 1),
+			('Morfina', 2, 9.99, 14.00, 150, 1, GETDATE(), NULL, NULL, 1),
+			('Hidroxocobalamina', 1, 7.50, 11.00, 100, 1, GETDATE(), NULL, NULL, 1),
+			('Clorfenamina', 3, 15.00, 22.50, 55, 1, GETDATE(), NULL, NULL, 1),
+			('Paracetamol', 3, 25.00, 32.50, 21, 1, GETDATE(), NULL, NULL, 1),
+			('Ibuprofeno', 3, 40.00, 60.00 , 30, 1, GETDATE(), NULL, NULL, 1),
+			('Tanque de Oxígeno', 3, 1500.00, 2120.50, 150, 1, GETDATE(), NULL, NULL, 1)
+
+--********TABLA CLÍNICAS****************---
 CREATE TABLE cons.tbClinicas(
 	clin_Id					INT IDENTITY,
 	clin_Nombre				NVARCHAR(200) NOT NULL,
@@ -400,8 +448,16 @@ INSERT INTO cons.tbClinicas(clin_Nombre,
 							clin_Direccion, 
 							empe_Id, 
 							clin_UsuCreacion)
-VALUES ('Los Andes', '0501', 'Residencial Los Andes, calle no sé avenida peor', 1, 1)
+VALUES ('Los Andes', '0501', 'Residencial Los Andes, calle no sé avenida peor', 1, 1),
+		('Los Castaños', '0501', 'Barrio Los Cedros, 2da avenida, 3ra calle', 1, 1),
+		('Centro Cáceres', '0703', 'Los Castaños, 8va avenida, 6ta calle', 1, 1),
+		('Centro Enmanuel', '0401', 'Barrio Los Cedros, 2da avenida, 3ra calle', 1, 1),
+		('Climedenti', '0903', 'Plaza Alicía, 4ta avenida, 5ta calle', 1, 1),
+		('Clínica Médica San Isidro', '0903', 'Residencial Salamanca, 4ta avenida, 31 calle', 1, 1),
+		('Honduras Medical Center', '1205', 'Mall Las Cascadas, 4ta avenida, 12va calle', 1, 1),
+		('Torre Médica Zafiro', '1205', 'Avenida los Proceres, 20va avenida, 1era calle', 1, 1)
 
+GO
 --********TABLA EMPLEADOS****************---
 CREATE TABLE cons.tbEmpleados(
 	empe_Id					INT IDENTITY,
@@ -443,7 +499,16 @@ INSERT INTO cons.tbEmpleados(empe_Nombres, empe_Apellido,
 							 empe_FechaInicio, empe_FechaFinal,
 							 carg_Id, clin_Id,
 							 empe_UsuCreacion)
-VALUES('Juan','Molina','0501200506728','M',1,'2005-05-06','0501','calle las brisas','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1)
+VALUES('Juan','Molina','0501200506728','M',1,'2005-05-06','0501','Valle de Sula','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
+		('Fernando','Castañeda','0902250500728','M',1,'2001-02-04','0902','Calle las Brisas','87756952','fernandocastañeda1@gmail.com','2023-07-02',NULL,1,1,1),
+		('Selvin','Medina','1201200501228','M',1,'2002-01-09','1201','La Rivera','98789658','selvinmedi@gmail.com','2023-01-03',NULL,1,1,1),
+		('Axel','Gomez','0501200506728','M',1,'2000-01-10','0501','Bosques de Jucutuma','99220345','gomez03@gmail.com','2023-06-02',NULL,1,1,1),
+		('Andrea','Montenegro','0311200506728','M',1,'1999-02-11','0301','Col. Felipe','88541230','andreamontenegro@gmail.com','2023-03-01',NULL,1,1,1),
+		('Daniel','Espinoza','1101200836721','M',1,'2001-10-10','1101','Col. Satelite','89031285','danielespi@outlook.com','2023-01-12',NULL,1,1,1),
+		('Francisco','Antunez','0401200506123','M',1,'2000-09-09','0501','Barrio las Acacias','97350100','fransiscojoelr@gmail.com','2023-03-01',NULL,1,1,1),
+		('Felicia','Ramirez','0401200506125','M',1,'1994-02-09','0401','Colonia Smith','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
+		('Soledad','Perez','0501200506877','M',1,'1998-01-10','0501','Salida a la Lima','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
+		('Wilfredo','Lopez','0501200526739','M',1,'2001-09-11','0501','Colonia Ideal','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1)
 
 
 ALTER TABLE cons.tbClinicas
@@ -522,6 +587,8 @@ CREATE TABLE cons.tbMetodosPago(
 	CONSTRAINT FK_tbMetodosPago_tbUsuarios_meto_UsuCreacion_user_Id		FOREIGN KEY(meto_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
 	CONSTRAINT FK_tbMetodosPago_tbUsuarios_meto_UsuModificacion_user_Id	FOREIGN KEY(meto_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id)
 );
+INSERT INTO cons.tbMetodosPago (meto_Nombre, meto_UsuCreacion, meto_FechaCreacion, meto_UsuModificacion, meto_FechaModificacion, meto_Estado)
+VALUES ('Tarjeta de crédito', 1, GETDATE(), NULL, NULL, 1),
 
 CREATE TABLE cons.tbFacturas(
 	fact_Id					INT IDENTITY,
