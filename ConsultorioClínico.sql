@@ -857,3 +857,177 @@ AS
 BEGIN
 	SELECT * FROM cons.VW_tbConsultas
 END
+
+--Procedimiento insertar consultas
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Insert
+	@cons_Inicio		INT,
+	@cons_Final			INT,
+	@paci_Id			INT,
+	@consltro_Id		INT,
+	@cons_Costo			INT,
+	@cons_UsuCreacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT cons_Id FROM cons.tbConsultas 
+						WHERE cons_Inicio = @cons_Inicio 
+						AND cons_Final = @cons_Final 
+						AND consltro_Id = @consltro_Id
+						AND paci_Id = @paci_Id) 
+			BEGIN
+				INSERT INTO cons.tbConsultas(cons_Inicio, 
+											 cons_Final, 
+											 paci_Id, 
+											 consltro_Id, 
+											 cons_Costo, 
+											 cons_UsuCreacion)
+				VALUES(@cons_Inicio, @cons_Final, @paci_Id, @consltro_Id, @cons_Costo, @cons_UsuCreacion)
+
+				SELECT 'El registro ha sido ingresado con éxito'
+			END
+		ELSE IF EXISTS (SELECT * FROM cons.tbConsultas
+						   WHERE cons_Inicio = @cons_Inicio 
+						   AND cons_Final = @cons_Final 
+						   AND consltro_Id = @consltro_Id
+						   AND paci_Id = @paci_Id
+						   AND cons_Estado = 0)
+			BEGIN
+				UPDATE cons.tbConsultas
+				SET cons_Estado = 1
+				WHERE cons_Inicio = @cons_Inicio 
+				      AND cons_Final = @cons_Final 
+				      AND consltro_Id = @consltro_Id
+				      AND paci_Id = @paci_Id
+
+				SELECT 'El registro ha sido ingresado con éxito'
+			END 
+		ELSE
+			SELECT 'Esta consulta ya existe'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Procedimiento editar consultas
+GO 
+CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Update
+	@cons_Id				INT,
+	@cons_Inicio			INT,
+	@cons_Final				INT,
+	@paci_Id				INT,
+	@consltro_Id			INT,
+	@cons_Costo				INT,
+	@cons_UsuModificacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM cons.tbConsultas WHERE cons_Id = @cons_Id)
+			BEGIN 
+				SELECT 'El registro que intenta editar no existe'
+			END
+		ELSE
+			BEGIN
+				IF NOT EXISTS (SELECT * 
+								FROM cons.tbConsultas 
+								WHERE cons_Inicio = @cons_Inicio 
+									AND cons_Final = @cons_Final 
+									AND consltro_Id = @consltro_Id
+									AND paci_Id = @paci_Id
+									AND cons_Id != cons_Id) 
+
+					BEGIN
+						UPDATE cons.tbConsultas 
+						SET   cons_Inicio = @cons_Inicio,
+							  cons_Final = @cons_Final,
+							  consltro_Id = @consltro_Id,
+							  paci_Id = @paci_Id,
+							  cons_FechaModificacion = GETDATE(),
+							  cons_UsuModificacion = @cons_UsuModificacion
+						WHERE cons_Id = @cons_Id
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE IF EXISTS (SELECT* 
+								FROM cons.tbConsultas
+								WHERE cons_Estado = 0
+								AND cons_Inicio = @cons_Inicio 
+								AND cons_Final = @cons_Final 
+								AND consltro_Id = @consltro_Id
+								AND paci_Id = @paci_Id
+								AND cons_Id != cons_Id)
+					BEGIN
+						UPDATE cons.tbConsultas
+						SET cons_Estado = 1
+						WHERE cons_Inicio = @cons_Inicio 
+						AND cons_Final = @cons_Final 
+						AND consltro_Id = @consltro_Id
+						AND paci_Id = @paci_Id
+						AND cons_Id != cons_Id
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE
+					SELECT 'Esta consulta ya existe'
+			END
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Procedimiento eliminar consultas
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Delete
+	@cons_Id				INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM cons.tbConsultas WHERE cons_Final = @cons_Id)
+			BEGIN
+				SELECT 'El registro que intenta eliminar no existe'
+			END
+		ELSE
+			UPDATE cons.tbConsultas
+			SET cons_Estado = 0
+			WHERE cons_Id = @cons_Id
+
+			SELECT 'El registro ha sido eliminado con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+/*Procedimientos empleados*/
+--Vista empleados
+GO
+CREATE OR ALTER VIEW cons.VW_tbEmpleados
+AS
+	SELECT [empe_Id], 
+		   [empe_Nombres],
+		   [empe_Apellido],
+		   [empe_Identidad],
+		   [empe_Sexo],
+		   T1.[estacivi_Id],
+		   T2.estacivi_Nombre,
+		   [empe_FechaNacimiento],
+		   T1.[muni_Id],
+		   T3.muni_Nombre,
+		   T3.depa_Id,
+		   [empe_Direccion],
+		   [empe_Telefono],
+		   [empe_Correo],
+		   [empe_FechaInicio],
+		   [empe_FechaFinal],
+		   T1.[carg_Id],
+		   T4.carg_Nombre
+
+FROM cons.tbEmpleados T1 INNER JOIN gral.tbEstadosCiviles T2
+ON T1.estacivi_Id = T2.estacivi_Id INNER JOIN gral.tbMunicipios T3
+ON T1.muni_Id = T3.muni_id INNER JOIN cons.tbCargos T4
+ON T1.carg_Id = T4.carg_Id
+
+--GO
+--CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Insert
