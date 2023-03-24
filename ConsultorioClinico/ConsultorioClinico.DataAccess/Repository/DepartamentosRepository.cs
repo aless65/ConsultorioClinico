@@ -29,7 +29,13 @@ namespace Consultorio.DataAccess.Repository
 
         public RequestStatus Insert(VW_tbDepartamentos item)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("depa_Id", item.depa_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("depa_Nombre", item.depa_Nombre, DbType.String, ParameterDirection.Input);
+
+            return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Insertar_Departamentos, parametros, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<VW_tbDepartamentos> List()

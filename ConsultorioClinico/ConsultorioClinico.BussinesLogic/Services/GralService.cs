@@ -1,4 +1,5 @@
 ﻿using Consultorio.DataAccess.Repository;
+using ConsultorioClinico.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,14 @@ namespace Consultorio.BussinesLogic.Services
             {
                 return result.Error(ex.Message);
             }
+        }
+
+        public ServiceResult InsertarDepartamentos(VW_tbDepartamentos item)
+        {
+            var result = new ServiceResult();
+
+            var insertar = _departamentosRepository.Insert(item);
+            return result.Ok(insertar);
         }
         #endregion
     }

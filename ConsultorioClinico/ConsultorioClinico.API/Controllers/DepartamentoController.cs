@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Consultorio.BussinesLogic.Services;
+using ConsultorioClinico.Entities.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,6 +28,13 @@ namespace Consultorio.API.Controllers
         {
             var list = _gralService.ListaDepartamentos();
             return Ok(list);
+        }
+
+        [HttpPost("Insert")]
+        public IActionResult Create(VW_tbDepartamentos item)
+        {
+            var insert = _gralService.InsertarDepartamentos(item);
+            return Ok(insert);
         }
     }
 }

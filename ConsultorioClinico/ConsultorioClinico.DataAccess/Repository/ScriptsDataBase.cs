@@ -8,8 +8,9 @@ namespace Consultorio.DataAccess.Repository
 {
     public class ScriptsDataBase
     {
-        #region 
+        #region Departamentos
         public static string UDP_Listar_Departamentos = "gral.UDP_tbDepartamentos_Listado";
+        public static string UDP_Insertar_Departamentos = "gral.UDP_tbDepartamentos_Insert";
         #endregion
     }
 }
