@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {}
+    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
+    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
+        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
         "projectName": "Consultorio.BussinesLogic",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\obj\\",
+        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
+        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.BussinesLogic\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -32,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj"
+              "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj"
               }
             }
           }
@@ -66,21 +62,17 @@
         }
       }
     },
-    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
+    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
         "projectName": "Consultorio.DataAccess",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,8 +86,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj"
+              "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
+                "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj"
               }
             }
           }
@@ -150,21 +142,17 @@
         }
       }
     },
-    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
+    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
         "projectName": "Consultorio.Entities",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\obj\\",
+        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
+        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iAFp3kK07oWmqjAxu/7O2rLG6wGZ0ibBf/n3s5l0XbBZ4P7/9EjdhUDiWoXTHCilvvSHW2rr6WZg/TSXjoIpbA==",
+  "dgSpecHash": "3nsLJe2Fk6XQB/bRF7b54K0XJk7vSjlIlq37rPKb2Um7pGP4kxgSNb6S5iIbxTsgt1cd3FT66M2qAB4V8f/HwQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
+  "projectFilePath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

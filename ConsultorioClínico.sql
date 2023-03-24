@@ -515,6 +515,10 @@ ALTER TABLE cons.tbClinicas
 ADD CONSTRAINT FK_tbClientes_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES cons.tbEmpleados(empe_Id)
 
 GO
+ALTER TABLE acce.tbUsuarios
+ADD CONSTRAINT FK_tbUsuarios_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES cons.tbEmpleados(empe_Id)
+
+GO
 CREATE TABLE cons.tbPacientes(
 	paci_Id					INT IDENTITY,
 	paci_Nombres			NVARCHAR(200) NOT NULL,
@@ -588,7 +592,7 @@ CREATE TABLE cons.tbMetodosPago(
 	CONSTRAINT FK_tbMetodosPago_tbUsuarios_meto_UsuModificacion_user_Id	FOREIGN KEY(meto_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id)
 );
 INSERT INTO cons.tbMetodosPago (meto_Nombre, meto_UsuCreacion, meto_FechaCreacion, meto_UsuModificacion, meto_FechaModificacion, meto_Estado)
-VALUES ('Tarjeta de crédito', 1, GETDATE(), NULL, NULL, 1),
+VALUES ('Tarjeta de crédito', 1, GETDATE(), NULL, NULL, 1)
 
 CREATE TABLE cons.tbFacturas(
 	fact_Id					INT IDENTITY,
@@ -820,4 +824,36 @@ BEGIN
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
 	END CATCH
+END
+
+/*Procedimientos de consultas*/
+
+--Vista consultas
+GO
+CREATE OR ALTER VIEW cons.VW_tbConsultas
+AS
+	SELECT [cons_Id], 
+		   [cons_Inicio], 
+		   [cons_Final], 
+		   T1.[consltro_Id], 
+		   T2.consltro_Nombre,
+		   T1.paci_Id,
+		   (T3.paci_Nombres + ' ' + T3.paci_Apellidos) AS cons_Paciente,
+		   cons_Costo,
+		   T1.cons_UsuCreacion,
+		   T4.user_NombreUsuario AS cons_UsuarioCreacionNombre,
+		   t1.cons_UsuModificacion,
+		   T5.user_NombreUsuario AS cons_UsuarioModificacionNombre
+	FROM cons.tbConsultas T1 INNER JOIN cons.tbConsultorios T2
+	ON T1.consltro_Id = T2.consltro_Id INNER JOIN cons.tbPacientes T3
+	ON T1.paci_Id = T3.paci_Id INNER JOIN acce.tbUsuarios T4
+	ON T1.cons_UsuCreacion = T4.user_Id LEFT JOIN acce.tbUsuarios T5
+	ON t1.cons_UsuModificacion = T5.user_Id
+
+--Procedimiento listar consultas
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_List
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbConsultas
 END
