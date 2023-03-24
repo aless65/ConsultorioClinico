@@ -12,13 +12,14 @@ namespace Consultorio.DataAccess.Repository
 {
     public class DepartamentosRepository : IRepository<VW_tbDepartamentos>
     {
-        public class RequestStatus
+        public RequestStatus Delete(VW_tbDepartamentos id, int Mod) 
         {
-            public int CodeStatus { get; set; }
-            public string MessageStatus { get; set; }
-        }
-        public RequestStatus Delete(VW_tbDepartamentos id, int Mod)
-        {
+            //using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            //var parametros = new DynamicParameters();
+            //parametros.Add("@depa", item.depa_Id, DbType.String, ParameterDirection.Input);
+
+            //return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Insertar_Departamentos, parametros, commandType: CommandType.StoredProcedure);
             throw new NotImplementedException();
         }
 
@@ -32,8 +33,8 @@ namespace Consultorio.DataAccess.Repository
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("depa_Id", item.depa_Id, DbType.String, ParameterDirection.Input);
-            parametros.Add("depa_Nombre", item.depa_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@depa_Id", item.depa_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("@depa_Nombre", item.depa_Nombre, DbType.String, ParameterDirection.Input);
 
             return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Insertar_Departamentos, parametros, commandType: CommandType.StoredProcedure);
         }
@@ -46,6 +47,12 @@ namespace Consultorio.DataAccess.Repository
 
         public RequestStatus Update(VW_tbDepartamentos item, int id)
         {
+            //using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+            //var parametros = new DynamicParameters();
+            //parametros.Add("@depa_Id", item.depa_Id, DbType.Int32, ParameterDirection.Input);
+            //parametros.Add("@depa_Nombre", item.depa_Nombre, DbType.String, ParameterDirection.Input);
+            //parametros.Add("@depa_UsuModificacion", item.depa_UsuModificacion, DbType.Int32, ParameterDirection.Input);
+            //return db.QueryFirst<VW_tbDepartamentos>(ScriptsDataBase., null, commandType: CommandType.StoredProcedure);
             throw new NotImplementedException();
         }
     }

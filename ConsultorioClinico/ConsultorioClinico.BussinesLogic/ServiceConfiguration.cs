@@ -15,12 +15,14 @@ namespace Consultorio.BussinesLogic
         public static void DataAccess(this IServiceCollection service, string connectionString)
         {
             service.AddScoped<DepartamentosRepository>();
+            service.AddScoped<CargosRepository>();
             ConsultorioContext.BuildConnectionString(connectionString);
         }
             
         public static void BusinessLogic(this IServiceCollection service)
         {
             service.AddScoped<GralService>();
+            service.AddScoped<ConsService>();
         }
     }
 }

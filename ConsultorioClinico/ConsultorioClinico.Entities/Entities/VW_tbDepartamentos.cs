@@ -11,8 +11,10 @@ namespace ConsultorioClinico.Entities.Entities
         public string depa_Id { get; set; }
         public string depa_Nombre { get; set; }
         public int depa_UsuCreacion { get; set; }
+        public string depa_UsuCreacionNombre { get; set; }
         public DateTime depa_FechaCreacion { get; set; }
         public int? depa_UsuModificacion { get; set; }
+        public string depa_UsuModificacionNombre { get; set; }
         public DateTime? depa_FechaModificacion { get; set; }
     }
 }

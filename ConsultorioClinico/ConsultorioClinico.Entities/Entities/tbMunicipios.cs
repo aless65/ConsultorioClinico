@@ -8,6 +8,12 @@ namespace ConsultorioClinico.Entities.Entities
 {
     public partial class tbMunicipios
     {
+        public tbMunicipios()
+        {
+            tbClinicas = new HashSet<tbClinicas>();
+            tbEmpleados = new HashSet<tbEmpleados>();
+        }
+
         public string muni_id { get; set; }
         public string muni_Nombre { get; set; }
         public string depa_Id { get; set; }
@@ -20,5 +26,7 @@ namespace ConsultorioClinico.Entities.Entities
         public virtual tbDepartamentos depa { get; set; }
         public virtual tbUsuarios muni_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios muni_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbClinicas> tbClinicas { get; set; }
+        public virtual ICollection<tbEmpleados> tbEmpleados { get; set; }
     }
 }

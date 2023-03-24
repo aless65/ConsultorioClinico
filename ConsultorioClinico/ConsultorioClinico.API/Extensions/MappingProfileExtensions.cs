@@ -13,6 +13,7 @@ namespace Consultorio.API.Extensions
         public MappingProfileExtensions()
         {
             CreateMap<DepartamentoViewModel, tbDepartamentos>().ReverseMap();
+            CreateMap<CargoViewModel, tbCargos>().ReverseMap();
         }
     }
 }

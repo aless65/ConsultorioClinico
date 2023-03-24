@@ -12,14 +12,38 @@ namespace ConsultorioClinico.Entities.Entities
         {
             Inverseuser_UsuCreacionNavigation = new HashSet<tbUsuarios>();
             Inverseuser_UsuModificacionNavigation = new HashSet<tbUsuarios>();
+            tbAreasarea_UsuCreacionNavigation = new HashSet<tbAreas>();
+            tbAreasarea_UsuModificacionNavigation = new HashSet<tbAreas>();
+            tbCargoscarg_UsuCreacionNavigation = new HashSet<tbCargos>();
+            tbCargoscarg_UsuModificacionNavigation = new HashSet<tbCargos>();
+            tbClinicasclin_UsuCreacionNavigation = new HashSet<tbClinicas>();
+            tbClinicasclin_UsuModificacionNavigation = new HashSet<tbClinicas>();
+            tbConsultascons_UsuCreacionNavigation = new HashSet<tbConsultas>();
+            tbConsultascons_UsuModificacionNavigation = new HashSet<tbConsultas>();
+            tbConsultoriosconsltro_UsuCreacionNavigation = new HashSet<tbConsultorios>();
+            tbConsultoriosconsltro_UsuModificacionNavigation = new HashSet<tbConsultorios>();
             tbDepartamentosdepa_UsuCreacionNavigation = new HashSet<tbDepartamentos>();
             tbDepartamentosdepa_UsuModificacionNavigation = new HashSet<tbDepartamentos>();
+            tbEmpleadosempe_UsuCreacionNavigation = new HashSet<tbEmpleados>();
+            tbEmpleadosempe_UsuModificacionNavigation = new HashSet<tbEmpleados>();
             tbEstadosCivilesestacivi_UsuCreacionNavigation = new HashSet<tbEstadosCiviles>();
             tbEstadosCivilesestacivi_UsuModificacionNavigation = new HashSet<tbEstadosCiviles>();
+            tbFacturasDetallesfactdeta_UsuCreacionNavigation = new HashSet<tbFacturasDetalles>();
+            tbFacturasDetallesfactdeta_UsuModificacionNavigation = new HashSet<tbFacturasDetalles>();
+            tbFacturasfact_UsuCreacionNavigation = new HashSet<tbFacturas>();
+            tbFacturasfact_UsuModificacionNavigation = new HashSet<tbFacturas>();
+            tbMedicamentosmedi_UsuCreacionNavigation = new HashSet<tbMedicamentos>();
+            tbMedicamentosmedi_UsuModificacionNavigation = new HashSet<tbMedicamentos>();
+            tbMetodosPagometo_UsuCreacionNavigation = new HashSet<tbMetodosPago>();
+            tbMetodosPagometo_UsuModificacionNavigation = new HashSet<tbMetodosPago>();
             tbMunicipiosmuni_UsuCreacionNavigation = new HashSet<tbMunicipios>();
             tbMunicipiosmuni_UsuModificacionNavigation = new HashSet<tbMunicipios>();
+            tbPacientespaci_UsuCreacionNavigation = new HashSet<tbPacientes>();
+            tbPacientespaci_UsuModificacionNavigation = new HashSet<tbPacientes>();
             tbPantallasPorRolespantrole_UsuCreacionNavigation = new HashSet<tbPantallasPorRoles>();
             tbPantallasPorRolespantrole_UsuModificacionNavigation = new HashSet<tbPantallasPorRoles>();
+            tbProveedoresprov_UsuCreacionNavigation = new HashSet<tbProveedores>();
+            tbProveedoresprov_UsuModificacionNavigation = new HashSet<tbProveedores>();
             tbRolesrole_UsuCreacionNavigation = new HashSet<tbRoles>();
             tbRolesrole_UsuModificacionNavigation = new HashSet<tbRoles>();
         }
@@ -36,19 +60,44 @@ namespace ConsultorioClinico.Entities.Entities
         public DateTime? user_FechaModificacion { get; set; }
         public bool? user_Estado { get; set; }
 
+        public virtual tbEmpleados empe { get; set; }
         public virtual tbRoles role { get; set; }
         public virtual tbUsuarios user_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios user_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbUsuarios> Inverseuser_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbUsuarios> Inverseuser_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbAreas> tbAreasarea_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbAreas> tbAreasarea_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbCargos> tbCargoscarg_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbCargos> tbCargoscarg_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbClinicas> tbClinicasclin_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbClinicas> tbClinicasclin_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbConsultas> tbConsultascons_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbConsultas> tbConsultascons_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbConsultorios> tbConsultoriosconsltro_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbConsultorios> tbConsultoriosconsltro_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbDepartamentos> tbDepartamentosdepa_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbDepartamentos> tbDepartamentosdepa_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbEmpleados> tbEmpleadosempe_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbEmpleados> tbEmpleadosempe_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbEstadosCiviles> tbEstadosCivilesestacivi_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbEstadosCiviles> tbEstadosCivilesestacivi_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbFacturasDetalles> tbFacturasDetallesfactdeta_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbFacturasDetalles> tbFacturasDetallesfactdeta_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbFacturas> tbFacturasfact_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbFacturas> tbFacturasfact_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbMedicamentos> tbMedicamentosmedi_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbMedicamentos> tbMedicamentosmedi_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbMetodosPago> tbMetodosPagometo_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbMetodosPago> tbMetodosPagometo_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbMunicipios> tbMunicipiosmuni_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbMunicipios> tbMunicipiosmuni_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbPacientes> tbPacientespaci_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbPacientes> tbPacientespaci_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbPantallasPorRoles> tbPantallasPorRolespantrole_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbPantallasPorRoles> tbPantallasPorRolespantrole_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbProveedores> tbProveedoresprov_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbProveedores> tbProveedoresprov_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbRoles> tbRolesrole_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbRoles> tbRolesrole_UsuModificacionNavigation { get; set; }
     }

@@ -40,6 +40,14 @@ namespace Consultorio.BussinesLogic.Services
             var insertar = _departamentosRepository.Insert(item);
             return result.Ok(insertar);
         }
+
+        //public ServiceResult EditarDepartamentos(VW_tbDepartamentos item)
+        //{
+        //    var result = new ServiceResult();
+        //    var actualizar = _departamentosRepository.Update(item);
+        //    return result.Ok(actualizar);
+        //}
         #endregion
+
     }
 }

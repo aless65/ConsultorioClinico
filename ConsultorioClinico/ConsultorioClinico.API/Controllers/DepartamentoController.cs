@@ -36,5 +36,12 @@ namespace Consultorio.API.Controllers
             var insert = _gralService.InsertarDepartamentos(item);
             return Ok(insert);
         }
+
+        //[HttpPut("Editar")]
+        //public IActionResult Update(VW_tbDepartamentos item)
+        //{
+        //    var edit = _gralService.EditarDepartamentos(item);
+        //    return Ok(edit);
+        //}
     }
 }

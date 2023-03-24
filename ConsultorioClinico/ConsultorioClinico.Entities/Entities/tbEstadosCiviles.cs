@@ -8,6 +8,12 @@ namespace ConsultorioClinico.Entities.Entities
 {
     public partial class tbEstadosCiviles
     {
+        public tbEstadosCiviles()
+        {
+            tbEmpleados = new HashSet<tbEmpleados>();
+            tbPacientes = new HashSet<tbPacientes>();
+        }
+
         public int estacivi_Id { get; set; }
         public string estacivi_Nombre { get; set; }
         public int estacivi_UsuCreacion { get; set; }
@@ -18,5 +24,7 @@ namespace ConsultorioClinico.Entities.Entities
 
         public virtual tbUsuarios estacivi_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios estacivi_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbEmpleados> tbEmpleados { get; set; }
+        public virtual ICollection<tbPacientes> tbPacientes { get; set; }
     }
 }
