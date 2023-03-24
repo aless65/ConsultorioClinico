@@ -30,6 +30,54 @@
          "ObjectType": 0
       },
       {
+         "Name": "[cons].[tbAreas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbCargos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbClinicas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbConsultas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbConsultorios]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbEmpleados]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbFacturas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbFacturasDetalles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbMedicamentos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbMetodosPago]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbPacientes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[tbProveedores]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[gral].[tbDepartamentos]",
          "ObjectType": 0
       },
@@ -40,9 +88,21 @@
       {
          "Name": "[gral].[tbMunicipios]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[cons].[VW_tbCargos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[cons].[VW_tbConsultas]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbDepartamentos]",
+         "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-6FS11M8\\MSSQLSERVER1.CONSULTORIOCLINICO",
+   "UiHint": "DESKTOP-BPGLHI0\\SQLEXPRESSLOCAL.CONSULTORIOCLINICO",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,

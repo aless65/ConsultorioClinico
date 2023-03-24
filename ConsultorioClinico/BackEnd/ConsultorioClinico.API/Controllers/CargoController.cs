@@ -30,6 +30,13 @@ namespace Consultorio.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("FindID")]
+        public VW_tbCargos Find(int id)
+        {
+            var cargo = _consService.Find(id);
+            return cargo;
+        }
+
         [HttpPost("Insert")]
         public IActionResult Insert(VW_tbCargos item)
         {

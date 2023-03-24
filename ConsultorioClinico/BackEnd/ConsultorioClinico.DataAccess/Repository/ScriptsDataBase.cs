@@ -17,6 +17,7 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Insertar_Cargos = "cons.UDP_tbCargos_Insert";
         public static string UDP_Editar_Cargos = "cons.UDP_tbCargos_Update";
         public static string UDP_Eliminar_Cargos = "cons.UDP_tbCargos_Delete";
+        public static string UDP_Encontrar_Cargos = "cons.UDP_tbCargos_Find";
         #endregion
     }
 }

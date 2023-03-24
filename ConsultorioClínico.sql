@@ -826,6 +826,15 @@ BEGIN
 	END CATCH
 END
 
+--Procedimiento encontrar cargos
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbCargos_Find 
+	@carg_Id		INT
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbCargos WHERE [carg_Id] = @carg_Id
+END
+
 /*Procedimientos de consultas*/
 
 --Vista consultas

@@ -29,7 +29,12 @@ namespace Consultorio.DataAccess.Repository
 
         public VW_tbCargos find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@carg_Id", id, DbType.Int32, ParameterDirection.Input);
+ 
+            return db.QueryFirst<VW_tbCargos>(ScriptsDataBase.UDP_Encontrar_Cargos, parametros, commandType: CommandType.StoredProcedure);
         }
 
         public RequestStatus Insert(VW_tbCargos item)

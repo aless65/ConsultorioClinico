@@ -115,3 +115,5 @@ C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FronEnd\Co
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FronEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Consultorio.WebUI.pdb
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FronEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Consultorio.WebUI.genruntimeconfig.cache
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FronEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Cargo\Index.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FronEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Cargo\Create.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FronEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Cargo\Edit.cshtml.g.cs

@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Consultorio.WebUI.Controllers
@@ -33,10 +35,67 @@ namespace Consultorio.WebUI.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    listado = JsonConvert.DeserializeObject<List<CargoViewModel>>(jsonResponse);
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+                    JArray jsonArray = JArray.Parse(jsonObj["data"].ToString());
+                    string message = (string)jsonObj["message"];
+
+                    ViewBag.message = message;
+
+                    listado = JsonConvert.DeserializeObject<List<CargoViewModel>>(jsonArray.ToString());
                 }
                 return View(listado);
             }
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CargoViewModel item)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var json = JsonConvert.SerializeObject(item);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PostAsync(_baseurl + "api/Cargo/Insert", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    // handle error
+                    return View(item);
+                }
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            CargoViewModel cargo = new CargoViewModel();
+
+            using (var httpClient = new HttpClient())
+            {
+
+                var response = await httpClient.GetAsync(_baseurl + "api/Cargo/FindID");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    // handle error
+                    return View(item);
+                }
+            }
+        }
+
     }
 }

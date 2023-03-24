@@ -74,6 +74,12 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public VW_tbCargos Find(int id)
+        {
+            var obtener = _cargosRepository.find(id);
+            return obtener;
+        }
         #endregion
     }
 }
