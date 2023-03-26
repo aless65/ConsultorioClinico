@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33328.57
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consultorio.WebUI", "Consultorio.WebUI\Consultorio.WebUI.csproj", "{8659D7A7-0886-48A3-9C56-77AC782D6601}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8659D7A7-0886-48A3-9C56-77AC782D6601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8659D7A7-0886-48A3-9C56-77AC782D6601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8659D7A7-0886-48A3-9C56-77AC782D6601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8659D7A7-0886-48A3-9C56-77AC782D6601}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7619950-58D4-4F1C-AD8E-425CC1A1AEA8}
+	EndGlobalSection
+EndGlobal
