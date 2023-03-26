@@ -1,0 +1,43 @@
+﻿@model Consultorio.WebUI.Models.CargoViewModel
+
+
+
+<div class="row" id="create">
+    <h2>Nuevo registro</h2>
+    <div class="d-flex justify-content-end">
+        <a href="#" id="Cancel">Regresar al index</a>
+    </div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group mt-10">
+            <label asp-for="carg_Nombre" class="control-label"></label>
+            <input asp-for="carg_Nombre" class="form-control" />
+            <span asp-validation-for="carg_Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <input type="submit" value="Crear" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#New').on('click', function () {
+
+            $("#create").fadeIn('slow');
+            $(".card-body").animate({ height: $("#create").height()+30 }, 500);
+            $("#index").hide();
+            //$('#create').removeAttr('hidden').slideDown(500);
+
+            //$('.card').each(function () {
+            //    //var originalHeight = $(this).height();
+            //    //var newHeight = originalHeight - 100;
+            //    $(this).animate({
+            //        //height: newHeight + 'px'
+            //    }, 500);
+            //});
+        });
+
+    });
+</script>

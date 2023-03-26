@@ -1,0 +1,42 @@
+﻿@model Consultorio.WebUI.Models.CargoViewModel
+
+<div class="row" id="edit">
+    <h2>Editar registro</h2>
+    <div class="d-flex justify-content-end">
+        <a href="#" id="Cancel">Regresar al index</a>
+    </div>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="carg_Id" class="form-control" id="hidden"/>
+        <div class="form-group mt-10">
+            <label asp-for="carg_Nombre" class="control-label"></label>
+            <input asp-for="carg_Nombre" id="carg_NombreEdit" class="form-control" />
+            <span asp-validation-for="carg_Nombre" id="lblNombreEdit" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <input type="submit" value="Editar" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(function () {
+
+        $('.Editar').on('click', function () {
+            var cargId = $(this).data("id");
+            var cargNombre = $(this).data("nombre");
+
+            $("#edit #carg_Id").val(cargId);
+            $("#carg_NombreEdit").val(cargNombre);
+
+            $("#edit").fadeIn('slow');
+            $(".card-body").animate({ height: $("#edit").height() + 30 }, 500);
+            $("#index").hide();
+
+        });
+    });
+</script>

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Consultorio.WebUI.Models.CargoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mb-4 col-xl-8 offset-xl-2">
+    <div class="card-header">
+        <h2>Cargos</h2>
+    </div>
+    <div class="card-body">
+        <div id="index">
+            <p>
+                <button id="New" class="btn btn-primary">Nuevo</button>
+                @*<a asp-action="Create">Create New</a>*@
+                @*<h2>@ViewBag.message</h2>*@
+            </p>
+            <table class="table table-striped thead-dark" id="DataTable">
+                <thead class="text-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.carg_Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.carg_Nombre)
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.carg_Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.carg_Nombre)
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-warning Editar" data-id="@item.carg_Id" data-nombre="@item.carg_Nombre">
+                                    Editar
+                                </button> |
+                                @Html.ActionLink("Details", "Details", new { id = item.carg_Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.carg_Id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="_Create" model="new Consultorio.WebUI.Models.CargoViewModel()" />
+        <partial name="_Edit" model="new Consultorio.WebUI.Models.CargoViewModel()" />
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#create").hide();
+        $("#edit").hide();
+
+        $("#Cancel").click(function () {
+            $("#create").hide();
+            $("#edit").hide();
+            $("#index").fadeIn('slow');
+            $(".card-body").animate({ height: $("#index").height()+30 }, 500);
+        });
+    })
+
+</script>
+
