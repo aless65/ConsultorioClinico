@@ -539,6 +539,21 @@ CREATE TABLE cons.tbPacientes(
 	CONSTRAINT FK_tbPacientes_tbUsuarios_paci_UsuModificacion_user_Id	FOREIGN KEY(paci_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
 	CONSTRAINT FK_tbPacientes_tbEstadosCiviles_estacivi_Id				FOREIGN KEY(estacivi_Id)		   REFERENCES gral.tbEstadosCiviles(estacivi_Id),
 );
+GO
+INSERT INTO cons.tbPacientes (paci_Nombres, paci_Apellidos, paci_Identidad, paci_TipoSangre, paci_FechaNacimiento, estacivi_Id, paci_Telefono, paci_UsuCreacion, paci_Estado)
+VALUES
+('Juan', 'Pérez', '1234567891011', 'O+', '1990-01-01', 1, '2009-09-09', 1, 1),
+('María', 'González', '234567890234', 'B-', '1985-03-15', 2, '2018-08-08', 1, 1),
+('Luis', 'Martínez', '3456789019823', 'AB+', '1995-05-20', 2, '2017-07-07', 1, 1),
+('Ana', 'Fernández', '4567890124671', 'A+', '1998-07-12', 1, '2016-06-06', 1, 1),
+('Pedro', 'Sánchez', '5678901230923', 'O-', '1980-09-30', 2, '2015-05-05', 1, 1),
+('Sofía', 'López', '6789012344610', 'B+', '1982-11-25', 3, '2014-04-04', 1, 1),
+('Ricardo', 'García', '7890123451725', 'AB-', '1992-02-14', 1, '2013-03-03', 1, 1),
+('Laura', 'Hernández', '8901234562763', 'A-', '1996-04-18', 2, '2012-02-02', 1, 1),
+('Fernando', 'Díaz', '9012345672763', 'O+', '1988-06-07', 4, '2021-11-11', 1, 1),
+('Carla', 'Ramírez', '0123456780090', 'B-', '1984-08-23', 1, '2023-10-14', 1, 1);
+
+GO
 
 CREATE TABLE cons.tbConsultorios(
 	consltro_Id					INT IDENTITY,
@@ -557,6 +572,19 @@ CREATE TABLE cons.tbConsultorios(
 	CONSTRAINT FK_tbConsultorios_tbAreas_area_Id								FOREIGN KEY(area_Id)				   REFERENCES cons.tbAreas(area_Id),
 	CONSTRAINT FK_tbConsultorios_tbEmpleados_empe_Id FOREIGN KEY(empe_Id) REFERENCES cons.tbEmpleados(empe_Id)
 );
+GO
+INSERT INTO cons.tbConsultorios(consltro_Nombre, area_Id, empe_Id, consltro_UsuCreacion, consltro_Estado)
+VALUES ('Vida', 1, 1, 1, 1),
+		('Vitals', 2, 2, 1, 1),
+		('C.E.R', 1, 3, 1, 1),
+		('Médico Chinchilla', 3, 4, 1, 1),
+		('Valladares', 2, 5, 1, 1),
+		('Buena Fe', 3, 6, 1, 1),
+		('Brisas', 1, 7, 1, 1),
+		('MEDIAFAM', 2, 8, 1, 1),
+		('Guerrero', 3, 9, 1, 1),
+		('San José', 1, 10, 1, 1)
+GO
 
 CREATE TABLE cons.tbConsultas(
 	cons_Id					INT IDENTITY,
@@ -592,7 +620,11 @@ CREATE TABLE cons.tbMetodosPago(
 	CONSTRAINT FK_tbMetodosPago_tbUsuarios_meto_UsuModificacion_user_Id	FOREIGN KEY(meto_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id)
 );
 INSERT INTO cons.tbMetodosPago (meto_Nombre, meto_UsuCreacion, meto_FechaCreacion, meto_UsuModificacion, meto_FechaModificacion, meto_Estado)
-VALUES ('Tarjeta de crédito', 1, GETDATE(), NULL, NULL, 1)
+VALUES	('Efectivo', 1, GETDATE(), NULL, NULL, 1),
+		('Tarjeta de crédito', 1, GETDATE(), NULL, NULL, 1),
+		('Cheque', 1, GETDATE(), NULL, NULL, 1),
+		('Transferencia Bancaria', 1, GETDATE(), NULL, NULL, 1),
+		('Paypal', 1, GETDATE(), NULL, NULL, 1)
 
 CREATE TABLE cons.tbFacturas(
 	fact_Id					INT IDENTITY,
@@ -613,6 +645,19 @@ CREATE TABLE cons.tbFacturas(
 	CONSTRAINT FK_tbFacturas_tbPacientes_empe_Id						FOREIGN KEY(empe_Id)			   REFERENCES cons.tbEmpleados(empe_Id),
 	CONSTRAINT FK_tbFacturas_tbMetodosPago_empe_Id						FOREIGN KEY(meto_Id)			   REFERENCES cons.tbMetodosPago(meto_Id)
 );
+GO
+INSERT INTO cons.tbFacturas(fact_Fecha, paci_Id, empe_Id, meto_Id, fact_UsuCreacion, fact_Estado)
+VALUES ('2022-01-01', 1, 1, 1, 1, 1),
+		('2022-01-02', 2, 1, 2, 1, 1),
+		('2022-01-03', 3, 2, 1, 1, 1),
+		('2022-01-04', 4, 2, 4, 1, 1),
+		('2022-01-05', 5, 3, 1, 1, 1),
+		('2022-01-06', 6, 3, 2, 1, 1),
+		('2022-01-07', 7, 4, 1, 1, 1),
+		('2022-01-08', 8, 4, 2, 1, 1),
+		('2022-01-09', 9, 5, 3, 1, 1),
+		('2022-01-10', 10, 5, 2, 1, 1)
+GO
 
 CREATE TABLE cons.tbFacturasDetalles(
 	factdeta_Id					INT IDENTITY,
