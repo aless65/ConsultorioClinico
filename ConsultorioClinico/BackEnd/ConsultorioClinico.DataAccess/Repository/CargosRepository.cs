@@ -59,7 +59,7 @@ namespace Consultorio.DataAccess.Repository
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);
 
             var parametros = new DynamicParameters();
-            parametros.Add("@carg_Id", id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@carg_Id", item.carg_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@carg_Nombre", item.carg_Nombre, DbType.String, ParameterDirection.Input);
             parametros.Add("@carg_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
 
