@@ -14,6 +14,7 @@ namespace Consultorio.API.Extensions
         {
             CreateMap<DepartamentoViewModel, tbDepartamentos>().ReverseMap();
             CreateMap<CargoViewModel, tbCargos>().ReverseMap();
+            //CreateMap<RolesViewModel, tbRoles>().ReverseMap();
         }
     }
 }
