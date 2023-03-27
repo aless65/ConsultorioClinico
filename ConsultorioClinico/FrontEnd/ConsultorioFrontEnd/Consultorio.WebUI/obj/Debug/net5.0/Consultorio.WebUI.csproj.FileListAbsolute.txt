@@ -238,3 +238,4 @@ C:\Users\PC\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\Cons
 C:\Users\PC\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Consultorio.WebUI.genruntimeconfig.cache
 C:\Users\PC\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Cargo\_Create.cshtml.g.cs
 C:\Users\PC\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Cargo\_Edit.cshtml.g.cs
+C:\Users\PC\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Cargo\_Delete.cshtml.g.cs

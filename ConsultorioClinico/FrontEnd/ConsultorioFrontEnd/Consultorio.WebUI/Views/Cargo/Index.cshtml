@@ -42,8 +42,10 @@
                                 <button class="btn btn-outline-warning Editar" data-id="@item.carg_Id" data-nombre="@item.carg_Nombre">
                                     Editar
                                 </button> |
-                                @Html.ActionLink("Details", "Details", new { id = item.carg_Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.carg_Id })
+                                <a class="btn btn-outline-dark"></a> |
+                                <button class="btn btn-outline-danger Borrar" data-id="@item.carg_Id">
+                                    Eliminar
+                                </button>
                             </td>
                         </tr>
                     }
@@ -52,19 +54,25 @@
         </div>
         <partial name="_Create" model="new Consultorio.WebUI.Models.CargoViewModel()" />
         <partial name="_Edit" model="new Consultorio.WebUI.Models.CargoViewModel()" />
+        <partial name="_Delete"/>
     </div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $("#create").hide();
-        $("#edit").hide();
+    $("#create").hide();
+    $("#edit").hide();
 
+    $(document).ready(function () {
         $("#Cancel").click(function () {
             $("#create").hide();
-            $("#edit").hide();
             $("#index").fadeIn('slow');
             $(".card-body").animate({ height: $("#index").height()+30 }, 500);
+        });
+
+        $(".Cancel").click(function () {
+            $("#edit").hide();
+            $("#index").fadeIn('slow');
+            $(".card-body").animate({ height: $("#index").height() + 30 }, 500);
         });
     })
 

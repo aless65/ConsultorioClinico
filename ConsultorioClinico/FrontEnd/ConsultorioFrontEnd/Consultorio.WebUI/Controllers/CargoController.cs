@@ -119,5 +119,27 @@ namespace Consultorio.WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PutAsync(_baseurl + "api/Cargo/Delete?id=" + id, null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+                    string message = (string)jsonObj["message"];
+
+                    ViewBag.message = message;
+                    return RedirectToAction("Index");
+                }
+            }
+        }
     }
 }

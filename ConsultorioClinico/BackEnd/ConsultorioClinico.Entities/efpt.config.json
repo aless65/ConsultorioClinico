@@ -98,11 +98,15 @@
          "ObjectType": 3
       },
       {
+         "Name": "[cons].[VW_tbEmpleados]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[gral].[VW_tbDepartamentos]",
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-6FS11M8\\MSSQLSERVER1.CONSULTORIOCLINICO",
+   "UiHint": "DESKTOP-EEOQVVU\\SQLEXPRESS.CONSULTORIOCLINICO",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,

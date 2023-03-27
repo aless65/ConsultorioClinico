@@ -751,7 +751,8 @@ AS
 		   carg_FechaCreacion,
 		   carg_UsuModificacion,
 		   T3.user_NombreUsuario AS carg_UsuModificacionNombre,
-		   carg_FechaModificacion
+		   carg_FechaModificacion,
+		   carg_Estado
 	FROM cons.tbCargos T1 INNER JOIN [acce].[tbUsuarios] T2 
 	ON T1.carg_UsuCreacion = T2.user_Id LEFT JOIN [acce].[tbUsuarios] T3
 	ON T1.carg_UsuModificacion = T3.user_Id
@@ -762,6 +763,7 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbCargos_List
 AS
 BEGIN
 	SELECT * FROM cons.VW_tbCargos
+	WHERE carg_Estado = 1
 END
 
 --Procedimiento insertar cargos
@@ -1010,7 +1012,7 @@ BEGIN
 								AND cons_Final = @cons_Final 
 								AND consltro_Id = @consltro_Id
 								AND paci_Id = @paci_Id
-								AND cons_Id != cons_Id)
+								AND cons_Id != @cons_Id)
 					BEGIN
 						UPDATE cons.tbConsultas
 						SET cons_Estado = 1
@@ -1038,7 +1040,7 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF NOT EXISTS (SELECT * FROM cons.tbConsultas WHERE cons_Final = @cons_Id)
+		IF NOT EXISTS (SELECT * FROM cons.tbConsultas WHERE cons_Id = @cons_Id)
 			BEGIN
 				SELECT 'El registro que intenta eliminar no existe'
 			END
@@ -1059,7 +1061,7 @@ END
 GO
 CREATE OR ALTER VIEW cons.VW_tbEmpleados
 AS
-	SELECT [empe_Id], 
+	SELECT T1.[empe_Id], 
 		   [empe_Nombres],
 		   [empe_Apellido],
 		   [empe_Identidad],
@@ -1076,12 +1078,221 @@ AS
 		   [empe_FechaInicio],
 		   [empe_FechaFinal],
 		   T1.[carg_Id],
-		   T4.carg_Nombre
-
+		   T4.carg_Nombre,
+		   t1.clin_Id,
+		   T7.clin_Nombre,
+		   T1.empe_UsuCreacion,
+		   T5.user_NombreUsuario AS empe_UsuCreacionNombre,
+		   T1.empe_UsuModificacion,
+		   T6.user_NombreUsuario AS empe_usuModificacionNombre,
+		   empe_Estado
 FROM cons.tbEmpleados T1 INNER JOIN gral.tbEstadosCiviles T2
 ON T1.estacivi_Id = T2.estacivi_Id INNER JOIN gral.tbMunicipios T3
 ON T1.muni_Id = T3.muni_id INNER JOIN cons.tbCargos T4
-ON T1.carg_Id = T4.carg_Id
+ON T1.carg_Id = T4.carg_Id INNER JOIN acce.tbUsuarios T5
+ON T1.empe_UsuCreacion = T5.user_Id LEFT JOIN acce.tbUsuarios T6
+ON T1.empe_UsuModificacion = T6.user_Id INNER JOIN cons.tbClinicas T7
+ON T1.clin_Id = T7.clin_Id
 
---GO
---CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Insert
+--Procedimiento listar empleados
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_List
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbEmpleados WHERE empe_Estado = 1
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Insert
+	@empe_Nombres			NVARCHAR(200), 
+	@empe_Apellido			NVARCHAR(200), 
+	@empe_Identidad			VARCHAR(13),
+	@empe_Sexo				CHAR, 
+	@estacivi_Id			INT, 
+	@empe_FechaNacimiento	DATE, 
+	@muni_Id				CHAR(4), 
+	@empe_Direccion			NVARCHAR(500), 
+	@empe_Telefono			NVARCHAR(15), 
+	@empe_Correo			NVARCHAR(120), 
+	@empe_FechaInicio		DATE, 
+	@empe_FechaFinal		DATE, 
+	@carg_Id				INT, 
+	@clin_Id				INT, 
+	@empe_UsuCreacion		INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT empe_Identidad 
+					   FROM cons.tbEmpleados 
+					   WHERE empe_Identidad = @empe_Identidad)
+			BEGIN			
+				INSERT INTO cons.tbEmpleados(empe_Nombres, 
+											 empe_Apellido, empe_Identidad, 
+											 empe_Sexo, estacivi_Id, 
+											 empe_FechaNacimiento, muni_Id, 
+											 empe_Direccion, empe_Telefono, 
+											 empe_Correo, empe_FechaInicio, 
+											 empe_FechaFinal, carg_Id, 
+											 clin_Id, empe_UsuCreacion)
+				VALUES(@empe_Nombres, 
+					   @empe_Apellido, @empe_Identidad, 
+					   @empe_Sexo, @estacivi_Id, 
+					   @empe_FechaNacimiento, @muni_Id, 
+					   @empe_Direccion, @empe_Telefono, 
+					   @empe_Correo, @empe_FechaInicio, 
+					   @empe_FechaFinal, @carg_Id, 
+					   @clin_Id, @empe_UsuCreacion)
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE IF EXISTS (SELECT empe_Identidad 
+					   FROM cons.tbEmpleados 
+					   WHERE empe_Identidad = @empe_Identidad
+					   AND empe_Estado = 0)
+			BEGIN
+				UPDATE cons.tbEmpleados
+				SET empe_Estado = 1,
+					empe_Nombres = @empe_Nombres,			 
+					empe_Apellido = @empe_Apellido,		
+					empe_Sexo = @empe_Sexo,				
+					estacivi_Id = @estacivi_Id,			
+					empe_FechaNacimiento = @empe_FechaNacimiento,	
+					muni_Id = @muni_Id,				
+					empe_Direccion = @empe_Direccion,			 
+					empe_Telefono = @empe_Telefono,			
+					empe_Correo = @empe_Correo,			 
+					empe_FechaInicio = @empe_FechaInicio,		
+					empe_FechaFinal = @empe_FechaFinal,		
+					carg_Id = @carg_Id,				
+					clin_Id = @clin_Id		
+				WHERE empe_Identidad = @empe_Identidad
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE
+			SELECT 'Ya existe un empleado con este número de identidad'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Update
+	@empe_Id				INT,
+	@empe_Nombres			NVARCHAR(200), 
+	@empe_Apellido			NVARCHAR(200), 
+	@empe_Identidad			VARCHAR(13),
+	@empe_Sexo				CHAR, 
+	@estacivi_Id			INT, 
+	@empe_FechaNacimiento	DATE, 
+	@muni_Id				CHAR(4), 
+	@empe_Direccion			NVARCHAR(500), 
+	@empe_Telefono			NVARCHAR(15), 
+	@empe_Correo			NVARCHAR(120), 
+	@empe_FechaInicio		DATE, 
+	@empe_FechaFinal		DATE, 
+	@carg_Id				INT, 
+	@clin_Id				INT, 
+	@empe_UsuModificacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM cons.tbEmpleados WHERE empe_Id = @empe_Id)
+			BEGIN 
+				SELECT 'El registro que intenta editar no existe'
+			END
+		ELSE
+			BEGIN
+				IF NOT EXISTS (SELECT * 
+								FROM cons.tbEmpleados 
+								WHERE empe_Identidad = @empe_Identidad
+									AND empe_Id != @empe_Id) 
+
+					BEGIN
+						UPDATE cons.tbEmpleados 
+						SET   empe_Nombres = @empe_Nombres,			 
+							  empe_Apellido = @empe_Apellido,	
+							  empe_Identidad = @empe_Identidad,
+							  empe_Sexo = @empe_Sexo,				
+							  estacivi_Id = @estacivi_Id,			
+							  empe_FechaNacimiento = @empe_FechaNacimiento,	
+							  muni_Id = @muni_Id,				
+							  empe_Direccion = @empe_Direccion,			 
+							  empe_Telefono = @empe_Telefono,			
+							  empe_Correo = @empe_Correo,			 
+							  empe_FechaInicio = @empe_FechaInicio,		
+							  empe_FechaFinal = @empe_FechaFinal,		
+							  carg_Id = @carg_Id,				
+							  clin_Id = @clin_Id,
+							  empe_UsuModificacion = @empe_UsuModificacion,
+							  empe_FechaModificacion = GETDATE()
+						WHERE empe_Id = @empe_Id
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE IF EXISTS (SELECT * 
+								FROM cons.tbEmpleados
+								WHERE empe_Estado = 0
+								AND empe_Identidad = @empe_Identidad
+								AND empe_Id != @empe_Id)
+					BEGIN
+						UPDATE cons.tbEmpleados
+						SET empe_Estado = 1,
+							empe_Nombres = @empe_Nombres,			 
+							empe_Apellido = @empe_Apellido,	
+							empe_Sexo = @empe_Sexo,				
+							estacivi_Id = @estacivi_Id,			
+							empe_FechaNacimiento = @empe_FechaNacimiento,	
+							muni_Id = @muni_Id,				
+							empe_Direccion = @empe_Direccion,			 
+							empe_Telefono = @empe_Telefono,			
+							empe_Correo = @empe_Correo,			 
+							empe_FechaInicio = @empe_FechaInicio,		
+							empe_FechaFinal = @empe_FechaFinal,		
+							carg_Id = @carg_Id,				
+							clin_Id = @clin_Id,
+							empe_UsuModificacion = @empe_UsuModificacion,
+							empe_FechaModificacion = GETDATE()
+						WHERE empe_Identidad = @empe_Identidad 
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE
+					SELECT 'Un empleado con el mismo número de identidad ya existe'
+			END
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Delete
+	@empe_Id				INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM cons.tbEmpleados WHERE empe_Id = @empe_Id)
+			BEGIN
+				SELECT 'El registro que intenta eliminar no existe'
+			END
+		ELSE
+			UPDATE cons.tbEmpleados
+			SET empe_Estado = 0
+			WHERE empe_Id = @empe_Id
+
+			SELECT 'El registro ha sido eliminado con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Find
+	@empe_Id				INT
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbEmpleados WHERE empe_Id = @empe_Id
+END

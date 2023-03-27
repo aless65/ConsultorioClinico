@@ -11,10 +11,12 @@ namespace Consultorio.BussinesLogic.Services
     public class ConsService
     {
         private readonly CargosRepository _cargosRepository;
+        private readonly EmpleadosRepository _empleadosRepository;
 
-        public ConsService(CargosRepository cargosRepository)
+        public ConsService(CargosRepository cargosRepository, EmpleadosRepository empleadosRepository)
         {
             _cargosRepository = cargosRepository;
+            _empleadosRepository = empleadosRepository;
 
         }
         #region Cargos
@@ -79,6 +81,78 @@ namespace Consultorio.BussinesLogic.Services
         {
             var obtener = _cargosRepository.find(id);
             return obtener;
+        }
+        #endregion
+
+        #region
+        public ServiceResult ListaEmpleados()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var listado = _empleadosRepository.List();
+                return result.Ok(listado);
+            } 
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult InsertarEmpleados(VW_tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var insert = _empleadosRepository.Insert(item);
+                return result.Ok(insert);
+            } catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult EditarEmpleados(VW_tbEmpleados item, int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var update = _empleadosRepository.Update(item, id);
+                return result.Ok(update);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+
+        }
+
+        public ServiceResult EliminarEmpleados(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var delete = _empleadosRepository.DeleteConfirmed(id);
+                return result.Ok(delete);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult FindEmpleado(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var encontrar = _empleadosRepository.find(id);
+                return result.Ok(encontrar);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
         }
         #endregion
     }
