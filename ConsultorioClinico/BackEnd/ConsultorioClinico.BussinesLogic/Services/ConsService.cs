@@ -12,12 +12,13 @@ namespace Consultorio.BussinesLogic.Services
     {
         private readonly CargosRepository _cargosRepository;
         private readonly EmpleadosRepository _empleadosRepository;
+        private readonly ClinicasRepository _clinicasRepository;
 
-        public ConsService(CargosRepository cargosRepository, EmpleadosRepository empleadosRepository)
+        public ConsService(CargosRepository cargosRepository, EmpleadosRepository empleadosRepository, ClinicasRepository clinicasRepository)
         {
             _cargosRepository = cargosRepository;
             _empleadosRepository = empleadosRepository;
-
+            _clinicasRepository = clinicasRepository;
         }
         #region Cargos
         public ServiceResult ListaCargos()
@@ -84,7 +85,7 @@ namespace Consultorio.BussinesLogic.Services
         }
         #endregion
 
-        #region
+        #region Empleados
         public ServiceResult ListaEmpleados()
         {
             var result = new ServiceResult();
@@ -152,6 +153,22 @@ namespace Consultorio.BussinesLogic.Services
             catch (Exception ex)
             {
                 return result.Error(ex);
+            }
+        }
+        #endregion
+
+        #region Clinicas
+        public ServiceResult ListaClinicas()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _clinicasRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
             }
         }
         #endregion

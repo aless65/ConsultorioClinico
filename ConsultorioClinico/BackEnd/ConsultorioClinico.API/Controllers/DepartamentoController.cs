@@ -37,6 +37,13 @@ namespace Consultorio.API.Controllers
             return Ok(insert);
         }
 
+        [HttpGet("ListMunicipios")]
+        public IActionResult ListMunicipios(string id)
+        {
+            var listar = _gralService.ListarMunicipios(id);
+            return Ok(listar);
+        }
+
         //[HttpPut("Editar")]
         //public IActionResult Update(VW_tbDepartamentos item)
         //{

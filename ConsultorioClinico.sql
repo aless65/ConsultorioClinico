@@ -739,6 +739,18 @@ BEGIN
 	SELECT * FROM gral.VW_tbDepartamentos
 END
 
+--Procedimiento municipios por departamento
+GO 
+CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_ListadoDepa
+	@depa_Id	CHAR(2)
+AS
+BEGIN
+	SELECT [muni_id], [muni_Nombre]
+	FROM [gral].[tbMunicipios]
+	WHERE [depa_Id] = @depa_Id
+	AND [muni_Estado] = 1
+END 
+
 /*Procedimientos de cargos*/
 --Cargos vista
 GO
@@ -1295,4 +1307,25 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Find
 AS
 BEGIN
 	SELECT * FROM cons.VW_tbEmpleados WHERE empe_Id = @empe_Id
+END
+
+/*DROPDOWNLISTS*/
+GO
+CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_List
+AS
+BEGIN
+	SELECT [estacivi_Id], 
+		   [estacivi_Nombre]
+	FROM [gral].[tbEstadosCiviles]
+	WHERE [estacivi_Estado] = 1
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbClinicas_List
+AS
+BEGIN
+	SELECT [clin_Id],
+		   [clin_Nombre]
+	FROM [cons].[tbClinicas]
+	WHERE [clin_Estado] = 1
 END

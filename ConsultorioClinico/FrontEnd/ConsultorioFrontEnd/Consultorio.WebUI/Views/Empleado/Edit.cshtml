@@ -1,0 +1,166 @@
+﻿@model Consultorio.WebUI.Models.EmpleadoViewModel
+
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h2>Empleados</h2>
+    </div>
+    <div class="card-body">
+        <h2>Editar registro</h2>
+        <div class="d-flex justify-content-end">
+            <a asp-action="Index">Regresar al index</a>
+        </div>
+        <form asp-action="Edit">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group" hidden>
+                    <label asp-for="empe_Id" class="control-label"></label>
+                    <input asp-for="empe_Id" class="form-control" />
+                    <span asp-validation-for="empe_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="empe_Nombres" class="control-label"></label>
+                    <input asp-for="empe_Nombres" class="form-control" />
+                    <span asp-validation-for="empe_Nombres" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="empe_Apellido" class="control-label"></label>
+                    <input asp-for="empe_Apellido" class="form-control" />
+                    <span asp-validation-for="empe_Apellido" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_Identidad" class="control-label"></label>
+                    <input asp-for="empe_Identidad" class="form-control" />
+                    <span asp-validation-for="empe_Identidad" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_Sexo" class="control-label"></label>
+                    <div>
+                        <input type="radio" asp-for="empe_Sexo" value="M" /> Masculino
+                        <input type="radio" asp-for="empe_Sexo" value="F" /> Femenino
+                    </div>
+                    <span asp-validation-for="empe_Sexo" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="estacivi_Id" class="control-label"></label>
+                    <select asp-for="estacivi_Id" class="form-control" asp-items="ViewBag.estacivi_Id">
+                        <option value="">-- Seleccione un estado --</option>
+                    </select>
+                    <span asp-validation-for="estacivi_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_FechaNacimiento" class="control-label"></label>
+                    <input asp-for="empe_FechaNacimiento" class="form-control" />
+                    <span asp-validation-for="empe_FechaNacimiento" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="depa_Id" class="control-label"></label>
+                    <select asp-for="depa_Id" class="form-control" asp-items="ViewBag.depa_Id">
+                    </select>
+                    <span asp-validation-for="depa_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="muni_Id" class="control-label"></label>
+                    <input id="valueMunId" hidden value="@ViewBag.muni_Id" />
+                    <select asp-for="muni_Id" class="form-control">
+                    </select>
+                    <span asp-validation-for="muni_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_Direccion" class="control-label"></label>
+                    <input asp-for="empe_Direccion" class="form-control" />
+                    <span asp-validation-for="empe_Direccion" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_Telefono" class="control-label"></label>
+                    <input asp-for="empe_Telefono" class="form-control" />
+                    <span asp-validation-for="empe_Telefono" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_Correo" class="control-label"></label>
+                    <input asp-for="empe_Correo" class="form-control" />
+                    <span asp-validation-for="empe_Correo" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_FechaInicio" class="control-label"></label>
+                    <input asp-for="empe_FechaInicio" class="form-control" />
+                    <span asp-validation-for="empe_FechaInicio" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="empe_FechaFinal" class="control-label"></label>
+                    <input asp-for="empe_FechaFinal" class="form-control" />
+                    <span asp-validation-for="empe_FechaFinal" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="carg_Id" class="control-label"></label>
+                    <select class="form-control" asp-for="carg_Id" asp-items="ViewBag.carg_Id">
+                        <option value="">-- Seleccione un cargo --</option>
+                    </select>
+                    <span asp-validation-for="carg_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <label asp-for="clin_Id" class="control-label"></label>
+                    <select class="form-control" asp-for="clin_Id" asp-items="ViewBag.clin_Id">
+                        <option value="">-- Seleccione una clínica --</option>
+                    </select>
+                    <span asp-validation-for="clin_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var muniVal = $("#valueMunId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Empleado/ListMunicipios",
+            data: { id: $("#depa_Id").val() },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                $("#muni_Id").empty();
+                $("#muni_Id").append("<option value='0'>--Seleccione un municipio--</option>");
+                $.each(response, function (i, value) {
+                    $("#muni_Id").append("<option value=" + value.muni_Id + ">" + value.muni_Nombre + "</option>");
+                });
+
+                //$("#muni_Id").val(muniVal);
+                $("#muni_Id").val(muniVal);
+            },
+            error: function (xhr, status, error) {
+                console.log("adios");
+            }
+        });
+    })
+
+    $("#depa_Id").change(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Empleado/ListMunicipios",
+            data: { id: $("#depa_Id").val() },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                $("#muni_Id").empty();
+                $("#muni_Id").append("<option value='0'>--Seleccione un municipio--</option>");
+                $.each(response, function (i, value) {
+                    $("#muni_Id").append("<option value=" + value.muni_Id + ">" + value.muni_Nombre + "</option>");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log("adios");
+            }
+        });
+    });
+</script>
+
