@@ -1410,18 +1410,18 @@ FROM [cons].[tbFacturas] T1 LEFT JOIN [cons].[tbFacturasDetalles] T2
 ON T1.[fact_Id] = T2.[fact_Id]
 
 
-GO
-CREATE OR ALTER PROCEDURE cons.tbFacturas_Insert
-	@fact_Id				INT, 
-	@cons_Id				INT, 
-	@medi_Id				INT, 
-	@factdeta_Precio		DECIMAL(18,2), 
-	@factdeta_Cantidad		INT, 
-	@factdeta_UsuCreacion	INT
-AS
-BEGIN
+--GO
+--CREATE OR ALTER PROCEDURE cons.tbFacturas_Insert
+--	@fact_Id				INT, 
+--	@cons_Id				INT, 
+--	@medi_Id				INT, 
+--	@factdeta_Precio		DECIMAL(18,2), 
+--	@factdeta_Cantidad		INT, 
+--	@factdeta_UsuCreacion	INT
+--AS
+--BEGIN
 	
-END
+--END
 
 /*DROPDOWNLISTS*/
 

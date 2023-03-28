@@ -142,10 +142,51 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex);
             }
         }
-        #endregion
+        public ServiceResult EliminarConsultas(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var delete = _consultasRepository.DeleteConfirmed(id);
+                return result.Ok(delete);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
 
-        #region Empleados
-        public ServiceResult ListaEmpleados()
+        public VW_tbConsultas FindConsultas(int id)
+        {
+            var obtener = _consultasRepository.find(id);
+            return obtener;
+        }
+
+        public ServiceResult EditarConsultas(VW_tbConsultas item, int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var update = _consultasRepository.Update(item, id);
+                return result.Ok(update);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+    #endregion
+
+
+
+
+
+
+
+
+
+    #region Empleados
+    public ServiceResult ListaEmpleados()
         {
             var result = new ServiceResult();
             try
@@ -230,7 +271,7 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
-
+        #endregion
         #region Facturas
         public ServiceResult ListaFacturas()
         {
@@ -245,16 +286,11 @@ namespace Consultorio.BussinesLogic.Services
             }
         }
 
-        public ServiceResult EditarConsultas(VW_tbConsultas item, int id)
+        
         public ServiceResult InsertarFacturas(VW_tbFacturas_tbFacturasDetalles item)
         {
             var result = new ServiceResult();
-            try
-            {
-                var update = _consultasRepository.Update(item, id);
-                return result.Ok(update);
-            }
-            catch (Exception ex)
+            try { 
                 var insert = _facturasRepository.Insert(item);
                 return result.SetMessage(insert.CodeStatus.ToString(), ServiceResultType.Success);
             } catch(Exception ex)
@@ -295,25 +331,7 @@ namespace Consultorio.BussinesLogic.Services
             }
         }
 
-        public ServiceResult EliminarConsultas(int id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var delete = _consultasRepository.DeleteConfirmed(id);
-                return result.Ok(delete);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex.Message);
-            }
-        }
-
-        public VW_tbConsultas FindConsultas(int id)
-        {
-            var obtener = _consultasRepository.find(id);
-            return obtener;
-        }
+        
         #endregion
     }
 }
