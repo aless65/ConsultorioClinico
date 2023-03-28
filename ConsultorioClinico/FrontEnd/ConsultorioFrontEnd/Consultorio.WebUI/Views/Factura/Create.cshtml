@@ -1,0 +1,176 @@
+﻿@model Consultorio.WebUI.Models.FacturasYDetallesViewModel
+
+@{
+    ViewData["Title"] = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>Nueva factura</h2>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" asp-controller="Factura">
+                    <div class="form-group">
+                        <label asp-for="paci_Id" class="control-label"></label>
+                        <select asp-for="paci_Id" class="form-control" asp-items="ViewBag.paci_Id">
+                            <option>-- Seleccione un paciente --</option>
+                        </select>
+                        <span asp-validation-for="paci_Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label asp-for="empe_Id" class="control-label"></label>
+                        <select asp-for="empe_Id" class="form-control" asp-items="ViewBag.empe_Id">
+                            <option>-- Seleccione un empleado --</option>
+                        </select>
+                        <span asp-validation-for="empe_Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label asp-for="meto_Id" class="control-label"></label>
+                        <select asp-for="meto_Id" class="form-control" asp-items="ViewBag.meto_Id">
+                            <option>-- Seleccione un método --</option>
+                        </select>
+                        <span asp-validation-for="meto_Id" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <a asp-action="Index" class="btn btn-danger">Cerrar</a>
+                    <input type="submit" id="subirFactura" class="btn btn-info" value="Siguiente" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header">
+                <h2></h2>
+            </div>
+            <div class="card-body">
+                <form asp-action="CreateDetalle">
+                    <div class="form-group">
+                        <input asp-for="fact_Id" class="form-control" hidden/>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="cons_Id" class="control-label"></label>
+                        <input asp-for="cons_Id" class="form-control" />
+                        <span asp-validation-for="cons_Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="medi_Id" class="control-label"></label>
+                        <input asp-for="medi_Id" class="form-control" />
+                        <span asp-validation-for="medi_Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="factdeta_Precio" class="control-label"></label>
+                        <input asp-for="factdeta_Precio" class="form-control" disabled />
+                        <span asp-validation-for="factdeta_Precio" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["script"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            @Html.Raw(TempData["script"])
+        })
+    </script>
+
+    TempData.Remove("script");
+}
+
+@*<h1>Create</h1>
+
+    <h4>FacturasYDetalles</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="fact_Id" class="control-label"></label>
+                    <input asp-for="fact_Id" class="form-control" />
+                    <span asp-validation-for="fact_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="fact_Fecha" class="control-label"></label>
+                    <input asp-for="fact_Fecha" class="form-control" />
+                    <span asp-validation-for="fact_Fecha" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="fact_UsuCreacion" class="control-label"></label>
+                    <input asp-for="fact_UsuCreacion" class="form-control" />
+                    <span asp-validation-for="fact_UsuCreacion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="fact_FechaCreacion" class="control-label"></label>
+                    <input asp-for="fact_FechaCreacion" class="form-control" />
+                    <span asp-validation-for="fact_FechaCreacion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="fact_UsuModificacion" class="control-label"></label>
+                    <input asp-for="fact_UsuModificacion" class="form-control" />
+                    <span asp-validation-for="fact_UsuModificacion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="fact_FechaModificacion" class="control-label"></label>
+                    <input asp-for="fact_FechaModificacion" class="form-control" />
+                    <span asp-validation-for="fact_FechaModificacion" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="fact_Estado" /> @Html.DisplayNameFor(model => model.fact_Estado)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="factdeta_Id" class="control-label"></label>
+                    <input asp-for="factdeta_Id" class="form-control" />
+                    <span asp-validation-for="factdeta_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="cons_Id" class="control-label"></label>
+                    <input asp-for="cons_Id" class="form-control" />
+                    <span asp-validation-for="cons_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="medi_Id" class="control-label"></label>
+                    <input asp-for="medi_Id" class="form-control" />
+                    <span asp-validation-for="medi_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="factdeta_Precio" class="control-label"></label>
+                    <input asp-for="factdeta_Precio" class="form-control" />
+                    <span asp-validation-for="factdeta_Precio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="factdeta_Cantidad" class="control-label"></label>
+                    <input asp-for="factdeta_Cantidad" class="form-control" />
+                    <span asp-validation-for="factdeta_Cantidad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="factdeta_UsuCreacion" class="control-label"></label>
+                    <input asp-for="factdeta_UsuCreacion" class="form-control" />
+                    <span asp-validation-for="factdeta_UsuCreacion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="factdeta_FechaCreacion" class="control-label"></label>
+                    <input asp-for="factdeta_FechaCreacion" class="form-control" />
+                    <span asp-validation-for="factdeta_FechaCreacion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+

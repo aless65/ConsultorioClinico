@@ -45,6 +45,15 @@ namespace Consultorio.DataAccess.Repository
             return db.Query<VW_tbDepartamentos>(ScriptsDataBase.UDP_Listar_Departamentos, null, commandType: CommandType.StoredProcedure);
         }
 
+        public IEnumerable<tbMunicipios> ListMunicipios(string id)
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@depa_Id", id, DbType.String, ParameterDirection.Input);
+            return db.Query<tbMunicipios>(ScriptsDataBase.UDP_Listar_Municipios, parametros, commandType: CommandType.StoredProcedure);
+        }
+
         public RequestStatus Update(VW_tbDepartamentos item, int id)
         {
             //using var db = new SqlConnection(ConsultorioContext.ConnectionString);

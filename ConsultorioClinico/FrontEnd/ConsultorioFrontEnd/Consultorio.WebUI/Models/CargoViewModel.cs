@@ -28,7 +28,7 @@ namespace Consultorio.WebUI.Models
 
         [Display(Name = "Fecha modificación")]
         public DateTime? carg_FechaModificacion { get; set; }
-        public bool? carg_Estado { get; set; }
+        public bool carg_Estado { get; set; }
 
         //public virtual tbUsuarios carg_UsuCreacionNavigation { get; set; }
         //public virtual tbUsuarios carg_UsuModificacionNavigation { get; set; }

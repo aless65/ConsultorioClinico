@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Consultorio.WebUI.Models.EmpleadoViewModel>
+
+
+<div class="card">
+    <div class="card-header">
+        <h2>Empleados</h2>
+    </div>
+    <div class="card-body">
+        <div id="index">
+            <p>
+                <a asp-action="Create" class="btn btn-primary">Nuevo</a>
+                @*<h2>@ViewBag.message</h2>*@
+            </p>
+            <table class="table table-striped thead-dark" id="DataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.empe_Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.empe_Nombres)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.empe_Apellido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.empe_Identidad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.empe_Sexo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.carg_Nombre)
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.empe_Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.empe_Nombres)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.empe_Apellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.empe_Identidad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.empe_Sexo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.carg_Nombre)
+                            </td>
+                            <td>
+                                @*<a asp-action="Edit" data-id="empe_Id" class="btn btn-outline-warning">Editar</a>*@
+                                @Html.ActionLink("Editar", "Edit", new { id = item.empe_Id }, new { @class = "btn btn-outline-warning" }) |
+                                @Html.ActionLink("Detalles", "Details", new { id = item.empe_Id }, new { @class = "btn btn-outline-dark" }) |
+                                <button class="btn btn-outline-danger Borrar" data-id="@item.empe_Id">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @*<partial name="_Create" model="new Consultorio.WebUI.Models.CargoViewModel()" />
+        <partial name="_Edit" model="new Consultorio.WebUI.Models.CargoViewModel()" />*@
+        <partial name="_Delete" />
+    </div>
+</div>
+

@@ -662,10 +662,10 @@ GO
 CREATE TABLE cons.tbFacturasDetalles(
 	factdeta_Id					INT IDENTITY,
 	fact_Id						INT NOT NULL,
-	cons_Id						INT NOT NULL,
-	medi_Id						INT NOT NULL,
+	cons_Id						INT,
+	medi_Id						INT,
 	factdeta_Precio				DECIMAL(18,2),
-	factdeta_Cantidad			INT NOT NULL,
+	factdeta_Cantidad			INT,
 	factdeta_UsuCreacion		INT NOT NULL,
 	factdeta_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_factdeta_FechaCreacion DEFAULT(GETDATE()),
 	factdeta_UsuModificacion	INT,
@@ -739,6 +739,18 @@ BEGIN
 	SELECT * FROM gral.VW_tbDepartamentos
 END
 
+--Procedimiento municipios por departamento
+GO 
+CREATE OR ALTER PROCEDURE gral.UDP_tbMunicipios_ListadoDepa
+	@depa_Id	CHAR(2)
+AS
+BEGIN
+	SELECT [muni_id], [muni_Nombre]
+	FROM [gral].[tbMunicipios]
+	WHERE [depa_Id] = @depa_Id
+	AND [muni_Estado] = 1
+END 
+
 /*Procedimientos de cargos*/
 --Cargos vista
 GO
@@ -751,7 +763,8 @@ AS
 		   carg_FechaCreacion,
 		   carg_UsuModificacion,
 		   T3.user_NombreUsuario AS carg_UsuModificacionNombre,
-		   carg_FechaModificacion
+		   carg_FechaModificacion,
+		   carg_Estado
 	FROM cons.tbCargos T1 INNER JOIN [acce].[tbUsuarios] T2 
 	ON T1.carg_UsuCreacion = T2.user_Id LEFT JOIN [acce].[tbUsuarios] T3
 	ON T1.carg_UsuModificacion = T3.user_Id
@@ -762,6 +775,7 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbCargos_List
 AS
 BEGIN
 	SELECT * FROM cons.VW_tbCargos
+	WHERE carg_Estado = 1
 END
 
 --Procedimiento insertar cargos
@@ -1010,7 +1024,7 @@ BEGIN
 								AND cons_Final = @cons_Final 
 								AND consltro_Id = @consltro_Id
 								AND paci_Id = @paci_Id
-								AND cons_Id != cons_Id)
+								AND cons_Id != @cons_Id)
 					BEGIN
 						UPDATE cons.tbConsultas
 						SET cons_Estado = 1
@@ -1038,7 +1052,7 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Delete
 AS
 BEGIN
 	BEGIN TRY
-		IF NOT EXISTS (SELECT * FROM cons.tbConsultas WHERE cons_Final = @cons_Id)
+		IF NOT EXISTS (SELECT * FROM cons.tbConsultas WHERE cons_Id = @cons_Id)
 			BEGIN
 				SELECT 'El registro que intenta eliminar no existe'
 			END
@@ -1059,9 +1073,10 @@ END
 GO
 CREATE OR ALTER VIEW cons.VW_tbEmpleados
 AS
-	SELECT [empe_Id], 
+	SELECT T1.[empe_Id], 
 		   [empe_Nombres],
 		   [empe_Apellido],
+		   ([empe_Nombres] + ' ' + [empe_Apellido]) AS empe_NombreCompleto,
 		   [empe_Identidad],
 		   [empe_Sexo],
 		   T1.[estacivi_Id],
@@ -1076,12 +1091,406 @@ AS
 		   [empe_FechaInicio],
 		   [empe_FechaFinal],
 		   T1.[carg_Id],
-		   T4.carg_Nombre
-
+		   T4.carg_Nombre,
+		   t1.clin_Id,
+		   T7.clin_Nombre,
+		   T1.empe_UsuCreacion,
+		   T5.user_NombreUsuario AS empe_UsuCreacionNombre,
+		   T1.empe_UsuModificacion,
+		   T6.user_NombreUsuario AS empe_usuModificacionNombre,
+		   empe_Estado,
+		   empe_FechaCreacion,
+		   empe_FechaModificacion
 FROM cons.tbEmpleados T1 INNER JOIN gral.tbEstadosCiviles T2
 ON T1.estacivi_Id = T2.estacivi_Id INNER JOIN gral.tbMunicipios T3
 ON T1.muni_Id = T3.muni_id INNER JOIN cons.tbCargos T4
-ON T1.carg_Id = T4.carg_Id
+ON T1.carg_Id = T4.carg_Id INNER JOIN acce.tbUsuarios T5
+ON T1.empe_UsuCreacion = T5.user_Id LEFT JOIN acce.tbUsuarios T6
+ON T1.empe_UsuModificacion = T6.user_Id INNER JOIN cons.tbClinicas T7
+ON T1.clin_Id = T7.clin_Id
+
+--Procedimiento listar empleados
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_List
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbEmpleados WHERE empe_Estado = 1
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Insert
+	@empe_Nombres			NVARCHAR(200), 
+	@empe_Apellido			NVARCHAR(200), 
+	@empe_Identidad			VARCHAR(13),
+	@empe_Sexo				CHAR, 
+	@estacivi_Id			INT, 
+	@empe_FechaNacimiento	DATE, 
+	@muni_Id				CHAR(4), 
+	@empe_Direccion			NVARCHAR(500), 
+	@empe_Telefono			NVARCHAR(15), 
+	@empe_Correo			NVARCHAR(120), 
+	@empe_FechaInicio		DATE, 
+	@empe_FechaFinal		DATE, 
+	@carg_Id				INT, 
+	@clin_Id				INT, 
+	@empe_UsuCreacion		INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT empe_Identidad 
+					   FROM cons.tbEmpleados 
+					   WHERE empe_Identidad = @empe_Identidad)
+			BEGIN			
+				INSERT INTO cons.tbEmpleados(empe_Nombres, 
+											 empe_Apellido, empe_Identidad, 
+											 empe_Sexo, estacivi_Id, 
+											 empe_FechaNacimiento, muni_Id, 
+											 empe_Direccion, empe_Telefono, 
+											 empe_Correo, empe_FechaInicio, 
+											 empe_FechaFinal, carg_Id, 
+											 clin_Id, empe_UsuCreacion)
+				VALUES(@empe_Nombres, 
+					   @empe_Apellido, @empe_Identidad, 
+					   @empe_Sexo, @estacivi_Id, 
+					   @empe_FechaNacimiento, @muni_Id, 
+					   @empe_Direccion, @empe_Telefono, 
+					   @empe_Correo, @empe_FechaInicio, 
+					   @empe_FechaFinal, @carg_Id, 
+					   @clin_Id, @empe_UsuCreacion)
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE IF EXISTS (SELECT empe_Identidad 
+					   FROM cons.tbEmpleados 
+					   WHERE empe_Identidad = @empe_Identidad
+					   AND empe_Estado = 0)
+			BEGIN
+				UPDATE cons.tbEmpleados
+				SET empe_Estado = 1,
+					empe_Nombres = @empe_Nombres,			 
+					empe_Apellido = @empe_Apellido,		
+					empe_Sexo = @empe_Sexo,				
+					estacivi_Id = @estacivi_Id,			
+					empe_FechaNacimiento = @empe_FechaNacimiento,	
+					muni_Id = @muni_Id,				
+					empe_Direccion = @empe_Direccion,			 
+					empe_Telefono = @empe_Telefono,			
+					empe_Correo = @empe_Correo,			 
+					empe_FechaInicio = @empe_FechaInicio,		
+					empe_FechaFinal = @empe_FechaFinal,		
+					carg_Id = @carg_Id,				
+					clin_Id = @clin_Id		
+				WHERE empe_Identidad = @empe_Identidad
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE
+			SELECT 'Ya existe un empleado con este número de identidad'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Update
+	@empe_Id				INT,
+	@empe_Nombres			NVARCHAR(200), 
+	@empe_Apellido			NVARCHAR(200), 
+	@empe_Identidad			VARCHAR(13),
+	@empe_Sexo				CHAR, 
+	@estacivi_Id			INT, 
+	@empe_FechaNacimiento	DATE, 
+	@muni_Id				CHAR(4), 
+	@empe_Direccion			NVARCHAR(500), 
+	@empe_Telefono			NVARCHAR(15), 
+	@empe_Correo			NVARCHAR(120), 
+	@empe_FechaInicio		DATE, 
+	@empe_FechaFinal		DATE, 
+	@carg_Id				INT, 
+	@clin_Id				INT, 
+	@empe_UsuModificacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM cons.tbEmpleados WHERE empe_Id = @empe_Id)
+			BEGIN 
+				SELECT 'El registro que intenta editar no existe'
+			END
+		ELSE
+			BEGIN
+				IF NOT EXISTS (SELECT * 
+								FROM cons.tbEmpleados 
+								WHERE empe_Identidad = @empe_Identidad
+									AND empe_Id != @empe_Id) 
+
+					BEGIN
+						UPDATE cons.tbEmpleados 
+						SET   empe_Nombres = @empe_Nombres,			 
+							  empe_Apellido = @empe_Apellido,	
+							  empe_Identidad = @empe_Identidad,
+							  empe_Sexo = @empe_Sexo,				
+							  estacivi_Id = @estacivi_Id,			
+							  empe_FechaNacimiento = @empe_FechaNacimiento,	
+							  muni_Id = @muni_Id,				
+							  empe_Direccion = @empe_Direccion,			 
+							  empe_Telefono = @empe_Telefono,			
+							  empe_Correo = @empe_Correo,			 
+							  empe_FechaInicio = @empe_FechaInicio,		
+							  empe_FechaFinal = @empe_FechaFinal,		
+							  carg_Id = @carg_Id,				
+							  clin_Id = @clin_Id,
+							  empe_UsuModificacion = @empe_UsuModificacion,
+							  empe_FechaModificacion = GETDATE()
+						WHERE empe_Id = @empe_Id
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE IF EXISTS (SELECT * 
+								FROM cons.tbEmpleados
+								WHERE empe_Estado = 0
+								AND empe_Identidad = @empe_Identidad
+								AND empe_Id != @empe_Id)
+					BEGIN
+						UPDATE cons.tbEmpleados
+						SET empe_Estado = 1,
+							empe_Nombres = @empe_Nombres,			 
+							empe_Apellido = @empe_Apellido,	
+							empe_Sexo = @empe_Sexo,				
+							estacivi_Id = @estacivi_Id,			
+							empe_FechaNacimiento = @empe_FechaNacimiento,	
+							muni_Id = @muni_Id,				
+							empe_Direccion = @empe_Direccion,			 
+							empe_Telefono = @empe_Telefono,			
+							empe_Correo = @empe_Correo,			 
+							empe_FechaInicio = @empe_FechaInicio,		
+							empe_FechaFinal = @empe_FechaFinal,		
+							carg_Id = @carg_Id,				
+							clin_Id = @clin_Id,
+							empe_UsuModificacion = @empe_UsuModificacion,
+							empe_FechaModificacion = GETDATE()
+						WHERE empe_Identidad = @empe_Identidad 
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE
+					SELECT 'Un empleado con el mismo número de identidad ya existe'
+			END
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Delete
+	@empe_Id				INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM cons.tbEmpleados WHERE empe_Id = @empe_Id)
+			BEGIN
+				SELECT 'El registro que intenta eliminar no existe'
+			END
+		ELSE
+			UPDATE cons.tbEmpleados
+			SET empe_Estado = 0
+			WHERE empe_Id = @empe_Id
+
+			SELECT 'El registro ha sido eliminado con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Find
+	@empe_Id				INT
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbEmpleados WHERE empe_Id = @empe_Id
+END
+
+/*Procedimientos facturas*/
+GO
+CREATE OR ALTER VIEW cons.VW_tbFacturas
+AS
+	SELECT fact_Id, 
+	       fact_Fecha, 
+		   T1.paci_Id, 
+		   (T2.paci_Nombres + ' ' + T2.paci_Apellidos) AS paci_NombreCompleto,
+		   T1.empe_Id, 
+		   (T3.empe_Nombres + ' ' + T3.empe_Apellido) AS empe_NombreCompleto,
+		   T1.meto_Id, 
+		   T4.meto_Nombre,
+		   fact_UsuCreacion,
+		   T5.user_NombreUsuario AS fact_UsuCreacionNombre,
+		   fact_FechaCreacion, 
+		   T6.user_NombreUsuario AS fact_UsuModificacionNombre,
+		   fact_UsuModificacion, 
+		   fact_FechaModificacion, 
+		   fact_Estado
+FROM cons.tbFacturas T1 INNER JOIN cons.tbPacientes T2
+ON T1.paci_Id = T2.paci_Id INNER JOIN cons.tbEmpleados T3
+ON T1.empe_Id = T3.empe_Id INNER JOIN cons.tbMetodosPago T4
+ON T1.meto_Id = T4.meto_Id INNER JOIN acce.tbUsuarios T5
+ON T1.fact_UsuCreacion = T5.user_Id LEFT JOIN acce.tbUsuarios T6
+ON T1.fact_UsuModificacion = T6.user_Id
+
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturas_List
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbFacturas WHERE fact_Estado = 1
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturas_Insert
+	@paci_Id			INT, 
+	@empe_Id			INT, 
+	@meto_Id			INT, 
+	@fact_UsuCreacion	INT
+AS
+BEGIN
+	INSERT INTO [cons].[tbFacturas](fact_Fecha, paci_Id, 
+									empe_Id, meto_Id, 
+									fact_UsuCreacion)
+	VALUES (GETDATE(), @paci_Id,
+			@empe_Id, @meto_Id,
+			@fact_UsuCreacion)
+
+	SELECT SCOPE_IDENTITY()
+END
+
+GO
+CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_ReducirStock
+ON cons.tbFacturasDetalles
+AFTER INSERT
+AS
+BEGIN
+	UPDATE cons.tbMedicamentos
+	SET [medi_Stock] = [medi_Stock] - (SELECT [factdeta_Cantidad] FROM inserted)
+	WHERE [medi_Id] = (SELECT [medi_Id] FROM inserted)
+END
+
+GO
+CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_AumentarStock
+ON cons.tbFacturasDetalles
+AFTER DELETE
+AS
+BEGIN
+	UPDATE cons.tbMedicamentos
+	SET [medi_Stock] = [medi_Stock] + (SELECT [factdeta_Cantidad] FROM deleted)
+	WHERE [medi_Id] = (SELECT [medi_Id] FROM deleted)
+END
+
+--Vista masiva para facturas y facturas detalles
+GO
+CREATE OR ALTER VIEW cons.VW_tbFacturas_tbFacturasDetalles
+AS
+SELECT 1.fact_Id, 
+	   fact_Fecha, 
+	   paci_Id, 
+	   empe_Id, 
+	   meto_Id, 
+	   fact_UsuCreacion, 
+	   fact_FechaCreacion, 
+	   fact_UsuModificacion, 
+	   fact_FechaModificacion, 
+	   fact_Estado,
+	   factdeta_Id, 
+	   cons_Id, 
+	   medi_Id, 
+	   factdeta_Precio, 
+	   factdeta_Cantidad, 
+	   factdeta_UsuCreacion, 
+	   factdeta_FechaCreacion
+FROM [cons].[tbFacturas] T1 LEFT JOIN [cons].[tbFacturasDetalles] T2
+ON T1.[fact_Id] = T2.[fact_Id]
+
+
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturas_Insert
+	@fact_Id				INT, 
+	@cons_Id				INT, 
+	@medi_Id				INT, 
+	@factdeta_Precio		DECIMAL(18,2), 
+	@factdeta_Cantidad		INT, 
+	@factdeta_UsuCreacion	INT
+AS
+BEGIN
+	
+END
+
+/*DROPDOWNLISTS*/
+
+--Estados civiles
+GO
+CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_List
+AS
+BEGIN
+	SELECT [estacivi_Id], 
+		   [estacivi_Nombre]
+	FROM [gral].[tbEstadosCiviles]
+	WHERE [estacivi_Estado] = 1
+END
+
+--Clinicas
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbClinicas_List
+AS
+BEGIN
+	SELECT [clin_Id],
+		   [clin_Nombre]
+	FROM [cons].[tbClinicas]
+	WHERE [clin_Estado] = 1
+END
+
+--Pacientes
+GO
+CREATE OR ALTER VIEW cons.VW_tbPacientes
+AS
+	SELECT ([paci_Nombres] + ' ' + [paci_Apellidos]) AS paci_NombreCompleto,
+			paci_Id
+	FROM [cons].[tbPacientes]
+	WHERE [paci_Estado] = 1
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbPacientes_DDL
+AS
+BEGIN 
+	SELECT * FROM cons.VW_tbPacientes
+END
+
+----Empleados
+--GO
+--CREATE OR ALTER VIEW cons.VW_tbEmpleados
+--AS
+--	SELECT ([empe_Nombres] + ' ' + [empe_Apellido]) AS empe_NombreCompleto,
+--			empe_Id
+--	FROM [cons].tbEmpleados
+--	WHERE empe_Estado = 1
 
 --GO
---CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_Insert
+--CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_DDL
+--AS
+--BEGIN 
+--	SELECT * FROM cons.VW_tbEmpleados
+--END
+
+--Métodos de pago
+GO
+CREATE OR ALTER VIEW cons.VW_tbMetodosPago
+AS
+	SELECT meto_Id,
+		   meto_Nombre
+	FROM [cons].tbMetodosPago
+	WHERE meto_Estado = 1
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbMetodosPago_DDL
+AS
+BEGIN 
+	SELECT * FROM cons.VW_tbMetodosPago
+END

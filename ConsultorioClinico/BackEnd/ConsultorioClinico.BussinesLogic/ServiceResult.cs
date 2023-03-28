@@ -160,7 +160,7 @@ namespace Consultorio.BussinesLogic
         /// <param name="data">Los datos a pasar en la respuesta.</param>
         /// <param name="success">Si el resultado del servicio se debe marcar como exitoso o no.</param>
         /// <returns></returns>
-        public ServiceResult Conflict(string message = "Se ha detectado un conflicto con el objeto.", dynamic data = null, bool success = false)
+        public ServiceResult Conflict(string message = "No se puede ingresar registros repetidos", dynamic data = null, bool success = false)
         {
             Success = success;
             Data = data;

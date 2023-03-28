@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Consultorio.WebUI.Models.CargoViewModel>
+
+@{
+    ViewData["Title"] = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mb-4 col-xl-8 offset-xl-2">
+    <div class="card-header">
+        <h1>Detalles</h1>
+    </div>
+    <div class="card-body">
+        <div id="details">
+            @foreach (var item in Model)
+            {
+                <div class="row">
+                    <div class="form-group col-6">
+                        <h5>ID</h5>
+                        @Html.DisplayFor(modelItem => item.carg_Id)
+                    </div>
+
+                    <div class="form-group col-6">
+                        <h5>Empleado</h5>
+                        @Html.DisplayFor(modelItem => item.carg_Nombre)
+                    </div>
+
+                </div>
+                <div class="form-group col-3 mt-3">
+                    <button class="btn btn-warning EditarDetalle" data-id="@item.carg_Id" data-nombre="@item.carg_Nombre">
+                        Editar
+                    </button> |
+                    <a asp-action="Index" class="btn btn-dark">Regresar</a>
+                </div>
+            }
+            <div style="height:20px"></div>
+            <div class="card">
+                <div class="card-header"><h2>Auditoria</h2></div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Accion</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><label>Creacion</label></td>
+                                <td>@Html.DisplayFor(modelItem => item.carg_UsuCreacionNombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.carg_FechaCreacion)</td>
+                            </tr>
+                            <tr>
+                                <td>Modificacion</td>
+                                <td>@Html.DisplayFor(modelItem => item.carg_UsuModificacionNombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.carg_FechaModificacion)</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <partial name="_Edit" model="new Consultorio.WebUI.Models.CargoViewModel()" />
+    </div>
+</div>
+
+<script>
+    $("#edit").hide();
+
+    $(document).ready(function () {
+        $("#Cancel").click(function () {
+            $("#create").hide();
+            $("#details").fadeIn('slow');
+            $(".card-body").animate({ height: $("#details").height() + 30 }, 500);
+        });
+
+        $(".Cancel").click(function () {
+            $("#edit").hide();
+            $("#details").fadeIn('slow');
+            $(".card-body").animate({ height: $("#details").height() + 30 }, 500);
+        });
+    })
+</script>

@@ -11,11 +11,12 @@ namespace Consultorio.BussinesLogic.Services
     public class GralService
     {
         private readonly DepartamentosRepository _departamentosRepository;
+        private readonly EstadosCivilesRepository _estadosCivilesRepository;
 
-        public GralService(DepartamentosRepository departamentosRepository) 
+        public GralService(DepartamentosRepository departamentosRepository, EstadosCivilesRepository estadosCivilesRepository) 
         {
             _departamentosRepository = departamentosRepository;
-
+            _estadosCivilesRepository = estadosCivilesRepository;
         }
 
         #region Departamentos
@@ -41,13 +42,28 @@ namespace Consultorio.BussinesLogic.Services
             return result.Ok(insertar);
         }
 
-        //public ServiceResult EditarDepartamentos(VW_tbDepartamentos item)
-        //{
-        //    var result = new ServiceResult();
-        //    var actualizar = _departamentosRepository.Update(item);
-        //    return result.Ok(actualizar);
-        //}
+        public ServiceResult ListarMunicipios(string id)
+        {
+            var result = new ServiceResult();
+            var listar = _departamentosRepository.ListMunicipios(id);
+            return result.Ok(listar);
+        }
         #endregion
 
+        #region Estados Civiles
+        public ServiceResult ListarEstadosCiviles()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _estadosCivilesRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
     }
 }

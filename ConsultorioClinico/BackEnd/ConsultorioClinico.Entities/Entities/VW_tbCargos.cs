@@ -16,5 +16,6 @@ namespace ConsultorioClinico.Entities.Entities
         public int? carg_UsuModificacion { get; set; }
         public string carg_UsuModificacionNombre { get; set; }
         public DateTime? carg_FechaModificacion { get; set; }
+        public bool carg_Estado { get; set; }
     }
 }

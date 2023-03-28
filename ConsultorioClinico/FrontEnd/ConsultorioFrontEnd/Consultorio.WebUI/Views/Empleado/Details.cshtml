@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Consultorio.WebUI.Models.EmpleadoViewModel>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1>Detalles</h1>
+    </div>
+    <div class="card-body">
+        @foreach (var item in Model)
+        {
+            <div class="row">
+                <div class="form-group col-6">
+                    <h5>ID</h5>
+                    @Html.DisplayFor(modelItem => item.empe_Id)
+                </div>
+
+                <div class="form-group col-6">
+                    <h5>Empleado</h5>
+                    @Html.DisplayFor(modelItem => item.empe_NombreCompleto)
+                </div>
+
+                <div class="form-group col-6 mt-3">
+                    <h5>Identidad</h5>
+                    @Html.DisplayFor(modelItem => item.empe_Identidad)
+                </div>
+
+                <div class="form-group col-6 mt-3">
+                    <h5>Fecha Nacimiento</h5>
+                    @Html.DisplayFor(modelItem => item.empe_FechaNacimiento)
+                </div>
+
+                <div class="form-group col-6 mt-3">
+                    <h5>Sexo</h5>
+                    @Html.DisplayFor(modelItem => item.empe_Sexo)
+                </div>
+
+                <div class="form-group col-6 mt-3">
+                    <h5>Estado Civil</h5>
+                    @Html.DisplayFor(modelItem => item.estacivi_Nombre)
+                </div>
+
+                <div class="form-group col-6 mt-3">
+                    <h5>Municipio</h5>
+                    @Html.DisplayFor(modelItem => item.muni_Nombre)
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <h5>Cargo</h5>
+                    @Html.DisplayFor(modelItem => item.carg_Nombre)
+                </div>
+                <div class="form-group col-6 mt-3">
+                    <h5>Dirección</h5>
+                    @Html.DisplayFor(modelItem => item.empe_Direccion)
+                </div>
+
+                <div class="form-group col-6 mt-3">
+                    <h5>Telefono</h5>
+                    @Html.DisplayFor(modelItem => item.empe_Telefono)
+                </div>
+
+                <div class="form-group col-6 mt-3">
+                    <h5>Correo Electronico</h5>
+                    @Html.DisplayFor(modelItem => item.empe_Correo)
+                </div>
+
+            </div>
+            <div class="form-group col-3 mt-3">
+                <a asp-action="Edit" asp-route-id="@item.empe_Id" class="btn btn-warning">Editar</a> |
+                <a asp-action="Index" class="btn btn-dark">Regresar</a>
+            </div>
+        }
+        <div style="height:20px"></div>
+        <div class="card">
+            <div class="card-header"><h2>Auditoria</h2></div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Accion</th>
+                        <th>Usuario</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><label>Creacion</label></td>
+                            <td>@Html.DisplayFor(modelItem => item.empe_UsuCreacionNombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.empe_FechaCreacion)</td>
+                        </tr>
+                        <tr>
+                            <td>Modificacion</td>
+                            <td>@Html.DisplayFor(modelItem => item.empe_usuModificacionNombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.empe_FechaModificacion)</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
