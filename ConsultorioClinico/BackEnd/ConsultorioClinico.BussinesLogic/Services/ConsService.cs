@@ -42,7 +42,13 @@ namespace Consultorio.BussinesLogic.Services
             try
             {
                 var insert = _cargosRepository.Insert(item);
-                return result.Ok(insert);
+
+                if (insert.MessageStatus == "El registro se ha insertado con éxito")
+                    return result.Ok(insert);
+                else if (insert.MessageStatus == "Ya existe un cargo con este nombre")
+                    return result.Conflict(insert.MessageStatus);
+                else
+                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
             }
             catch (Exception ex)
             {

@@ -42,7 +42,7 @@
                                 <button class="btn btn-outline-warning Editar" data-id="@item.carg_Id" data-nombre="@item.carg_Nombre">
                                     Editar
                                 </button> |
-                                <a class="btn btn-outline-dark">Detalles</a> |
+                                @Html.ActionLink("Detalles", "Details", new { id = item.carg_Id }, new { @class = "btn btn-outline-dark" }) |
                                 <button class="btn btn-outline-danger Borrar" data-id="@item.carg_Id">
                                     Eliminar
                                 </button>

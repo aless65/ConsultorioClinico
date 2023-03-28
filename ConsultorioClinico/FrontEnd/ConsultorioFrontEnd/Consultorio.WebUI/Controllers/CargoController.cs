@@ -141,5 +141,30 @@ namespace Consultorio.WebUI.Controllers
                 }
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            List<CargoViewModel> listado = new List<CargoViewModel>();
+
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(_baseurl + "api/Cargo/List");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+                    JArray jsonArray = JArray.Parse(jsonObj["data"].ToString());
+                    string message = (string)jsonObj["message"];
+
+                    ViewBag.message = message;
+
+                    listado = JsonConvert.DeserializeObject<List<CargoViewModel>>(jsonArray.ToString());
+                }
+                return View(listado.Where(X => X.carg_Id == id));
+            }
+        }
     }
 }

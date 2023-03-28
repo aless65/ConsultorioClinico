@@ -40,6 +40,20 @@
 
         });
 
+        $('.EditarDetalle').on('click', function () {
+            $("#lblNombreEdit").prop('hidden', true);
+            var cargId = $(this).data("id");
+            var cargNombre = $(this).data("nombre");
+
+            $("#carg_IdEdit").val(cargId);
+            $("#carg_NombreEdit").val(cargNombre);
+
+            $("#edit").fadeIn('slow');
+            $(".card-body").animate({ height: $("#edit").height() + 35 }, 500);
+            $("#details").hide();
+
+        });
+
         $("#enviarEdit").click(function () {
             if ($("#carg_NombreEdit").val() == "") {
                 $("#lblNombreEdit").prop('hidden', false);

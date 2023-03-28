@@ -19,6 +19,7 @@ namespace ConsultorioClinico.Entities.Entities
         [Display(Name = "Apellidos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string empe_Apellido { get; set; }
+        public string empe_NombreCompleto { get; set; }
 
         [Display(Name = "Identidad")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -75,8 +76,10 @@ namespace ConsultorioClinico.Entities.Entities
         public int clin_Id { get; set; }
         public string clin_Nombre { get; set; }
         public int empe_UsuCreacion { get; set; }
+        public DateTime empe_FechaCreacion { get; set; }
         public string empe_UsuCreacionNombre { get; set; }
         public int? empe_UsuModificacion { get; set; }
+        public DateTime? empe_FechaModificacion { get; set; }
         public string empe_usuModificacionNombre { get; set; }
         public bool empe_Estado { get; set; }
     }

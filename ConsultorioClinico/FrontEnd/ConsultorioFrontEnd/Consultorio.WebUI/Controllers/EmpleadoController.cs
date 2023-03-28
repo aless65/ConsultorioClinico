@@ -117,6 +117,7 @@ namespace Consultorio.WebUI.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -319,6 +320,51 @@ namespace Consultorio.WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PutAsync(_baseurl + "api/Empleado/Delete?id=" + id, null);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+                    string message = (string)jsonObj["message"];
+
+                    ViewBag.message = message;
+                    return RedirectToAction("Index");
+                }
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            List<EmpleadoViewModel> listado = new List<EmpleadoViewModel>();
+
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(_baseurl + "api/Empleado/List");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+                    JArray jsonArray = JArray.Parse(jsonObj["data"].ToString());
+                    string message = (string)jsonObj["message"];
+
+                    ViewBag.message = message;
+
+                    listado = JsonConvert.DeserializeObject<List<EmpleadoViewModel>>(jsonArray.ToString());
+                }
+                return View(listado.Where(X => X.empe_Id == id));
+            }
+        }
     }
 }

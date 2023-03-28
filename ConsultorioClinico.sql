@@ -1076,6 +1076,7 @@ AS
 	SELECT T1.[empe_Id], 
 		   [empe_Nombres],
 		   [empe_Apellido],
+		   ([empe_Nombres] + ' ' + [empe_Apellido]) AS empe_NombreCompleto,
 		   [empe_Identidad],
 		   [empe_Sexo],
 		   T1.[estacivi_Id],
@@ -1097,7 +1098,9 @@ AS
 		   T5.user_NombreUsuario AS empe_UsuCreacionNombre,
 		   T1.empe_UsuModificacion,
 		   T6.user_NombreUsuario AS empe_usuModificacionNombre,
-		   empe_Estado
+		   empe_Estado,
+		   empe_FechaCreacion,
+		   empe_FechaModificacion
 FROM cons.tbEmpleados T1 INNER JOIN gral.tbEstadosCiviles T2
 ON T1.estacivi_Id = T2.estacivi_Id INNER JOIN gral.tbMunicipios T3
 ON T1.muni_Id = T3.muni_id INNER JOIN cons.tbCargos T4
