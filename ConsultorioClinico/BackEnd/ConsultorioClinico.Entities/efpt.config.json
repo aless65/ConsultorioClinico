@@ -102,11 +102,27 @@
          "ObjectType": 3
       },
       {
+         "Name": "[cons].[VW_tbFacturas]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[cons].[VW_tbFacturas_tbFacturasDetalles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[cons].[VW_tbMetodosPago]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[cons].[VW_tbPacientes]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[gral].[VW_tbDepartamentos]",
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-EEOQVVU\\SQLEXPRESS.CONSULTORIOCLINICO",
+   "UiHint": "DESKTOP-BPGLHI0\\SQLEXPRESSLOCAL.CONSULTORIOCLINICO",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,

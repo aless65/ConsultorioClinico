@@ -13,12 +13,19 @@ namespace Consultorio.BussinesLogic.Services
         private readonly CargosRepository _cargosRepository;
         private readonly EmpleadosRepository _empleadosRepository;
         private readonly ClinicasRepository _clinicasRepository;
+        private readonly FacturasRepository _facturasRepository;
+        private readonly PacientesRepository _pacientesRepository;
+        private readonly MetodosRepository _metodosRepository;
 
-        public ConsService(CargosRepository cargosRepository, EmpleadosRepository empleadosRepository, ClinicasRepository clinicasRepository)
+        public ConsService(CargosRepository cargosRepository, EmpleadosRepository empleadosRepository, ClinicasRepository clinicasRepository,
+                           FacturasRepository facturasRepository, PacientesRepository pacientesRepository, MetodosRepository metodosRepository)
         {
             _cargosRepository = cargosRepository;
             _empleadosRepository = empleadosRepository;
             _clinicasRepository = clinicasRepository;
+            _facturasRepository = facturasRepository;
+            _pacientesRepository = pacientesRepository;
+            _metodosRepository = metodosRepository;
         }
         #region Cargos
         public ServiceResult ListaCargos()
@@ -62,7 +69,14 @@ namespace Consultorio.BussinesLogic.Services
             try
             {
                 var update = _cargosRepository.Update(item, id);
-                return result.Ok(update);
+                if (update.MessageStatus == "El registro ha sido editado con éxito")
+                    return result.SetMessage(update.MessageStatus, ServiceResultType.Success);
+                else if (update.MessageStatus == "El registro que intenta editar no existe")
+                    return result.Conflict(update.MessageStatus);
+                else if (update.MessageStatus == "Ya existe un cargo con este nombre")
+                    return result.Conflict(update.MessageStatus);
+                else
+                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
             }
             catch (Exception ex)
             {
@@ -76,7 +90,12 @@ namespace Consultorio.BussinesLogic.Services
             try
             {
                 var delete = _cargosRepository.DeleteConfirmed(id);
-                return result.Ok(delete);
+                if (delete.MessageStatus == "El registro ha sido eliminado con éxito")
+                    return result.SetMessage(delete.MessageStatus, ServiceResultType.Success);
+                else if (delete.MessageStatus == "El registro que intenta eliminar no existe")
+                    return result.Conflict(delete.MessageStatus);
+                else
+                    return result.SetMessage(delete.MessageStatus, ServiceResultType.Conflict);
             }
             catch (Exception ex)
             {
@@ -170,6 +189,66 @@ namespace Consultorio.BussinesLogic.Services
             try
             {
                 var list = _clinicasRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Facturas
+        public ServiceResult ListaFacturas()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturasRepository.Listado();
+                return result.Ok(list);
+            } catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarFacturas(VW_tbFacturas_tbFacturasDetalles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var insert = _facturasRepository.Insert(item);
+                return result.SetMessage(insert.CodeStatus.ToString(), ServiceResultType.Success);
+            } catch(Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Pacientes
+        public ServiceResult ListaPacientes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var listado = _pacientesRepository.List();
+                return result.Ok(listado);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+        #endregion
+
+        #region Métodos
+        public ServiceResult ListaMetodos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _metodosRepository.List();
                 return result.Ok(list);
             }
             catch (Exception ex)

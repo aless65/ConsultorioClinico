@@ -662,10 +662,10 @@ GO
 CREATE TABLE cons.tbFacturasDetalles(
 	factdeta_Id					INT IDENTITY,
 	fact_Id						INT NOT NULL,
-	cons_Id						INT NOT NULL,
-	medi_Id						INT NOT NULL,
+	cons_Id						INT,
+	medi_Id						INT,
 	factdeta_Precio				DECIMAL(18,2),
-	factdeta_Cantidad			INT NOT NULL,
+	factdeta_Cantidad			INT,
 	factdeta_UsuCreacion		INT NOT NULL,
 	factdeta_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_factdeta_FechaCreacion DEFAULT(GETDATE()),
 	factdeta_UsuModificacion	INT,
@@ -1312,7 +1312,120 @@ BEGIN
 	SELECT * FROM cons.VW_tbEmpleados WHERE empe_Id = @empe_Id
 END
 
+/*Procedimientos facturas*/
+GO
+CREATE OR ALTER VIEW cons.VW_tbFacturas
+AS
+	SELECT fact_Id, 
+	       fact_Fecha, 
+		   T1.paci_Id, 
+		   (T2.paci_Nombres + ' ' + T2.paci_Apellidos) AS paci_NombreCompleto,
+		   T1.empe_Id, 
+		   (T3.empe_Nombres + ' ' + T3.empe_Apellido) AS empe_NombreCompleto,
+		   T1.meto_Id, 
+		   T4.meto_Nombre,
+		   fact_UsuCreacion,
+		   T5.user_NombreUsuario AS fact_UsuCreacionNombre,
+		   fact_FechaCreacion, 
+		   T6.user_NombreUsuario AS fact_UsuModificacionNombre,
+		   fact_UsuModificacion, 
+		   fact_FechaModificacion, 
+		   fact_Estado
+FROM cons.tbFacturas T1 INNER JOIN cons.tbPacientes T2
+ON T1.paci_Id = T2.paci_Id INNER JOIN cons.tbEmpleados T3
+ON T1.empe_Id = T3.empe_Id INNER JOIN cons.tbMetodosPago T4
+ON T1.meto_Id = T4.meto_Id INNER JOIN acce.tbUsuarios T5
+ON T1.fact_UsuCreacion = T5.user_Id LEFT JOIN acce.tbUsuarios T6
+ON T1.fact_UsuModificacion = T6.user_Id
+
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturas_List
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbFacturas WHERE fact_Estado = 1
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturas_Insert
+	@paci_Id			INT, 
+	@empe_Id			INT, 
+	@meto_Id			INT, 
+	@fact_UsuCreacion	INT
+AS
+BEGIN
+	INSERT INTO [cons].[tbFacturas](fact_Fecha, paci_Id, 
+									empe_Id, meto_Id, 
+									fact_UsuCreacion)
+	VALUES (GETDATE(), @paci_Id,
+			@empe_Id, @meto_Id,
+			@fact_UsuCreacion)
+
+	SELECT SCOPE_IDENTITY()
+END
+
+GO
+CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_ReducirStock
+ON cons.tbFacturasDetalles
+AFTER INSERT
+AS
+BEGIN
+	UPDATE cons.tbMedicamentos
+	SET [medi_Stock] = [medi_Stock] - (SELECT [factdeta_Cantidad] FROM inserted)
+	WHERE [medi_Id] = (SELECT [medi_Id] FROM inserted)
+END
+
+GO
+CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_AumentarStock
+ON cons.tbFacturasDetalles
+AFTER DELETE
+AS
+BEGIN
+	UPDATE cons.tbMedicamentos
+	SET [medi_Stock] = [medi_Stock] + (SELECT [factdeta_Cantidad] FROM deleted)
+	WHERE [medi_Id] = (SELECT [medi_Id] FROM deleted)
+END
+
+--Vista masiva para facturas y facturas detalles
+GO
+CREATE OR ALTER VIEW cons.VW_tbFacturas_tbFacturasDetalles
+AS
+SELECT 1.fact_Id, 
+	   fact_Fecha, 
+	   paci_Id, 
+	   empe_Id, 
+	   meto_Id, 
+	   fact_UsuCreacion, 
+	   fact_FechaCreacion, 
+	   fact_UsuModificacion, 
+	   fact_FechaModificacion, 
+	   fact_Estado,
+	   factdeta_Id, 
+	   cons_Id, 
+	   medi_Id, 
+	   factdeta_Precio, 
+	   factdeta_Cantidad, 
+	   factdeta_UsuCreacion, 
+	   factdeta_FechaCreacion
+FROM [cons].[tbFacturas] T1 LEFT JOIN [cons].[tbFacturasDetalles] T2
+ON T1.[fact_Id] = T2.[fact_Id]
+
+
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturas_Insert
+	@fact_Id				INT, 
+	@cons_Id				INT, 
+	@medi_Id				INT, 
+	@factdeta_Precio		DECIMAL(18,2), 
+	@factdeta_Cantidad		INT, 
+	@factdeta_UsuCreacion	INT
+AS
+BEGIN
+	
+END
+
 /*DROPDOWNLISTS*/
+
+--Estados civiles
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_List
 AS
@@ -1323,6 +1436,7 @@ BEGIN
 	WHERE [estacivi_Estado] = 1
 END
 
+--Clinicas
 GO
 CREATE OR ALTER PROCEDURE cons.UDP_tbClinicas_List
 AS
@@ -1331,4 +1445,52 @@ BEGIN
 		   [clin_Nombre]
 	FROM [cons].[tbClinicas]
 	WHERE [clin_Estado] = 1
+END
+
+--Pacientes
+GO
+CREATE OR ALTER VIEW cons.VW_tbPacientes
+AS
+	SELECT ([paci_Nombres] + ' ' + [paci_Apellidos]) AS paci_NombreCompleto,
+			paci_Id
+	FROM [cons].[tbPacientes]
+	WHERE [paci_Estado] = 1
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbPacientes_DDL
+AS
+BEGIN 
+	SELECT * FROM cons.VW_tbPacientes
+END
+
+----Empleados
+--GO
+--CREATE OR ALTER VIEW cons.VW_tbEmpleados
+--AS
+--	SELECT ([empe_Nombres] + ' ' + [empe_Apellido]) AS empe_NombreCompleto,
+--			empe_Id
+--	FROM [cons].tbEmpleados
+--	WHERE empe_Estado = 1
+
+--GO
+--CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_DDL
+--AS
+--BEGIN 
+--	SELECT * FROM cons.VW_tbEmpleados
+--END
+
+--Métodos de pago
+GO
+CREATE OR ALTER VIEW cons.VW_tbMetodosPago
+AS
+	SELECT meto_Id,
+		   meto_Nombre
+	FROM [cons].tbMetodosPago
+	WHERE meto_Estado = 1
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbMetodosPago_DDL
+AS
+BEGIN 
+	SELECT * FROM cons.VW_tbMetodosPago
 END

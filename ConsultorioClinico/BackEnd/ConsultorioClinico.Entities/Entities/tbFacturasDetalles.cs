@@ -10,10 +10,10 @@ namespace ConsultorioClinico.Entities.Entities
     {
         public int factdeta_Id { get; set; }
         public int fact_Id { get; set; }
-        public int cons_Id { get; set; }
-        public int medi_Id { get; set; }
+        public int? cons_Id { get; set; }
+        public int? medi_Id { get; set; }
         public decimal? factdeta_Precio { get; set; }
-        public int factdeta_Cantidad { get; set; }
+        public int? factdeta_Cantidad { get; set; }
         public int factdeta_UsuCreacion { get; set; }
         public DateTime factdeta_FechaCreacion { get; set; }
         public int? factdeta_UsuModificacion { get; set; }

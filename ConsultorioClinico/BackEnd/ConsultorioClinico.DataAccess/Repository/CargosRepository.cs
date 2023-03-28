@@ -23,10 +23,16 @@ namespace Consultorio.DataAccess.Repository
         {
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);
 
+            RequestStatus result = new RequestStatus();
+
             var parametros = new DynamicParameters();
             parametros.Add("@carg_Id", id, DbType.Int32, ParameterDirection.Input);
 
-            return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Eliminar_Cargos, parametros, commandType: CommandType.StoredProcedure);
+            var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Eliminar_Cargos, parametros, commandType: CommandType.StoredProcedure);
+
+            result.MessageStatus = answer;
+
+            return result;
         }
 
         public VW_tbCargos find(int? id)
@@ -42,6 +48,7 @@ namespace Consultorio.DataAccess.Repository
         public RequestStatus Insert(VW_tbCargos item)
         {
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
             RequestStatus result = new RequestStatus();
 
             var parametros = new DynamicParameters();
@@ -66,12 +73,18 @@ namespace Consultorio.DataAccess.Repository
         {
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);
 
+            RequestStatus result = new RequestStatus();
+
             var parametros = new DynamicParameters();
             parametros.Add("@carg_Id", item.carg_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@carg_Nombre", item.carg_Nombre, DbType.String, ParameterDirection.Input);
             parametros.Add("@carg_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Editar_Cargos, parametros, commandType: CommandType.StoredProcedure);
+            var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Editar_Cargos, parametros, commandType: CommandType.StoredProcedure);
+
+            result.MessageStatus = answer;
+
+            return result;
         }
 
         

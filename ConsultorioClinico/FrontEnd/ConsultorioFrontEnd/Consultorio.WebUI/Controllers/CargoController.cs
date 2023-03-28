@@ -28,6 +28,12 @@ namespace Consultorio.WebUI.Controllers
         {
             List<CargoViewModel> listado = new List<CargoViewModel>();
 
+            if(TempData["script"] is string script)
+            {
+                TempData.Remove("script");
+                ViewBag.Script = script;
+            }
+
             using (var httpClient = new HttpClient())
             {
                 var response = await httpClient.GetAsync(_baseurl + "api/Cargo/List");
@@ -65,6 +71,27 @@ namespace Consultorio.WebUI.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+
+                    ViewBag.message = jsonObj["message"];
+
+                    if (jsonObj["code"].ToString() == "200")
+                    {
+                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    } 
+                    else if (jsonObj["code"].ToString() == "409")
+                    {
+                        string script = "MostrarMensajeWarning('" + ViewBag.message + "'); $('#New').click();";
+                        TempData["script"] = script;
+                    }
+                    else
+                    {
+                        string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -108,12 +135,31 @@ namespace Consultorio.WebUI.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+
+                    ViewBag.message = jsonObj["message"];
+
+                    if (jsonObj["code"].ToString() == "200")
+                    {
+                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+                    else if (jsonObj["code"].ToString() == "409")
+                    {
+                        string script = "MostrarMensajeWarning('" + ViewBag.message + "'); $('#Edit').click();";
+                        TempData["script"] = script;
+                    }
+                    else
+                    {
+                        string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    ModelState.AddModelError(string.Empty, errorContent);
                     return View(item);
                 }
             }
@@ -128,15 +174,31 @@ namespace Consultorio.WebUI.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+
+                    ViewBag.message = jsonObj["message"];
+
+                    if (jsonObj["code"].ToString() == "200")
+                    {
+                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+                    else if (jsonObj["code"].ToString() == "409")
+                    {
+                        string script = "MostrarMensajeWarning('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+                    else
+                    {
+                        string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    JObject jsonObj = JObject.Parse(jsonResponse);
-                    string message = (string)jsonObj["message"];
-
-                    ViewBag.message = message;
                     return RedirectToAction("Index");
                 }
             }
