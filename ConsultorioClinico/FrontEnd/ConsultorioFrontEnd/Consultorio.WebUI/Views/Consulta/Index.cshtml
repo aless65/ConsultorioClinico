@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Consultorio.WebUI.Models.ConsultaViewModel>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Consultas</h2>
+    </div>
+    <div class="card-body">
+        <div id="index">
+            <p>
+                <a asp-action="Create">Create New</a>
+
+            </p>
+            <table class="table table-striped thead-dark" id="DataTable">
+                <thead class="text-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cons_Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cons_Inicio)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cons_Final)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.paci_Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.consltro_Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cons_Costo)
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cons_Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cons_Inicio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cons_Final)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.paci_Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.consltro_Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cons_Costo)
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-warning Editar" data-id="@item.cons_Id">
+                                    Editar
+                                </button> |
+                                @Html.ActionLink("Details", "Details", new { id = item.cons_Id }) |
+                                <button class="btn btn-outline-danger Borrar" data-id="@item.cons_Id">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="_Delete" />
+    </div>
+</div>

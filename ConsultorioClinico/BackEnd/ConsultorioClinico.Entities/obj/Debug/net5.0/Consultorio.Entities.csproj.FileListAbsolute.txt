@@ -45,3 +45,14 @@ C:\Users\Auxiliar.Operaciones\Documents\GitHub\ConsultorioClinico\ConsultorioCli
 C:\Users\Auxiliar.Operaciones\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.dll
 C:\Users\Auxiliar.Operaciones\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\ref\Consultorio.Entities.dll
 C:\Users\Auxiliar.Operaciones\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.pdb
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\bin\Debug\net5.0\Consultorio.Entities.deps.json
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\bin\Debug\net5.0\Consultorio.Entities.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\bin\Debug\net5.0\ref\Consultorio.Entities.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\bin\Debug\net5.0\Consultorio.Entities.pdb
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.AssemblyInfoInputs.cache
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.AssemblyInfo.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.csproj.CoreCompileInputs.cache
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\ref\Consultorio.Entities.dll
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.pdb

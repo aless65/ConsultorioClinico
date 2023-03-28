@@ -43,7 +43,7 @@ namespace Consultorio.API.Controllers
             var insert = _consService.InsertarCargos(item);
             return Ok(insert);
         }
-
+            
         [HttpPut("Edit")]
         public IActionResult Update(VW_tbCargos item, int id)
         {

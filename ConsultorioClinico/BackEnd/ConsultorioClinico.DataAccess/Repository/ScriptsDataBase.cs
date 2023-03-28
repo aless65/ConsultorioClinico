@@ -19,5 +19,13 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Eliminar_Cargos = "cons.UDP_tbCargos_Delete";
         public static string UDP_Encontrar_Cargos = "cons.UDP_tbCargos_Find";
         #endregion
+
+        #region Consultorios
+        public static string UDP_Listar_Consultas = "cons.UDP_tbConsultas_List";
+        public static string UDP_Insertar_Consultas = "cons.UDP_tbConsultas_Insert";
+        public static string UDP_Editar_Consultas = "cons.UDP_tbConsultas_Update";
+        public static string UDP_Eliminar_Consultas = "cons.UDP_tbConsultas_Delete";
+        public static string UDP_Encontrar_Consultas = "cons.UDP_tbCargos_Find";
+        #endregion
     }
 }

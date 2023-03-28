@@ -9170,23 +9170,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Auxiliar.Operaciones\\.nuget\\packages\\": {},
+    "C:\\Users\\LAB01\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Auxiliar.Operaciones\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
+      "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
       "projectName": "Consultorio.API",
-      "projectPath": "C:\\Users\\Auxiliar.Operaciones\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
-      "packagesPath": "C:\\Users\\Auxiliar.Operaciones\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Auxiliar.Operaciones\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\obj\\",
+      "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
+      "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Auxiliar.Operaciones\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -9201,8 +9201,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Auxiliar.Operaciones\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
-              "projectPath": "C:\\Users\\Auxiliar.Operaciones\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj"
+            "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
+              "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj"
             }
           }
         }
@@ -9275,7 +9275,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'EntityFramework 5.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net5.0'. This package may not be fully compatible with your project.",
+      "message": "El paquete \"EntityFramework 5.0.0\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \"net5.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
       "libraryId": "EntityFramework",
       "targetGraphs": [
         "net5.0"

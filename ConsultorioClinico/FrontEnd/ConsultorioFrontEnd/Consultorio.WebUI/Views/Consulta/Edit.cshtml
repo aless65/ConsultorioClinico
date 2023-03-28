@@ -1,0 +1,74 @@
+﻿@model Consultorio.WebUI.Models.ConsultaViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" id="edit">
+    <h2>Editar registro</h2>
+    <div class="d-flex justify-content-end">
+        <a href="#" id="Cancel">Regresar al index</a>
+    </div>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="cons_Id" class="control-label"></label>
+            <input asp-for="cons_Id" class="form-control" />
+            <span asp-validation-for="cons_Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="cons_Inicio" class="control-label"></label>
+            <input asp-for="cons_Inicio" class="form-control" />
+            <span asp-validation-for="cons_Inicio" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="cons_Final" class="control-label"></label>
+            <input asp-for="cons_Final" class="form-control" />
+            <span asp-validation-for="cons_Final" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="paci_Id" class="control-label"></label>
+            <input asp-for="paci_Id" class="form-control" />
+            <span asp-validation-for="paci_Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="consltro_Id" class="control-label"></label>
+            <input asp-for="consltro_Id" class="form-control" />
+            <span asp-validation-for="consltro_Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="cons_Costo" class="control-label"></label>
+            <input asp-for="cons_Costo" class="form-control" />
+            <span asp-validation-for="cons_Costo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(function () {
+
+        $('.Editar').on('click', function () {
+            var cargId = $(this).data("id");
+            var cargNombre = $(this).data("nombre");
+
+            $("#edit #carg_Id").val(cargId);
+            $("#carg_NombreEdit").val(cargNombre);
+
+            $("#edit").fadeIn('slow');
+            $(".card-body").animate({ height: $("#edit").height() + 30 }, 500);
+            $("#index").hide();
+
+        });
+    });
+</script>
+
+
