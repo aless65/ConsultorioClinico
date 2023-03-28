@@ -929,8 +929,8 @@ END
 --Procedimiento insertar consultas
 GO
 CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Insert
-	@cons_Inicio		INT,
-	@cons_Final			INT,
+	@cons_Inicio		DATETIME,
+	@cons_Final			DATETIME,
 	@paci_Id			INT,
 	@consltro_Id		INT,
 	@cons_Costo			INT,
@@ -981,8 +981,8 @@ END
 --Procedimiento editar consultas
 GO 
 CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Update
-	@cons_Id				INT,
-	@cons_Inicio			INT,
+	@cons_Id				DATETIME,
+	@cons_Inicio			DATETIME,
 	@cons_Final				INT,
 	@paci_Id				INT,
 	@consltro_Id			INT,
