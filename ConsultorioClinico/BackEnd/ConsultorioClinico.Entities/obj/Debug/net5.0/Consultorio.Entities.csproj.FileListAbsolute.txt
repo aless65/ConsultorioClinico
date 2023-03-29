@@ -56,4 +56,3 @@ C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\Co
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.dll
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\ref\Consultorio.Entities.dll
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.pdb
-C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.Entities\obj\Debug\net5.0\Consultorio.Entities.csproj.AssemblyReference.cache

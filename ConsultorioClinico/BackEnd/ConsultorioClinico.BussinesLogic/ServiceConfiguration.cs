@@ -26,6 +26,7 @@ namespace Consultorio.BussinesLogic
             service.AddScoped<MetodosRepository>();
             service.AddScoped<MedicamentosRepository>();
             service.AddScoped<RolesRepository>();
+            service.AddScoped<UsuarioRepository>();
             ConsultorioContext.BuildConnectionString(connectionString);
         }
             

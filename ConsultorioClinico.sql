@@ -1678,7 +1678,7 @@ END
 GO
 --**************Listar Usuarios**************--
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_List
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_List
 AS
 BEGIN
 SELECT * FROM acce.tbUsuarios
@@ -1686,7 +1686,7 @@ END
 
 --**************Editar usuarios**************--
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_UPDATE
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_UPDATE
 	@user_Id					INT,
 	@user_EsAdmin				BIT,
 	@role_Id					INT,
@@ -1705,7 +1705,7 @@ END
 
 --**************Eliminar usuarios**************--
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_DELETE
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_DELETE
 	@user_Id	INT
 AS
 BEGIN
@@ -1717,16 +1717,16 @@ END
 GO
 --**************UDP para vista de usuarios**************--
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_View 
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_View 
 @user_Id INT
 AS
 BEGIN
-SELECT * FROM acce.VW_acce_tbUsuarios_View WHERE user_Id = @user_Id
+SELECT * FROM acce.VW_tbUsuarios_View WHERE user_Id = @user_Id
 END
 
 --**************Vista usuarios**************--
 GO
-CREATE OR ALTER VIEW acce.VW_acce_tbUsuarios_View
+CREATE OR ALTER VIEW acce.VW_tbUsuarios_View
 AS
 SELECT t1.user_Id, t1.user_NombreUsuario, 
 t1.user_Contrasena, t1.user_EsAdmin, 

@@ -1,0 +1,55 @@
+﻿@model Consultorio.WebUI.Models.UsuariosViewModel
+
+@{
+    ViewData["Title"] = "CreateTemp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CreateTemp</h1>
+
+<h4>UsuariosViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateTemp">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="user_NombreUsuario" class="control-label"></label>
+                <input asp-for="user_NombreUsuario" class="form-control" />
+                <span asp-validation-for="user_NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="user_Contrasena" class="control-label"></label>
+                <input asp-for="user_Contrasena" class="form-control" />
+                <span asp-validation-for="user_Contrasena" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="user_EsAdmin" class="control-label"></label>
+                <input type="checkbox" asp-for="user_EsAdmin" class="form-check-input" />
+                <span asp-validation-for="user_EsAdmin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="role_Id" class="control-label"></label>
+                <select asp-for="role_Id" class="form-control" asp-items="ViewBag.role_Id">
+                    <option value="">-- Seleccione un Rol --</option>
+                </select>
+                <span asp-validation-for="role_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="empe_Id" class="control-label"></label>
+                <select asp-for="empe_Id" class="form-control" asp-items="ViewBag.emp_Id">
+                    <option value="">-- Seleccione un Empleado --</option>
+                </select>
+                <span asp-validation-for="empe_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

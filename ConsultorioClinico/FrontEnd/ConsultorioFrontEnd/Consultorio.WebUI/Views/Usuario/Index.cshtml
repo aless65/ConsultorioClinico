@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Consultorio.WebUI.Models.UsuariosViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mb-4 col-xl-8 offset-xl-2">
+    <div class="card-header">
+        <h2>Usuarios</h2>
+    </div>
+    <div class="card-body">
+        <div id="index">
+            <p>
+                <button id="New" class="btn btn-primary">Nuevo</button>
+                @*<a asp-action="Create" class="btn btn-primary">Nuevo</a>*@
+                @*<h2>@ViewBag.message</h2>*@
+            </p>
+            <table class="table table-striped thead-dark" id="DataTable">
+                <thead class="text-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.user_NombreUsuario)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.user_Contrasena)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.role_Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.empe_Id)
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.user_NombreUsuario)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.user_Contrasena)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.role_Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.empe_Id)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="_Create" model="new Consultorio.WebUI.Models.UsuariosViewModel()" />
+    </div>
+</div>
+<script>
+    $("#create").hide();
+    $("#edit").hide();
+
+    $(document).ready(function () {
+        $("#Cancel").click(function () {
+            $("#create").hide();
+            $("#index").fadeIn('slow');
+            $(".card-body").animate({ height: $("#index").height() + 30 }, 500);
+        });
+
+        $(".Cancel").click(function () {
+            $("#edit").hide();
+            $("#index").fadeIn('slow');
+            $(".card-body").animate({ height: $("#index").height() + 30 }, 500);
+        });
+    })
+
+</script>

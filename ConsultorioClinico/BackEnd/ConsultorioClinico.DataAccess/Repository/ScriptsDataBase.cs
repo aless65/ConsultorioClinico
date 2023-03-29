@@ -73,5 +73,12 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Editar_Roles = "gral.UDP_tbRoles_Update";
         public static string UDP_Eliminar_Roles = "gral.UDP_tbRoles_Delete";
         #endregion
+
+        #region Usuarios
+        public static string UDP_Listar_Usuarios = "acce.UDP_tbUsuarios_List";
+        public static string UDP_Insertar_Usuarios = "acce.UDP_InsertUsuario";
+        public static string UDP_Editar_Usuarios = "acce.UDP_tbUsuarios_UPDATE";
+        public static string UDP_Eliminar_Usuarios = "acce.UDP_tbUsuarios_DELETE";
+        #endregion
     }
 }

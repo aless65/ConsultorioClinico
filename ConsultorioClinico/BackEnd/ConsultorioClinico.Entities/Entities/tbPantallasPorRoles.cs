@@ -9,7 +9,6 @@ namespace ConsultorioClinico.Entities.Entities
     public partial class tbPantallasPorRoles
     {
         public int pantrole_Id { get; set; }
-        public string pantrole_Identificador { get; set; }
         public int role_Id { get; set; }
         public int pant_Id { get; set; }
         public int pantrole_UsuCreacion { get; set; }
