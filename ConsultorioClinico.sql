@@ -95,7 +95,7 @@ BEGIN
 	INSERT acce.tbUsuarios(user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion)
 	VALUES(@user_NombreUsuario, @password, @user_EsAdmin, @role_Id, @empe_Id, 1);
 END;
-
+GO
 
 GO
 EXEC acce.UDP_InsertUsuario 'admin', '123', 1, 1, 1;
@@ -1674,4 +1674,108 @@ AS
 BEGIN
 	SELECT * FROM cons.VW_tbConsultas
 	WHERE paci_Id = @paci_Id
+END
+GO
+--**************Listar Usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_List
+AS
+BEGIN
+SELECT * FROM acce.tbUsuarios
+END
+
+--**************Editar usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_UPDATE
+	@user_Id					INT,
+	@user_EsAdmin				BIT,
+	@role_Id					INT,
+	@empe_Id					INT,
+	@user_UsuModificacion		INT
+AS
+BEGIN
+	UPDATE acce.tbUsuarios
+	SET user_EsAdmin = @user_EsAdmin,
+		role_Id = @role_Id,
+		empe_Id = @empe_Id,
+		user_UsuModificacion = @user_UsuModificacion,
+		user_FechaModificacion = GETDATE()
+	WHERE user_Id = @user_Id
+END
+
+--**************Eliminar usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_DELETE
+	@user_Id	INT
+AS
+BEGIN
+	UPDATE acce.tbUsuarios
+	SET user_Estado = 0
+	WHERE user_Id = @user_Id
+END
+
+GO
+--**************UDP para vista de usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_acce_tbUsuarios_View 
+@user_Id INT
+AS
+BEGIN
+SELECT * FROM acce.VW_acce_tbUsuarios_View WHERE user_Id = @user_Id
+END
+
+--**************Vista usuarios**************--
+GO
+CREATE OR ALTER VIEW acce.VW_acce_tbUsuarios_View
+AS
+SELECT t1.user_Id, t1.user_NombreUsuario, 
+t1.user_Contrasena, t1.user_EsAdmin, 
+t1.role_Id,t2.role_Nombre, t1.empe_Id,(SELECT t3.empe_Nombres + ' '+ empe_Apellido) AS empe_NombreCompleto, 
+t1.user_UsuCreacion, t4.user_NombreUsuario AS user_UsuCreacion_Nombre,t1.user_FechaCreacion, 
+t1.user_UsuModificacion,t5.user_NombreUsuario AS user_UsuModificacion_Nombre, t1.user_FechaModificacion, 
+t1.user_Estado FROM acce.tbUsuarios t1 INNER JOIN acce.tbRoles t2
+ON t1.role_Id = t2.role_Id
+INNER JOIN cons.tbEmpleados t3
+ON t3.empe_Id = t1.empe_Id 
+INNER JOIN acce.tbUsuarios t4
+ON t1.user_UsuCreacion = T4.user_Id
+LEFT JOIN acce.tbUsuarios t5
+ON t1.user_UsuModificacion = t5.user_Id
+
+--************INICIAR SESIÓN******************--
+--************Cambiar Contrasena*******************--
+GO
+CREATE OR ALTER PROCEDURE UDP_RecuperarContrasena
+	@user_NombreUsuario	NVARCHAR(100),
+	@user_Contrasena	NVARCHAR(100)
+AS
+BEGIN
+	DECLARE @user_ContrasenaEncript NVARCHAR(MAX) = HASHBYTES('SHA2_512', @user_Contrasena)
+	IF EXISTS (SELECT user_NombreUsuario FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario)
+	BEGIN
+	UPDATE acce.tbUsuarios 
+	SET user_Contrasena = @user_ContrasenaEncript
+	WHERE user_NombreUsuario = @user_NombreUsuario
+	SELECT 1
+	END
+	ELSE
+	BEGIN
+	SELECT 0
+	END
+END
+
+--**************Login**************--
+GO
+CREATE OR ALTER PROCEDURE UDP_Login
+	@user_NombreUsuario	NVARCHAR(100),
+	@user_Contrasena	NVARCHAR(100)
+AS
+BEGIN
+	DECLARE @user_ContrasenaEncript NVARCHAR(MAX) = HASHBYTES('SHA2_512', @user_Contrasena)
+
+	SELECT user_NombreUsuario,[empe_Nombres], [empe_Apellido], [role_Id], [user_id],user_EsAdmin,t1.empe_Id
+	FROM [acce].[tbUsuarios] T1 INNER JOIN [cons].[tbEmpleados] T2
+	ON T1.empe_Id = T2.empe_Id
+	WHERE [user_NombreUsuario] = @user_NombreUsuario
+	AND [user_Contrasena] = @user_ContrasenaEncript
 END
