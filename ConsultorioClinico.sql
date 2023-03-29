@@ -902,7 +902,8 @@ CREATE OR ALTER VIEW cons.VW_tbConsultas
 AS
 	SELECT [cons_Id], 
 		   [cons_Inicio], 
-		   [cons_Final], 
+		   [cons_Final],
+		   (CONVERT(varchar(19), cons_Final, 120) + ' ' + T2.consltro_Nombre) AS cons_DropDown,
 		   T1.[consltro_Id], 
 		   T2.consltro_Nombre,
 		   T1.paci_Id,
@@ -1410,18 +1411,43 @@ FROM [cons].[tbFacturas] T1 LEFT JOIN [cons].[tbFacturasDetalles] T2
 ON T1.[fact_Id] = T2.[fact_Id]
 
 
---GO
---CREATE OR ALTER PROCEDURE cons.tbFacturas_Insert
---	@fact_Id				INT, 
---	@cons_Id				INT, 
---	@medi_Id				INT, 
---	@factdeta_Precio		DECIMAL(18,2), 
---	@factdeta_Cantidad		INT, 
---	@factdeta_UsuCreacion	INT
---AS
---BEGIN
-	
---END
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturasDetalles_Insert
+	@fact_Id				INT, 
+	@cons_Id				INT, 
+	@medi_Id				INT, 
+	@factdeta_Cantidad		INT, 
+	@factdeta_UsuCreacion	INT
+AS
+BEGIN
+	DECLARE @precio DECIMAL(18,2)
+
+	IF @cons_Id > 0
+		BEGIN
+			SET @precio = (SELECT cons_Costo FROM [cons].[tbConsultas] WHERE cons_Id = 1)
+
+			SELECT 'JEJE'
+		END
+	ELSE
+		BEGIN
+			SET @precio = (SELECT [medi_PrecioVenta] FROM [cons].[tbMedicamentos] WHERE medi_Id = @medi_Id)
+		END
+
+	INSERT INTO [cons].[tbFacturasDetalles](fact_Id, 
+											cons_Id, 
+											medi_Id, 
+											factdeta_Precio, 
+											factdeta_Cantidad, 
+											factdeta_UsuCreacion, 
+											factdeta_FechaCreacion)
+	VALUES (@fact_Id,
+			@cons_Id,
+			@medi_Id,
+			@precio,
+			@factdeta_Cantidad,
+			@factdeta_UsuCreacion,
+			GETDATE())
+END
 
 /*DROPDOWNLISTS*/
 
@@ -1463,22 +1489,6 @@ BEGIN
 	SELECT * FROM cons.VW_tbPacientes
 END
 
-----Empleados
---GO
---CREATE OR ALTER VIEW cons.VW_tbEmpleados
---AS
---	SELECT ([empe_Nombres] + ' ' + [empe_Apellido]) AS empe_NombreCompleto,
---			empe_Id
---	FROM [cons].tbEmpleados
---	WHERE empe_Estado = 1
-
---GO
---CREATE OR ALTER PROCEDURE cons.UDP_tbEmpleados_DDL
---AS
---BEGIN 
---	SELECT * FROM cons.VW_tbEmpleados
---END
-
 --Métodos de pago
 GO
 CREATE OR ALTER VIEW cons.VW_tbMetodosPago
@@ -1493,4 +1503,29 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbMetodosPago_DDL
 AS
 BEGIN 
 	SELECT * FROM cons.VW_tbMetodosPago
+END
+
+--Medicamentos 
+GO
+CREATE OR ALTER VIEW cons.VW_tbMedicamentos
+AS
+	SELECT [medi_Id], [medi_Nombre], [medi_PrecioVenta]
+	FROM [cons].[tbMedicamentos]
+	WHERE [medi_Estado] = 1
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbMedicamentos_DDL
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbMedicamentos
+END
+
+--Consultas
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_DDL 
+	@paci_Id	INT
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbConsultas
+	WHERE paci_Id = @paci_Id
 END

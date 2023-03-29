@@ -50,12 +50,20 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Insertar_Facturas = "cons.tbFacturas_Insert";
         #endregion
 
+        #region Facturas Detalles
+        public static string UDP_Insertar_FacturasDetalles = "cons.tbFacturasDetalles_Insert";
+        #endregion
+
         #region Pacientes
         public static string UDP_Listar_Pacientes = "cons.UDP_tbPacientes_DDL";
         #endregion
 
         #region Metodos
         public static string UDP_Listar_Metodos = "cons.UDP_tbMetodosPago_DDL";
+        #endregion
+
+        #region Medicamentos
+        public static string UDP_Listar_Medicamentos = "cons.UDP_tbMedicamentos_DDL";
         #endregion
     }
 }
