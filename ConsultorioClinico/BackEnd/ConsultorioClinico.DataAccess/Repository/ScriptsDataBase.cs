@@ -73,5 +73,10 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Editar_Roles = "gral.UDP_tbRoles_Update";
         public static string UDP_Eliminar_Roles = "gral.UDP_tbRoles_Delete";
         #endregion
+
+        #region Roles por Pantalla
+        public static string UDP_Insertar_PantallasRoles = "acce.UDP_tbPantallasPorRoles_Insert";
+        public static string UDP_Eliminar_PantallasRoles = "acce.UDP_tbPantallasPorRoles_Delete";
+        #endregion
     }
 }

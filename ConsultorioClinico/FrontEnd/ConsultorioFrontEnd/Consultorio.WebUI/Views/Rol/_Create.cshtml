@@ -10,6 +10,7 @@
     <form asp-action="Create" id="formCreate">
         <div class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="text" asp-for="role_Id" hidden />
             <div class="form-group mt-10">
                 <label asp-for="role_Nombre" class="control-label"></label>
                 <input asp-for="role_Nombre" class="form-control" value="@ViewBag.rol" />
@@ -27,11 +28,11 @@
             <div class="accordion" id="_dm-defaultAccordion">
                 <div class="accordion-item">
                     <div class="accordion-header" id="_dm-defAccHeadingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#_dm-defAccCollapseOne" aria-expanded="false" aria-controls="_dm-defAccCollapseOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#_dm-defAccCollapseOne" aria-expanded="true" aria-controls="_dm-defAccCollapseOne">
                             Acceso
                         </button>
                     </div>
-                    <div id="_dm-defAccCollapseOne" class="accordion-collapse collapse" aria-labelledby="_dm-defAccHeadingOne" data-bs-parent="#_dm-defaultAccordion">
+                    <div id="_dm-defAccCollapseOne" class="accordion-collapse collapse show" aria-labelledby="_dm-defAccHeadingOne" data-bs-parent="#_dm-defaultAccordion">
                         <div class="accordion-body">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="6" /> Roles
@@ -48,7 +49,7 @@
                             Consultorio
                         </button>
                     </div>
-                    <div id="_dm-defAccCollapseTwo" class="accordion-collapse collapse" aria-labelledby="_dm-defAccHeadingTwo" data-bs-parent="#_dm-defaultAccordion">
+                    <div id="_dm-defAccCollapseTwo" class="accordion-collapse collapse show" aria-labelledby="_dm-defAccHeadingTwo" data-bs-parent="#_dm-defaultAccordion">
                         <div class="accordion-body">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="2" />
@@ -77,6 +78,17 @@
     </div>
 </div>
 
+@if (ViewBag.Script != null)
+{
+    <script>
+        $(document).ready(function () {
+            @Html.Raw(ViewBag.Script)
+        })
+    </script>
+
+    ViewBag.Script = null;
+}
+
 <script>
     $(document).ready(function () {
 
@@ -97,5 +109,37 @@
                 $("#formCreate").submit();
             }
         });
+
+        $('.form-check-input').click(function () {
+            if ($(this).is(':checked')) {
+                var checkboxId = $(this).attr('id');
+                $.ajax({
+                    url: '/Rol/CreatePantallaPorRol',
+                    type: 'POST',
+                    data: { pant_Id: checkboxId, role_Nombre: $("#role_Nombre").val() },
+                    success: function (response) {
+                        console.log("felicidades, te salió tu locura");
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("a seguir intentando bro");
+                    }
+                });
+            } else {
+                var checkboxId = $(this).attr('id');
+
+                $.ajax({
+                    url: '/Rol/DeletePantallaPorRol',
+                    type: 'POST',
+                    data: { pant_Id: checkboxId, role_Nombre: $("#role_Nombre").val() },
+                    success: function (response) {
+                        console.log("felicidades, te salió tu locura");
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("a seguir intentando bro");
+                    }
+                });
+            }
+        });
     });
 </script>
+

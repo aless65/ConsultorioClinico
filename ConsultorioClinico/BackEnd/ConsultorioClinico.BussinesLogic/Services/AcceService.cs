@@ -11,10 +11,12 @@ namespace Consultorio.BussinesLogic.Services
     public class AcceService
     {
         private readonly RolesRepository _rolesRepository;
+        private readonly PantallasPorRolesRepository _pantallasPorRolesRepository;
 
-        public AcceService(RolesRepository rolesRepository)
+        public AcceService(RolesRepository rolesRepository, PantallasPorRolesRepository pantallasPorRolesRepository)
         {
             _rolesRepository = rolesRepository;
+            _pantallasPorRolesRepository = pantallasPorRolesRepository;
         }
 
         #region Roles
@@ -86,6 +88,46 @@ namespace Consultorio.BussinesLogic.Services
                     return result.Conflict(delete.MessageStatus);
                 else
                     return result.SetMessage(delete.MessageStatus, ServiceResultType.Conflict);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Pantallas por Roles
+        public ServiceResult InsertarPantallasPorRoles(tbPantallasPorRoles item)
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var insert = _pantallasPorRolesRepository.Insert(item);
+
+                if (insert.MessageStatus == "Operación realizada con éxito")
+                    return result.SetMessage(insert.MessageStatus, ServiceResultType.Success);
+                else
+                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarPantallasPorRoles(tbPantallasPorRoles item)
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var delete = _pantallasPorRolesRepository.Delete(item);
+
+                if (delete.MessageStatus == "Operación realizada con éxito")
+                    return result.SetMessage(delete.MessageStatus, ServiceResultType.Success);
+                else
+                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
             }
             catch (Exception ex)
             {

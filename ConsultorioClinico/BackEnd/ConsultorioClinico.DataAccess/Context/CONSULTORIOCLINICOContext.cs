@@ -556,7 +556,6 @@ namespace Consultorio.DataAccess.Context
 
                 entity.Property(e => e.factdeta_FechaModificacion).HasColumnType("datetime");
 
-                entity.Property(e => e.factdeta_Precio).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.cons)
                     .WithMany(p => p.tbFacturasDetalles)
@@ -579,10 +578,6 @@ namespace Consultorio.DataAccess.Context
                     .HasForeignKey(d => d.factdeta_UsuModificacion)
                     .HasConstraintName("FK_tbFacturasDetalles_tbUsuarios_factdeta_UsuModificacion_user_Id");
 
-                entity.HasOne(d => d.medi)
-                    .WithMany(p => p.tbFacturasDetalles)
-                    .HasForeignKey(d => d.medi_Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<tbMedicamentos>(entity =>
@@ -806,10 +801,6 @@ namespace Consultorio.DataAccess.Context
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.pantrole_FechaModificacion).HasColumnType("datetime");
-
-                entity.Property(e => e.pantrole_Identificador)
-                    .IsRequired()
-                    .HasMaxLength(100);
 
                 entity.HasOne(d => d.pant)
                     .WithMany(p => p.tbPantallasPorRoles)

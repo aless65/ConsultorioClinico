@@ -104,5 +104,67 @@ namespace Consultorio.WebUI.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePantallaPorRol(int pant_Id, string role_Nombre)
+        {
+            PantallaPorRolViewModel item = new PantallaPorRolViewModel();
+
+            using (var httpClient = new HttpClient())
+            {
+                item.pant_Id = pant_Id;
+                item.role_Nombre = role_Nombre;
+
+                var json = JsonConvert.SerializeObject(item);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PostAsync(_baseurl + "api/PantallaPorRol/Insert", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+
+                    if (jsonObj["code"].ToString() == "200")
+                    {
+                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+                }
+            }
+
+            return Json(item);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePantallaPorRol(int pant_Id, string role_Nombre)
+        {
+            PantallaPorRolViewModel item = new PantallaPorRolViewModel();
+
+            using (var httpClient = new HttpClient())
+            {
+                item.pant_Id = pant_Id;
+                item.role_Nombre = role_Nombre;
+
+                var json = JsonConvert.SerializeObject(item);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PutAsync(_baseurl + "api/PantallaPorRol/Delete", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+
+                    if (jsonObj["code"].ToString() == "200")
+                    {
+                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
+                        TempData["script"] = script;
+                    }
+                }
+            }
+
+            return Json(item);
+        }
     }
 }

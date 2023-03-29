@@ -10,6 +10,8 @@ namespace Consultorio.API.Models
     {
         [Display(Name = "Id")]
         public int role_Id { get; set; }
+
+        [Display(Name = "Nombre")]
         public string role_Nombre { get; set; }
         public int role_UsuCreacion { get; set; }
         public DateTime role_FechaCreacion { get; set; }

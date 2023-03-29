@@ -36,14 +36,11 @@ namespace Consultorio.WebUI.Models
         [Display(Name = "Consulta")]
         public int? cons_Id { get; set; }
 
-        [Display(Name = "Medicamento")]
-        public int? medi_Id { get; set; }
+        [Display(Name = "Consulta")]
+        public int? cons_Nombre { get; set; }
 
-        [Display(Name = "Precio")]
-        public decimal? factdeta_Precio { get; set; }
-
-        [Display(Name = "Cantidad")]
-        public int? factdeta_Cantidad { get; set; }
+        [Display(Name = "Costo")]
+        public decimal cons_Costo { get; set; }
         public int? factdeta_UsuCreacion { get; set; }
         public DateTime? factdeta_FechaCreacion { get; set; }
     }

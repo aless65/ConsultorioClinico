@@ -8,11 +8,6 @@ namespace ConsultorioClinico.Entities.Entities
 {
     public partial class tbMedicamentos
     {
-        public tbMedicamentos()
-        {
-            tbFacturasDetalles = new HashSet<tbFacturasDetalles>();
-        }
-
         public int medi_Id { get; set; }
         public string medi_Nombre { get; set; }
         public int prov_Id { get; set; }
@@ -28,6 +23,5 @@ namespace ConsultorioClinico.Entities.Entities
         public virtual tbUsuarios medi_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios medi_UsuModificacionNavigation { get; set; }
         public virtual tbProveedores prov { get; set; }
-        public virtual ICollection<tbFacturasDetalles> tbFacturasDetalles { get; set; }
     }
 }

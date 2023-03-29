@@ -12,7 +12,7 @@ GO
 
 --************CREACION TABLA ROLES******************--
 CREATE TABLE acce.tbRoles(
-	role_Id					INT IDENTITY,
+	role_Id					INT IDENTITY,cons_Costo
 	role_Nombre				NVARCHAR(100) NOT NULL,
 	role_UsuCreacion		INT NOT NULL,
 	role_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_role_FechaCreacion DEFAULT(GETDATE()),
@@ -665,9 +665,6 @@ CREATE TABLE cons.tbFacturasDetalles(
 	factdeta_Id					INT IDENTITY,
 	fact_Id						INT NOT NULL,
 	cons_Id						INT,
-	medi_Id						INT,
-	factdeta_Precio				DECIMAL(18,2),
-	factdeta_Cantidad			INT,
 	factdeta_UsuCreacion		INT NOT NULL,
 	factdeta_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_factdeta_FechaCreacion DEFAULT(GETDATE()),
 	factdeta_UsuModificacion	INT,
@@ -678,8 +675,7 @@ CREATE TABLE cons.tbFacturasDetalles(
 	CONSTRAINT FK_tbFacturasDetalles_tbUsuarios_factdeta_UsuCreacion_user_Id		FOREIGN KEY(factdeta_UsuCreacion)	   REFERENCES acce.tbUsuarios(user_Id),
 	CONSTRAINT FK_tbFacturasDetalles_tbUsuarios_factdeta_UsuModificacion_user_Id	FOREIGN KEY(factdeta_UsuModificacion)  REFERENCES acce.tbUsuarios(user_Id),
 	CONSTRAINT FK_tbFacturasDetalles_tbFacturas_fact_Id								FOREIGN KEY(fact_Id)				   REFERENCES cons.tbFacturas(fact_Id),
-	CONSTRAINT FK_tbFacturasDetalles_tbConsultas_cons_Id							FOREIGN KEY(cons_Id)				   REFERENCES cons.tbConsultas(cons_Id),
-	CONSTRAINT FK_tbFacturasDetalles_tbMedicamentos_medi_Id							FOREIGN KEY(medi_Id)			       REFERENCES cons.tbMedicamentos(medi_Id)
+	CONSTRAINT FK_tbFacturasDetalles_tbConsultas_cons_Id							FOREIGN KEY(cons_Id)				   REFERENCES cons.tbConsultas(cons_Id)
 );
 
 /*Procedimientos de login y restablecimiento de contraseña*/
@@ -1366,27 +1362,27 @@ BEGIN
 	SELECT SCOPE_IDENTITY()
 END
 
-GO
-CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_ReducirStock
-ON cons.tbFacturasDetalles
-AFTER INSERT
-AS
-BEGIN
-	UPDATE cons.tbMedicamentos
-	SET [medi_Stock] = [medi_Stock] - (SELECT [factdeta_Cantidad] FROM inserted)
-	WHERE [medi_Id] = (SELECT [medi_Id] FROM inserted)
-END
+--GO
+--CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_ReducirStock
+--ON cons.tbFacturasDetalles
+--AFTER INSERT
+--AS
+--BEGIN
+--	UPDATE cons.tbMedicamentos
+--	SET [medi_Stock] = [medi_Stock] - (SELECT [factdeta_Cantidad] FROM inserted)
+--	WHERE [medi_Id] = (SELECT [medi_Id] FROM inserted)
+--END
 
-GO
-CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_AumentarStock
-ON cons.tbFacturasDetalles
-AFTER DELETE
-AS
-BEGIN
-	UPDATE cons.tbMedicamentos
-	SET [medi_Stock] = [medi_Stock] + (SELECT [factdeta_Cantidad] FROM deleted)
-	WHERE [medi_Id] = (SELECT [medi_Id] FROM deleted)
-END
+--GO
+--CREATE OR ALTER TRIGGER cons.trg_tbFacturasDetalles_AumentarStock
+--ON cons.tbFacturasDetalles
+--AFTER DELETE
+--AS
+--BEGIN
+--	UPDATE cons.tbMedicamentos
+--	SET [medi_Stock] = [medi_Stock] + (SELECT [factdeta_Cantidad] FROM deleted)
+--	WHERE [medi_Id] = (SELECT [medi_Id] FROM deleted)
+--END
 
 --Vista masiva para facturas y facturas detalles
 GO
@@ -1394,8 +1390,8 @@ CREATE OR ALTER VIEW cons.VW_tbFacturas_tbFacturasDetalles
 AS
 SELECT 1.fact_Id, 
 	   fact_Fecha, 
-	   paci_Id, 
-	   empe_Id, 
+	   T1.paci_Id, 
+	   T1.empe_Id, 
 	   meto_Id, 
 	   fact_UsuCreacion, 
 	   fact_FechaCreacion, 
@@ -1403,50 +1399,31 @@ SELECT 1.fact_Id,
 	   fact_FechaModificacion, 
 	   fact_Estado,
 	   factdeta_Id, 
-	   cons_Id, 
-	   medi_Id, 
-	   factdeta_Precio, 
-	   factdeta_Cantidad, 
+	   T2.cons_Id, 
+	   T3.cons_Costo,
+	   (CONVERT(varchar(19), cons_Final, 120) + ' ' + T4.consltro_Nombre) AS cons_Nombre,
 	   factdeta_UsuCreacion, 
 	   factdeta_FechaCreacion
 FROM [cons].[tbFacturas] T1 LEFT JOIN [cons].[tbFacturasDetalles] T2
-ON T1.[fact_Id] = T2.[fact_Id]
+ON T1.[fact_Id] = T2.[fact_Id] INNER JOIN cons.tbConsultas T3
+ON T2.cons_Id = T3.cons_Id INNER JOIN cons.tbConsultorios T4
+ON T3.consltro_Id = T4.consltro_Id
 
 
 GO
 CREATE OR ALTER PROCEDURE cons.tbFacturasDetalles_Insert
 	@fact_Id				INT, 
-	@cons_Id				INT, 
-	@medi_Id				INT, 
-	@factdeta_Cantidad		INT, 
+	@cons_Id				INT,
 	@factdeta_UsuCreacion	INT
 AS
 BEGIN
-	DECLARE @precio DECIMAL(18,2)
-
-	IF @cons_Id > 0
-		BEGIN
-			SET @precio = (SELECT cons_Costo FROM [cons].[tbConsultas] WHERE cons_Id = 1)
-
-			SELECT 'JEJE'
-		END
-	ELSE
-		BEGIN
-			SET @precio = (SELECT [medi_PrecioVenta] FROM [cons].[tbMedicamentos] WHERE medi_Id = @medi_Id)
-		END
 
 	INSERT INTO [cons].[tbFacturasDetalles](fact_Id, 
 											cons_Id, 
-											medi_Id, 
-											factdeta_Precio, 
-											factdeta_Cantidad, 
 											factdeta_UsuCreacion, 
 											factdeta_FechaCreacion)
 	VALUES (@fact_Id,
 			@cons_Id,
-			@medi_Id,
-			@precio,
-			@factdeta_Cantidad,
 			@factdeta_UsuCreacion,
 			GETDATE())
 END
@@ -1587,13 +1564,44 @@ END
 --Insertar roles por pantalla
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert
-	@role_Id				INT,
+	@role_Nombre			NVARCHAR(100),
 	@pant_Id				INT,
 	@pantrole_UsuCreacion	INT
 AS
 BEGIN
-	INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
-	VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
+	BEGIN TRY
+		DECLARE @role_Id INT = (SELECT role_Id FROM acce.tbRoles WHERE role_Nombre = @role_Nombre)
+
+		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
+		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
+
+		SELECT 'Operación realizada con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Eliminar roles por pantalla
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete
+	@role_Nombre			NVARCHAR(100),
+	@pant_Id				INT
+AS
+BEGIN
+	BEGIN TRY
+		DECLARE @role_Id INT = (SELECT role_Id FROM acce.tbRoles WHERE role_Nombre = @role_Nombre)
+
+		DELETE 
+		FROM acce.tbPantallasPorRoles
+		WHERE role_Id = @role_Id
+		AND pant_Id = @pant_Id
+
+		SELECT 'Operación realizada con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
 END
 
 /*DROPDOWNLISTS*/

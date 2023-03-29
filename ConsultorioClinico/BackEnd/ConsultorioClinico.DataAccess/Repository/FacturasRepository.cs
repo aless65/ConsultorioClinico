@@ -50,8 +50,6 @@ namespace Consultorio.DataAccess.Repository
             var parametros = new DynamicParameters();
             parametros.Add("@fact_Id", item.fact_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@cons_Id", item.cons_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@medi_Id", item.medi_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@factdeta_Cantidad", item.factdeta_Cantidad, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@factdeta_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
             return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Insertar_FacturasDetalles, parametros, commandType: CommandType.StoredProcedure);
