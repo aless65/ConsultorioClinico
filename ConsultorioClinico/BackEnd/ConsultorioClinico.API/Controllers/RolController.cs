@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Consultorio.BussinesLogic.Services;
+using ConsultorioClinico.Entities.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,6 +28,27 @@ namespace Consultorio.API.Controllers
         {
             var list = _acceService.ListaRoles();
             return Ok(list);
+        }
+
+        [HttpPost("Insert")]
+        public IActionResult Insert(VW_tbRoles item)
+        {
+            var insert = _acceService.InsertarRoles(item);
+            return Ok(insert);
+        }
+
+        [HttpPut("Edit")]
+        public IActionResult Update(VW_tbRoles item, int id)
+        {
+            var update = _acceService.EditarRoles(item, id);
+            return Ok(update);
+        }
+
+        [HttpPut("Delete")]
+        public IActionResult Delete(int id)
+        {
+            var delete = _acceService.EliminarRoles(id);
+            return Ok(delete);
         }
     }
 }

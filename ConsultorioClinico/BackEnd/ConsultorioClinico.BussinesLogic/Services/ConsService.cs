@@ -17,9 +17,10 @@ namespace Consultorio.BussinesLogic.Services
         private readonly FacturasRepository _facturasRepository;
         private readonly PacientesRepository _pacientesRepository;
         private readonly MetodosRepository _metodosRepository;
+        private readonly MedicamentosRepository _medicamentosRepository;
 
         public ConsService(CargosRepository cargosRepository, ConsultasRepository consultasRepository, EmpleadosRepository empleadosRepository, ClinicasRepository clinicasRepository,
-                           FacturasRepository facturasRepository, PacientesRepository pacientesRepository, MetodosRepository metodosRepository)
+                           FacturasRepository facturasRepository, PacientesRepository pacientesRepository, MetodosRepository metodosRepository, MedicamentosRepository medicamentosRepository)
         {
             _cargosRepository = cargosRepository;
             _consultasRepository = consultasRepository;
@@ -28,6 +29,7 @@ namespace Consultorio.BussinesLogic.Services
             _facturasRepository = facturasRepository;
             _pacientesRepository = pacientesRepository;
             _metodosRepository = metodosRepository;
+            _medicamentosRepository = medicamentosRepository;
         }
         
         #region Cargos
@@ -177,85 +179,77 @@ namespace Consultorio.BussinesLogic.Services
         }
     #endregion
 
-
-
-
-
-
-
-
-
-    #region Empleados
-    public ServiceResult ListaEmpleados()
-        {
-            var result = new ServiceResult();
-            try
+        #region Empleados
+        public ServiceResult ListaEmpleados()
             {
-                var listado = _empleadosRepository.List();
-                return result.Ok(listado);
-            } 
-            catch (Exception ex)
-            {
-                return result.Error(ex);
-            }
-        }
-
-        public ServiceResult InsertarEmpleados(VW_tbEmpleados item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var insert = _empleadosRepository.Insert(item);
-                return result.Ok(insert);
-            } catch (Exception ex)
-            {
-                return result.Error(ex);
-            }
-        }
-
-        public ServiceResult EditarEmpleados(VW_tbEmpleados item, int id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var update = _empleadosRepository.Update(item, id);
-                return result.Ok(update);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex);
+                var result = new ServiceResult();
+                try
+                {
+                    var listado = _empleadosRepository.List();
+                    return result.Ok(listado);
+                } 
+                catch (Exception ex)
+                {
+                    return result.Error(ex);
+                }
             }
 
-        }
+            public ServiceResult InsertarEmpleados(VW_tbEmpleados item)
+            {
+                var result = new ServiceResult();
+                try
+                {
+                    var insert = _empleadosRepository.Insert(item);
+                    return result.Ok(insert);
+                } catch (Exception ex)
+                {
+                    return result.Error(ex);
+                }
+            }
 
-        public ServiceResult EliminarEmpleados(int id)
-        {
-            var result = new ServiceResult();
-            try
+            public ServiceResult EditarEmpleados(VW_tbEmpleados item, int id)
             {
-                var delete = _empleadosRepository.DeleteConfirmed(id);
-                return result.Ok(delete);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex);
-            }
-        }
+                var result = new ServiceResult();
+                try
+                {
+                    var update = _empleadosRepository.Update(item, id);
+                    return result.Ok(update);
+                }
+                catch (Exception ex)
+                {
+                    return result.Error(ex);
+                }
 
-        public ServiceResult FindEmpleado(int id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var encontrar = _empleadosRepository.find(id);
-                return result.Ok(encontrar);
             }
-            catch (Exception ex)
+
+            public ServiceResult EliminarEmpleados(int id)
             {
-                return result.Error(ex);
+                var result = new ServiceResult();
+                try
+                {
+                    var delete = _empleadosRepository.DeleteConfirmed(id);
+                    return result.Ok(delete);
+                }
+                catch (Exception ex)
+                {
+                    return result.Error(ex);
+                }
             }
-        }
-        #endregion
+
+            public ServiceResult FindEmpleado(int id)
+            {
+                var result = new ServiceResult();
+                try
+                {
+                    var encontrar = _empleadosRepository.find(id);
+                    return result.Ok(encontrar);
+                }
+                catch (Exception ex)
+                {
+                    return result.Error(ex);
+                }
+            }
+            #endregion
 
         #region Clinicas
         public ServiceResult ListaClinicas()
@@ -272,6 +266,7 @@ namespace Consultorio.BussinesLogic.Services
             }
         }
         #endregion
+
         #region Facturas
         public ServiceResult ListaFacturas()
         {
@@ -285,7 +280,6 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
-
         
         public ServiceResult InsertarFacturas(VW_tbFacturas_tbFacturasDetalles item)
         {
@@ -294,6 +288,20 @@ namespace Consultorio.BussinesLogic.Services
                 var insert = _facturasRepository.Insert(item);
                 return result.SetMessage(insert.CodeStatus.ToString(), ServiceResultType.Success);
             } catch(Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarFacturasDetalles(VW_tbFacturas_tbFacturasDetalles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var insert = _facturasRepository.InsertDetalles(item);
+                return result.Ok(insert);
+            }
+            catch (Exception ex)
             {
                 return result.Error(ex.Message);
             }
@@ -331,7 +339,22 @@ namespace Consultorio.BussinesLogic.Services
             }
         }
 
-        
+        #endregion
+
+        #region Medicamentos
+        public ServiceResult ListaMedicamentos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _medicamentosRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
         #endregion
     }
 }

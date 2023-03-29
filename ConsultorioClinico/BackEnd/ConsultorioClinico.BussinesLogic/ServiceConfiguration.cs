@@ -18,13 +18,14 @@ namespace Consultorio.BussinesLogic
             service.AddScoped<CargosRepository>();
             service.AddScoped<ConsultasRepository>();
             service.AddScoped<RolesRepository>();
-
             service.AddScoped<EmpleadosRepository>();
             service.AddScoped<EstadosCivilesRepository>();
             service.AddScoped<ClinicasRepository>();
             service.AddScoped<FacturasRepository>();
             service.AddScoped<PacientesRepository>();
             service.AddScoped<MetodosRepository>();
+            service.AddScoped<MedicamentosRepository>();
+            service.AddScoped<RolesRepository>();
             ConsultorioContext.BuildConnectionString(connectionString);
         }
             

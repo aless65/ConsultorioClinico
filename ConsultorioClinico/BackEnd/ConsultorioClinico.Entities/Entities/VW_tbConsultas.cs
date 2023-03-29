@@ -11,6 +11,7 @@ namespace ConsultorioClinico.Entities.Entities
         public int cons_Id { get; set; }
         public DateTime cons_Inicio { get; set; }
         public DateTime cons_Final { get; set; }
+        public string cons_DropDown { get; set; }
         public int consltro_Id { get; set; }
         public string consltro_Nombre { get; set; }
         public int paci_Id { get; set; }

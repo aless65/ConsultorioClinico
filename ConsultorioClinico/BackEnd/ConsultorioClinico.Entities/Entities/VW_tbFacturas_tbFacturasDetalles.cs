@@ -8,7 +8,7 @@ namespace ConsultorioClinico.Entities.Entities
 {
     public partial class VW_tbFacturas_tbFacturasDetalles
     {
-        public int fact_Id { get; set; }
+        public decimal fact_Id { get; set; }
         public DateTime fact_Fecha { get; set; }
         public int paci_Id { get; set; }
         public int empe_Id { get; set; }

@@ -32,5 +32,12 @@ namespace Consultorio.API.Controllers
             var insert = _consService.InsertarFacturas(item);
             return Ok(insert);
         }
+
+        [HttpPost("InsertDetalles")]
+        public IActionResult InsertDetalles(VW_tbFacturas_tbFacturasDetalles item)
+        {
+            var insert = _consService.InsertarFacturasDetalles(item);
+            return Ok(insert);
+        }
     }
 }
