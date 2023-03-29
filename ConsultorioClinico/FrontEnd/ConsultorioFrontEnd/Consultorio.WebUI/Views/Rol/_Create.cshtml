@@ -1,0 +1,101 @@
+﻿@model Consultorio.WebUI.Models.RolViewModel
+
+
+
+<div class="row" id="create">
+    <h2>Nuevo registro</h2>
+    <div class="d-flex justify-content-end">
+        <a href="#" id="Cancel">Regresar</a>
+    </div>
+    <form asp-action="Create" id="formCreate">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mt-10">
+                <label asp-for="role_Nombre" class="control-label"></label>
+                <input asp-for="role_Nombre" class="form-control" value="@ViewBag.rol" />
+                <span asp-validation-for="role_Nombre" id="nombreCreateValidation" class="text-danger" hidden>El campo es obligatorio</span>
+            </div>
+            <div class="form-group mt-3 mb-2">
+                <input type="button" id="enviarCrear" value="Asignar pantallas" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-6">
+            <!-- Default Accordion -->
+            <div class="accordion" id="_dm-defaultAccordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" id="_dm-defAccHeadingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#_dm-defAccCollapseOne" aria-expanded="false" aria-controls="_dm-defAccCollapseOne">
+                            Acceso
+                        </button>
+                    </div>
+                    <div id="_dm-defAccCollapseOne" class="accordion-collapse collapse" aria-labelledby="_dm-defAccHeadingOne" data-bs-parent="#_dm-defaultAccordion">
+                        <div class="accordion-body">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="6" /> Roles
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="5" /> Usuarios
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" id="_dm-defAccHeadingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#_dm-defAccCollapseTwo" aria-expanded="false" aria-controls="_dm-defAccCollapseTwo">
+                            Consultorio
+                        </button>
+                    </div>
+                    <div id="_dm-defAccCollapseTwo" class="accordion-collapse collapse" aria-labelledby="_dm-defAccHeadingTwo" data-bs-parent="#_dm-defaultAccordion">
+                        <div class="accordion-body">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="2" />
+                                <label for="2" class="form-check-label">
+                                    Facturas
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="1" /> Consultas
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="3" /> Cargos
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="4" /> Empleados
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END : Default Accordion -->
+        </div>
+    </div>
+    <div class="form-group mt-3 mb-2">
+        <input type="button" value="Finalizar" class="btn btn-primary" />
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#New').on('click', function () {
+
+            $("#nombreCreateValidation").prop('hidden', true);
+
+            $("#create").fadeIn('slow');
+            $(".card-body").animate({ height: $("#create").height() + 35 }, 500);
+            $("#index").hide();
+        });
+
+        $("#enviarCrear").click(function () {
+            if ($("#role_Nombre").val() == "") {
+                $("#nombreCreateValidation").prop('hidden', false);
+            } else {
+                $("#nombreCreateValidation").prop('hidden', true);
+                $("#formCreate").submit();
+            }
+        });
+    });
+</script>

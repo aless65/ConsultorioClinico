@@ -27,6 +27,9 @@ GO
 CREATE TABLE acce.tbPantallas(
 	pant_Id					INT IDENTITY,
 	pant_Nombre				NVARCHAR(100) NOT NULL,
+	pant_Url				NVARCHAR(300) NOT NULL,
+	pant_Menu				NVARCHAR(300) NOT NULL,
+	pant_HtmlId				NVARCHAR(80) NOT NULL,
 	pant_UsuCreacion		INT NOT NULL,
 	pant_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_pant_FechaCreacion DEFAULT(GETDATE()),
 	pant_UsuModificacion	INT,
@@ -36,24 +39,18 @@ CREATE TABLE acce.tbPantallas(
 );
 GO
 
-INSERT INTO acce.tbPantallas(pant_Nombre, pant_UsuCreacion)
-VALUES ('Usuarios', 1),
-       ('Departamentos', 1),
-	   ('Municipios', 1),
-	   ('Categorías', 1),
-	   ('Clientes', 1),
-	   ('Empleados', 1),
-	   ('Facturas', 1),
-	   ('Facturas detalles', 1),
-	   ('Métodos de pago', 1),
-	   ('Productos', 1),
-	   ('Proveedores', 1)
+INSERT INTO acce.tbPantallas(pant_Nombre, pant_Url, pant_Menu, pant_HtmlId, pant_UsuCreacion)
+VALUES ('Consultas', 'Consulta/Index', 'Consultorio', 'consultasItem', 1),
+       ('Facturas', 'Factura/Index', 'Consultorio', 'facturasItem', 1),
+	   ('Cargos', 'Cargo/Index', 'Consultorio', 'cargosItem',1),
+	   ('Empleados', 'Empleado/Index', 'Consultorio', 'empleadosItem', 1),
+	   ('Usuarios', 'Usuario/Index', 'Seguridad', 'usuariosItem', 1),
+	   ('Roles', 'Rol/Index', 'Seguridad', 'rolesItem', 1)
 
 
 --***********CREACION TABLA ROLES/PANTALLA*****************---
 CREATE TABLE acce.tbPantallasPorRoles(
 	pantrole_Id					INT IDENTITY,
-	pantrole_Identificador		NVARCHAR(100) NOT NULL,
 	role_Id						INT NOT NULL,
 	pant_Id						INT NOT NULL,
 	pantrole_UsuCreacion		INT NOT NULL,
@@ -1449,8 +1446,152 @@ BEGIN
 			GETDATE())
 END
 
-/*DROPDOWNLISTS*/
 
+/*Procedimientos roles y roles por pantalla*/
+GO
+CREATE OR ALTER VIEW acce.VW_tbRoles
+AS
+	SELECT T1.role_Id, 
+		   role_Nombre, 
+		   role_UsuCreacion,
+		   T2.user_NombreUsuario AS role_UsuCreacionNombre,
+		   role_FechaCreacion, 
+		   role_UsuModificacion, 
+		   T3.user_NombreUsuario AS role_UsuModificacionNombre,
+		   role_FechaModificacion
+	FROM [acce].[tbRoles] T1 INNER JOIN [acce].[tbUsuarios] T2
+	ON T1.role_UsuCreacion = T2.user_Id LEFT JOIN [acce].[tbUsuarios] T3
+	ON T1.role_UsuModificacion = T3.user_Id
+	WHERE role_Estado = 1
+
+--Listar roles
+GO
+CREATE OR ALTER PROCEDURE gral.UDP_tbRoles_List
+AS
+BEGIN
+	SELECT * FROM acce.VW_tbRoles
+END
+
+--Insertar roles
+GO
+CREATE OR ALTER PROCEDURE gral.UDP_tbRoles_Insert
+	@role_Nombre			NVARCHAR(100),
+	@role_UsuCreacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT role_Nombre 
+					   FROM acce.tbRoles 
+					   WHERE role_Nombre = @role_Nombre)
+			BEGIN			
+				INSERT INTO acce.tbRoles(role_Nombre, role_UsuCreacion)
+				VALUES(@role_Nombre, @role_UsuCreacion)
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE IF EXISTS (SELECT role_Nombre 
+					    FROM acce.tbRoles 
+					    WHERE role_Nombre = @role_Nombre
+						AND role_Estado = 0)
+			BEGIN
+				UPDATE acce.tbRoles 
+				SET role_Estado = 1
+				WHERE role_Nombre = @role_Nombre
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE
+			SELECT 'Ya existe un rol con este nombre'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Update roles
+GO
+CREATE OR ALTER PROCEDURE gral.UDP_tbRoles_Update
+	@role_Id				INT,
+	@role_Nombre			NVARCHAR(100),
+	@role_UsuModificacion	INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT role_Id FROM acce.tbRoles WHERE role_Id = @role_Id)
+			BEGIN 
+				SELECT 'El registro que intenta editar no existe'
+			END
+		ELSE
+			BEGIN
+				IF NOT EXISTS (SELECT role_Nombre 
+					   FROM acce.tbRoles 
+					   WHERE role_Nombre = @role_Nombre
+					   AND role_Id != @role_Id)
+					BEGIN
+						UPDATE acce.tbRoles 
+						SET role_Nombre = @role_Nombre,
+							role_UsuModificacion = @role_UsuModificacion,
+							role_FechaModificacion = GETDATE()
+						WHERE role_Id = @role_Id
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE IF EXISTS (SELECT role_Nombre 
+								FROM acce.tbRoles 
+								WHERE role_Estado = 0
+								AND role_Nombre = @role_Nombre)
+					BEGIN
+						UPDATE acce.tbRoles 
+						SET role_Estado = 1
+						WHERE role_Nombre = @role_Nombre
+
+						SELECT 'El registro ha sido editado con éxito'
+					END
+				ELSE
+					SELECT 'Ya existe un rol con este nombre'
+			END
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Eliminar roles
+GO
+CREATE OR ALTER PROCEDURE gral.UDP_tbRoles_Delete
+	@role_Id				INT
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT role_Id FROM acce.tbRoles  WHERE role_Id = @role_Id)
+			BEGIN
+				SELECT 'El registro que intenta eliminar no existe'
+			END
+		ELSE
+			UPDATE acce.tbRoles 
+			SET role_Estado = 0
+			WHERE role_Id = @role_Id
+
+			SELECT 'El registro ha sido eliminado con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Insertar roles por pantalla
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert
+	@role_Id				INT,
+	@pant_Id				INT,
+	@pantrole_UsuCreacion	INT
+AS
+BEGIN
+	INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
+	VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
+END
+
+/*DROPDOWNLISTS*/
 --Estados civiles
 GO
 CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_List

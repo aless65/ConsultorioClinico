@@ -90,6 +90,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[acce].[VW_tbRoles]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[cons].[VW_tbCargos]",
          "ObjectType": 3
       },
@@ -126,7 +130,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-EEOQVVU\\SQLEXPRESS.CONSULTORIOCLINICO",
+   "UiHint": "DESKTOP-BPGLHI0\\SQLEXPRESSLOCAL.CONSULTORIOCLINICO",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,

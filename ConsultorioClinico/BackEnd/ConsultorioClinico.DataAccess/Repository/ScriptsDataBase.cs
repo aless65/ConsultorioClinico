@@ -13,6 +13,7 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Insertar_Departamentos = "gral.UDP_tbDepartamentos_Insert";
         public static string UDP_Listar_Municipios = "gral.UDP_tbMunicipios_ListadoDepa";
         #endregion
+
         #region Cargos
         public static string UDP_Listar_Cargos = "cons.UDP_tbCargos_List";
         public static string UDP_Insertar_Cargos = "cons.UDP_tbCargos_Insert";
@@ -64,6 +65,13 @@ namespace Consultorio.DataAccess.Repository
 
         #region Medicamentos
         public static string UDP_Listar_Medicamentos = "cons.UDP_tbMedicamentos_DDL";
+        #endregion
+
+        #region Roles
+        public static string UDP_Listar_Roles = "gral.UDP_tbRoles_List";
+        public static string UDP_Insertar_Roles = "gral.UDP_tbRoles_Insert";
+        public static string UDP_Editar_Roles = "gral.UDP_tbRoles_Update";
+        public static string UDP_Eliminar_Roles = "gral.UDP_tbRoles_Delete";
         #endregion
     }
 }
