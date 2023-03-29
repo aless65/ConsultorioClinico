@@ -53,22 +53,4 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-<script>
-    $(document).ready(function () {
-
-        $('.Editar').on('click', function () {
-            var cargId = $(this).data("id");
-            var cargNombre = $(this).data("nombre");
-
-            $("#edit #carg_Id").val(cargId);
-            $("#carg_NombreEdit").val(cargNombre);
-
-            $("#edit").fadeIn('slow');
-            $(".card-body").animate({ height: $("#edit").height() + 30 }, 500);
-            $("#index").hide();
-
-        });
-    });
-</script>
-
 

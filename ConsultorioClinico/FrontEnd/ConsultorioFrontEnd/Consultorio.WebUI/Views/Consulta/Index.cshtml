@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<Consultorio.WebUI.Models.ConsultaViewModel>
 
-<div class="card">
+<div class="card mb-4 col-xl-8 offset-xl-2">
     <div class="card-header">
         <h2>Consultas</h2>
     </div>
     <div class="card-body">
         <div id="index">
             <p>
-                <a asp-action="Create">Create New</a>
+                <button id="New" class="btn btn-primary">Nuevo</button>
+                @*<a id="New" asp-action="Create">Create New</a>*@
 
             </p>
             <table class="table table-striped thead-dark" id="DataTable">
@@ -57,10 +58,10 @@
                                 @Html.DisplayFor(modelItem => item.cons_Costo)
                             </td>
                             <td>
-                                <button class="btn btn-outline-warning Editar" data-id="@item.cons_Id">
+                                <button class="btn btn-outline-warning Editar" data-id="@item.cons_Id" data-Inicio="@item.cons_Inicio" data-Final="@item.cons_Final" data-Paci="@item.paci_Id" data-Consltro="@item.consltro_Id" data-Costo="@item.cons_Costo">
                                     Editar
                                 </button> |
-                                @Html.ActionLink("Details", "Details", new { id = item.cons_Id }) |
+                                @Html.ActionLink("Detalles", "Details", new { id = item.cons_Id }, new { @class = "btn btn-outline-dark" }) |
                                 <button class="btn btn-outline-danger Borrar" data-id="@item.cons_Id">
                                     Eliminar
                                 </button>
@@ -70,6 +71,27 @@
                 </tbody>
             </table>
         </div>
+        <partial name="_Create" model="new Consultorio.WebUI.Models.ConsultaViewModel()" />
+        <partial name="_Edit" model="new Consultorio.WebUI.Models.ConsultaViewModel()" />
         <partial name="_Delete" />
     </div>
 </div>
+<script>
+    $("#create").hide();
+    $("#edit").hide();
+            
+    $(document).ready(function () {
+        $("#Cancel").click(function () {
+            $("#create").hide();
+            $("#index").fadeIn('slow');
+            $(".card-body").animate({ height: $("#index").height() + 30 }, 500);
+        });
+
+        $(".Cancel").click(function () {
+            $("#edit").hide();
+            $("#index").fadeIn('slow');
+            $(".card-body").animate({ height: $("#index").height() + 30 }, 500);
+        });
+    })
+
+</script>

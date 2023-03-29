@@ -132,15 +132,15 @@ namespace Consultorio.BussinesLogic.Services
         {
             var result = new ServiceResult();
 
-            try
-            {
-                var insert = _consultasRepository.Insert(item);
-                return result.Ok(insert);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex);
-            }
+            //try
+            //{
+            var insert = _consultasRepository.Insert(item);
+            return result.Ok(insert);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return result.Error(ex);
+            //}
         }
         public ServiceResult EliminarConsultas(int id)
         {

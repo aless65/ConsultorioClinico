@@ -39,10 +39,10 @@ namespace Consultorio.DataAccess.Repository
         {
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@cons_Inicio", item.cons_Inicio, DbType.Date, ParameterDirection.Input);
-            parametros.Add("@cons_Final", item.cons_Final, DbType.Date, ParameterDirection.Input);
+            parametros.Add("@cons_Inicio", item.cons_Inicio, DbType.DateTime, ParameterDirection.Input);
+            parametros.Add("@cons_Final", item.cons_Final, DbType.DateTime, ParameterDirection.Input);
             parametros.Add("@paci_Id", item.paci_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@consltro_Id", item.cons_Inicio, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@consltro_Id", item.consltro_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@cons_Costo", item.cons_Costo, DbType.Double, ParameterDirection.Input);
             parametros.Add("@cons_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
             return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Insertar_Consultas, parametros, commandType: CommandType.StoredProcedure);
@@ -63,7 +63,7 @@ namespace Consultorio.DataAccess.Repository
             parametros.Add("@cons_Final", item.cons_Final, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@paci_Id", item.paci_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@consltro_Id", item.cons_Inicio, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@cons_Costo", item.cons_Costo, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@cons_Costo", item.cons_Costo, DbType.Double, ParameterDirection.Input);
             parametros.Add("@cons_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
             return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Editar_Consultas, parametros, commandType: CommandType.StoredProcedure);

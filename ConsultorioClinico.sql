@@ -605,6 +605,11 @@ CREATE TABLE cons.tbConsultas(
 	CONSTRAINT FK_tbConsultas_tbPacientes_paci_Id						FOREIGN KEY(paci_Id)			   REFERENCES cons.tbPacientes(paci_Id),
 	CONSTRAINT FK_tbConsultas_tbConsultorios_consltro_Id				FOREIGN KEY(consltro_Id)		   REFERENCES cons.tbConsultorios(consltro_Id)
 );
+INSERT INTO cons.tbConsultas(cons_Inicio, cons_Final, paci_Id, consltro_Id, cons_Costo, cons_UsuCreacion, cons_Estado)
+VALUES	('2023-03-27', '2023-03-27', 1, 1, 800, 1, 1),
+		('2023-03-28', '2023-03-28', 1, 2, 300, 1, 1),
+		('2023-03-22', '2023-03-22', 1, 1, 900, 1, 1),
+		('2023-03-02', '2023-03-02', 1, 4, 1000, 1, 1)
 
 CREATE TABLE cons.tbMetodosPago(
 	meto_Id					INT IDENTITY,
@@ -933,7 +938,7 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Insert
 	@cons_Final			DATETIME,
 	@paci_Id			INT,
 	@consltro_Id		INT,
-	@cons_Costo			INT,
+	@cons_Costo			DECIMAL(18,2),
 	@cons_UsuCreacion	INT
 AS
 BEGIN
@@ -986,7 +991,7 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Update
 	@cons_Final				DATETIME,
 	@paci_Id				INT,
 	@consltro_Id			INT,
-	@cons_Costo				INT,
+	@cons_Costo				DECIMAL(18,2),
 	@cons_UsuModificacion	INT
 AS
 BEGIN

@@ -48,9 +48,36 @@ namespace Consultorio.WebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            using (var httpClient = new HttpClient())
+            {
+                var responsePaci = await httpClient.GetAsync(_baseurl + "api/Paciente/List");
+                //var responseEstado = await httpClient.GetAsync(_baseurl + "api/EstadoCivil/List");
 
+                if (responsePaci.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await responsePaci.Content.ReadAsStringAsync();
+                    JObject jsonObj = JObject.Parse(jsonResponse);
+                    //string message = (string)jsonObj["message"];
+
+                    //ViewBag.message = message;
+
+                    ViewBag.paci_Id = new SelectList(jsonObj["data"].ToList(), "paci_Id", "paci_NombreCompleto");
+                }
+
+                //if (responseEstado.IsSuccessStatusCode)
+                //{
+                //    var jsonResponse = await responseEstado.Content.ReadAsStringAsync();
+                //    JObject jsonObj = JObject.Parse(jsonResponse);
+                //    string message = (string)jsonObj["message"];
+
+                //    ViewBag.message = message;
+
+                //    ViewBag.estacivi_Id = new SelectList(jsonObj["data"].ToList(), "estacivi_Id", "estacivi_Nombre");
+                //}
+
+            }
             return View();
         }
 
@@ -70,6 +97,18 @@ namespace Consultorio.WebUI.Controllers
                 }
                 else
                 {
+                    var responsePaci = await httpClient.GetAsync(_baseurl + "api/Paciente/List");
+
+                    if (responsePaci.IsSuccessStatusCode)
+                    {
+                        var jsonResponse = await responsePaci.Content.ReadAsStringAsync();
+                        JObject jsonObj = JObject.Parse(jsonResponse);
+                        string message = (string)jsonObj["message"];
+
+                        ViewBag.message = message;
+
+                        ViewBag.paci_Id = new SelectList(jsonObj["data"].ToList(), "paci_Id", "paci_Nombre");
+                    }
                     return View(item);
                 }
             }

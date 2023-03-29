@@ -493,3 +493,6 @@ C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\C
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Empleado\_Delete.cshtml.g.cs
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Factura\Create.cshtml.g.cs
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Factura\Index.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Consulta\Details.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Consulta\_Create.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Consulta\_Edit.cshtml.g.cs
