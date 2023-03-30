@@ -57,6 +57,12 @@ namespace Consultorio.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            if (TempData["script"] is string script)
+            {
+                TempData.Remove("script");
+                ViewBag.Script = script;
+            }
+
             using (var httpClient = new HttpClient())
             {
                 var responseDepa = await httpClient.GetAsync(_baseurl + "api/Departamento/List");
@@ -133,19 +139,24 @@ namespace Consultorio.WebUI.Controllers
                     {
                         string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
                         TempData["script"] = script;
+
+                        return RedirectToAction("Index");
                     }
                     else if (jsonObj["code"].ToString() == "409")
                     {
                         string script = "MostrarMensajeWarning('" + ViewBag.message + "'); $('#New').click();";
                         TempData["script"] = script;
+
+                        return View(item);
                     }
                     else
                     {
                         string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
                         TempData["script"] = script;
+
+                        return View(item);
                     }
 
-                    return RedirectToAction("Index");
                 }
                 else
                 {

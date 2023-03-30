@@ -122,11 +122,11 @@
     </div>
 </div>
 
-@if (TempData["script"] != null)
+@if (ViewBag.Script != null)
 {
     <script>
         $(document).ready(function () {
-            @Html.Raw(TempData["script"])
+            @Html.Raw(ViewBag.Script)
         })
     </script>
 
