@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,11 +38,13 @@ namespace Consultorio.WebUI.Models
         public int? cons_Id { get; set; }
 
         [Display(Name = "Consulta")]
-        public int? cons_Nombre { get; set; }
+        public string cons_Nombre { get; set; }
 
         [Display(Name = "Costo")]
-        public decimal cons_Costo { get; set; }
+        public decimal? cons_Costo { get; set; }
         public int? factdeta_UsuCreacion { get; set; }
         public DateTime? factdeta_FechaCreacion { get; set; }
+        [NotMapped]
+        public bool? fact_Cierre { get; set; }
     }
 }

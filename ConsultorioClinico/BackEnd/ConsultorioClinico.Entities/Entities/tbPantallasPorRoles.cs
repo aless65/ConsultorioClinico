@@ -12,7 +12,7 @@ namespace ConsultorioClinico.Entities.Entities
         public int pantrole_Id { get; set; }
         public int role_Id { get; set; }
         [NotMapped]
-        public int role_Nombre { get; set; }
+        public string role_Nombre { get; set; }
         public int pant_Id { get; set; }
         public int pantrole_UsuCreacion { get; set; }
         public DateTime pantrole_FechaCreacion { get; set; }

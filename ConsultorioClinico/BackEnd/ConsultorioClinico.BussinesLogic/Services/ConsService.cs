@@ -130,19 +130,33 @@ namespace Consultorio.BussinesLogic.Services
             }
         }
 
+        public ServiceResult ListaConsultasDdl()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _consultasRepository.ListDdl();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
         public ServiceResult InsertarConsultas(VW_tbConsultas item)
         {
             var result = new ServiceResult();
 
-            //try
-            //{
-            var insert = _consultasRepository.Insert(item);
-            return result.Ok(insert);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return result.Error(ex);
-            //}
+            try
+            {
+                var insert = _consultasRepository.Insert(item);
+                return result.Ok(insert);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
         }
         public ServiceResult EliminarConsultas(int id)
         {
@@ -177,79 +191,100 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public decimal CostoConsultas(int id)
+        {
+            return _consultasRepository.CostoConsulta(id);
+        }
     #endregion
 
         #region Empleados
         public ServiceResult ListaEmpleados()
+        {
+            var result = new ServiceResult();
+            try
             {
-                var result = new ServiceResult();
-                try
-                {
-                    var listado = _empleadosRepository.List();
-                    return result.Ok(listado);
-                } 
-                catch (Exception ex)
-                {
-                    return result.Error(ex);
-                }
+                var listado = _empleadosRepository.List();
+                return result.Ok(listado);
+            } 
+            catch (Exception ex)
+            {
+                return result.Error(ex);
             }
+        }
 
-            public ServiceResult InsertarEmpleados(VW_tbEmpleados item)
+        public ServiceResult InsertarEmpleados(VW_tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
             {
-                var result = new ServiceResult();
-                try
-                {
-                    var insert = _empleadosRepository.Insert(item);
+                var insert = _empleadosRepository.Insert(item);
+
+                if (insert.MessageStatus == "El registro se ha insertado con éxito")
                     return result.Ok(insert);
-                } catch (Exception ex)
-                {
-                    return result.Error(ex);
-                }
-            }
+                else if (insert.MessageStatus == "Ya existe un empleado con este número de identidad")
+                    return result.Conflict(insert.MessageStatus);
+                else
+                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
 
-            public ServiceResult EditarEmpleados(VW_tbEmpleados item, int id)
+            } catch (Exception ex)
             {
-                var result = new ServiceResult();
-                try
-                {
-                    var update = _empleadosRepository.Update(item, id);
-                    return result.Ok(update);
-                }
-                catch (Exception ex)
-                {
-                    return result.Error(ex);
-                }
-
+                return result.Error(ex);
             }
+        }
 
-            public ServiceResult EliminarEmpleados(int id)
+        public ServiceResult EditarEmpleados(VW_tbEmpleados item, int id)
+        {
+            var result = new ServiceResult();
+            try
             {
-                var result = new ServiceResult();
-                try
-                {
-                    var delete = _empleadosRepository.DeleteConfirmed(id);
-                    return result.Ok(delete);
-                }
-                catch (Exception ex)
-                {
-                    return result.Error(ex);
-                }
+                var update = _empleadosRepository.Update(item, id);
+
+                if (update.MessageStatus == "El registro ha sido editado con éxito")
+                    return result.SetMessage(update.MessageStatus, ServiceResultType.Success);
+                else if (update.MessageStatus == "El registro que intenta editar no existe")
+                    return result.Conflict(update.MessageStatus);
+                else if (update.MessageStatus == "Un empleado con el mismo número de identidad ya existe")
+                    return result.Conflict(update.MessageStatus);
+                else
+                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
+
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
             }
 
-            public ServiceResult FindEmpleado(int id)
+        }
+
+        public ServiceResult EliminarEmpleados(int id)
+        {
+            var result = new ServiceResult();
+            try
             {
-                var result = new ServiceResult();
-                try
-                {
-                    var encontrar = _empleadosRepository.find(id);
-                    return result.Ok(encontrar);
-                }
-                catch (Exception ex)
-                {
-                    return result.Error(ex);
-                }
+                var delete = _empleadosRepository.DeleteConfirmed(id);
+                return result.Ok(delete);
             }
-            #endregion
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult FindEmpleado(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var encontrar = _empleadosRepository.find(id);
+                return result.Ok(encontrar);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+        #endregion
 
         #region Clinicas
         public ServiceResult ListaClinicas()
@@ -300,6 +335,48 @@ namespace Consultorio.BussinesLogic.Services
             {
                 var insert = _facturasRepository.InsertDetalles(item);
                 return result.Ok(insert);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListarFacturasDetalles(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturasRepository.List(id);
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarFacturasDetalles(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturasRepository.Delete(id);
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult FacturaID(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturasRepository.find(id);
+                return result.Ok(list);
             }
             catch (Exception ex)
             {

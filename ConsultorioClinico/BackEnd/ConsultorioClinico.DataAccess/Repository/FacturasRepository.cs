@@ -17,9 +17,27 @@ namespace Consultorio.DataAccess.Repository
             throw new NotImplementedException();
         }
 
+        public RequestStatus Delete(int id)
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            RequestStatus result = new RequestStatus();
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@factdeta_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Eliminar_FacturasDetalles, parametros, commandType: CommandType.StoredProcedure);
+        }
+
         public VW_tbFacturas_tbFacturasDetalles find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+            RequestStatus result = new RequestStatus();
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@fact_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            return db.QueryFirst<VW_tbFacturas_tbFacturasDetalles>(ScriptsDataBase.UDP_Encontrar_FacturasDetalles, parametros, commandType: CommandType.StoredProcedure);
         }
 
         public RequestStatus Insert(VW_tbFacturas_tbFacturasDetalles item)
@@ -30,7 +48,7 @@ namespace Consultorio.DataAccess.Repository
 
             var parametros = new DynamicParameters();
             parametros.Add("@paci_Id", item.paci_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@empe_Id", 1, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@meto_Id", item.meto_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@fact_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
@@ -62,6 +80,14 @@ namespace Consultorio.DataAccess.Repository
             return db.Query<VW_tbFacturas>(ScriptsDataBase.UDP_Listar_Facturas, null, commandType: CommandType.StoredProcedure);
         }
 
+        public IEnumerable<VW_tbFacturas_tbFacturasDetalles> List(int id)
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@fact_Id", id, DbType.Int32, ParameterDirection.Input);
+            return db.Query<VW_tbFacturas_tbFacturasDetalles>(ScriptsDataBase.UDP_Listar_FacturasDetalles, parametros, commandType: CommandType.StoredProcedure);
+        }
         public IEnumerable<VW_tbFacturas_tbFacturasDetalles> List()
         {
             throw new NotImplementedException();

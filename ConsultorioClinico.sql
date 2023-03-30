@@ -12,7 +12,7 @@ GO
 
 --************CREACION TABLA ROLES******************--
 CREATE TABLE acce.tbRoles(
-	role_Id					INT IDENTITY,cons_Costo
+	role_Id					INT IDENTITY,
 	role_Nombre				NVARCHAR(100) NOT NULL,
 	role_UsuCreacion		INT NOT NULL,
 	role_FechaCreacion		DATETIME NOT NULL CONSTRAINT DF_role_FechaCreacion DEFAULT(GETDATE()),
@@ -47,7 +47,7 @@ VALUES ('Consultas', 'Consulta/Index', 'Consultorio', 'consultasItem', 1),
 	   ('Usuarios', 'Usuario/Index', 'Seguridad', 'usuariosItem', 1),
 	   ('Roles', 'Rol/Index', 'Seguridad', 'rolesItem', 1)
 
-
+GO
 --***********CREACION TABLA ROLES/PANTALLA*****************---
 CREATE TABLE acce.tbPantallasPorRoles(
 	pantrole_Id					INT IDENTITY,
@@ -1388,7 +1388,7 @@ END
 GO
 CREATE OR ALTER VIEW cons.VW_tbFacturas_tbFacturasDetalles
 AS
-SELECT 1.fact_Id, 
+SELECT T1.fact_Id, 
 	   fact_Fecha, 
 	   T1.paci_Id, 
 	   T1.empe_Id, 
@@ -1408,7 +1408,37 @@ FROM [cons].[tbFacturas] T1 LEFT JOIN [cons].[tbFacturasDetalles] T2
 ON T1.[fact_Id] = T2.[fact_Id] INNER JOIN cons.tbConsultas T3
 ON T2.cons_Id = T3.cons_Id INNER JOIN cons.tbConsultorios T4
 ON T3.consltro_Id = T4.consltro_Id
+--UNION ALL
+--SELECT T1.fact_Id, 
+--	   fact_Fecha, 
+--	   T1.paci_Id, 
+--	   T1.empe_Id, 
+--	   meto_Id, 
+--	   fact_UsuCreacion, 
+--	   fact_FechaCreacion, 
+--	   fact_UsuModificacion, 
+--	   fact_FechaModificacion, 
+--	   fact_Estado,
+--	   NULL AS factdeta_Id, 
+--	   NULL AS cons_Id, 
+--	   NULL AS cons_Costo,
+--	   NULL AS cons_Nombre,
+--	   NULL AS factdeta_UsuCreacion, 
+--	   NULL AS factdeta_FechaCreacion
+--FROM [cons].[tbFacturas] T1 
+--WHERE NOT EXISTS (
+--   SELECT 1 
+--   FROM [cons].[tbFacturasDetalles] T5 
+--   WHERE T1.[fact_Id] = T5.[fact_Id]
+--)
 
+GO 
+CREATE OR ALTER PROCEDURE cons.UDP_VW_tbFacturas_tbFacturasDetalles_List
+	@fact_Id		INT
+AS
+BEGIN
+	SELECT * FROM cons.VW_tbFacturas_tbFacturasDetalles WHERE fact_Id = @fact_Id
+END
 
 GO
 CREATE OR ALTER PROCEDURE cons.tbFacturasDetalles_Insert
@@ -1428,6 +1458,23 @@ BEGIN
 			GETDATE())
 END
 
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturasDetalles_Delete
+	@factdeta_Id	INT
+AS
+BEGIN
+	DELETE 
+	FROM cons.tbFacturasDetalles
+	WHERE factdeta_Id = @factdeta_Id
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.tbFacturasDetalles_Find 
+	@fact_Id	INT
+AS
+BEGIN
+	SELECT * FROM cons.tbFacturas WHERE fact_Id = @fact_Id
+END
 
 /*Procedimientos roles y roles por pantalla*/
 GO
@@ -1677,9 +1724,16 @@ END
 --Consultas
 GO
 CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_DDL 
-	@paci_Id	INT
 AS
 BEGIN
 	SELECT * FROM cons.VW_tbConsultas
-	WHERE paci_Id = @paci_Id
+	WHERE cons_Id NOT IN (SELECT cons_Id FROM cons.tbFacturasDetalles)
+END
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Costo
+	@cons_Id	INT
+AS
+BEGIN
+	SELECT cons_Costo FROM cons.tbConsultas WHERE cons_Id = @cons_Id
 END

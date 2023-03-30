@@ -22,12 +22,14 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Encontrar_Cargos = "cons.UDP_tbCargos_Find";
         #endregion
 
-        #region Consultorios
+        #region Consultas
         public static string UDP_Listar_Consultas = "cons.UDP_tbConsultas_List";
         public static string UDP_Insertar_Consultas = "cons.UDP_tbConsultas_Insert";
         public static string UDP_Editar_Consultas = "cons.UDP_tbConsultas_Update";
         public static string UDP_Eliminar_Consultas = "cons.UDP_tbConsultas_Delete";
         public static string UDP_Encontrar_Consultas = "cons.UDP_tbCargos_Find";
+        public static string UDP_Consultas_DDL = "cons.UDP_tbConsultas_DDL";
+        public static string UDP_Consultas_Costo = "cons.UDP_tbConsultas_Costo";
         #endregion
 
         #region Empleados
@@ -53,6 +55,9 @@ namespace Consultorio.DataAccess.Repository
 
         #region Facturas Detalles
         public static string UDP_Insertar_FacturasDetalles = "cons.tbFacturasDetalles_Insert";
+        public static string UDP_Listar_FacturasDetalles = "cons.UDP_VW_tbFacturas_tbFacturasDetalles_List";
+        public static string UDP_Eliminar_FacturasDetalles = "cons.tbFacturasDetalles_Delete";
+        public static string UDP_Encontrar_FacturasDetalles = "cons.tbFacturasDetalles_Find";
         #endregion
 
         #region Pacientes

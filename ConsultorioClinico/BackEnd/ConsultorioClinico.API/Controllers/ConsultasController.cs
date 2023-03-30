@@ -30,6 +30,13 @@ namespace Consultorio.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ListDdl")]
+        public IActionResult ListDdl()
+        {
+            var list = _consService.ListaConsultasDdl();
+            return Ok(list);
+        }
+
         [HttpGet("FindID")]
         public VW_tbConsultas Find(int id)
         {
@@ -56,6 +63,13 @@ namespace Consultorio.API.Controllers
         {
             var delete = _consService.EliminarConsultas(id);
             return Ok(delete);
+        }
+
+        [HttpGet("Costo")]
+        public IActionResult Costo(int id)
+        {
+            var costo = _consService.CostoConsultas(id);
+            return Ok(costo);
         }
     }
 }

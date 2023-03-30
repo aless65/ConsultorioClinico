@@ -158,5 +158,25 @@ namespace Consultorio.WebUI.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Costo(int id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(_baseurl + "api/Consultas/Costo?id=" + id);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    return Json(jsonResponse);
+                }
+                else
+                {
+                    return Json(id);
+                }
+            }
+        }
     }
 }

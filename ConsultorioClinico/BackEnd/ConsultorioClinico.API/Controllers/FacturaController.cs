@@ -26,6 +26,13 @@ namespace Consultorio.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ListDetalles")]
+        public IActionResult ListDetalles(int id)
+        {
+            var list = _consService.ListarFacturasDetalles(id);
+            return Ok(list);
+        }
+
         [HttpPost("Insert")]
         public IActionResult Insert(VW_tbFacturas_tbFacturasDetalles item)
         {
@@ -38,6 +45,20 @@ namespace Consultorio.API.Controllers
         {
             var insert = _consService.InsertarFacturasDetalles(item);
             return Ok(insert);
+        }
+
+        [HttpPut("DeleteDetalles")]
+        public IActionResult DeleteDetalles(int id)
+        {
+            var delete = _consService.EliminarFacturasDetalles(id);
+            return Ok(delete);
+        }
+
+        [HttpGet("Find")]
+        public IActionResult Find(int id)
+        {
+            var listado = _consService.FacturaID(id);
+            return Ok(listado);
         }
     }
 }

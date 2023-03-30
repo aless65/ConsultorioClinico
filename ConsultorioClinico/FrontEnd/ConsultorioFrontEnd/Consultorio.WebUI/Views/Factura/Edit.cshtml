@@ -7,8 +7,6 @@
     double subtotal = 0;
     double IVA = 0;
     double total = 0;
-
-    ViewBag.esEditar = false;
 }
 
 <div class="row">
@@ -18,26 +16,24 @@
                 <h2>Factura</h2>
             </div>
             <div class="card-body">
-                <form asp-action="Create" asp-controller="Factura" id="formCreate">
+                <form asp-action="Create" asp-controller="Factura">
                     <div class="form-group">
                         <label asp-for="paci_Id" class="control-label"></label>
-                        <select asp-for="paci_Id" class="form-control" asp-items="ViewBag.paci_Id">
-                            <option value="">-- Seleccione un paciente --</option>
+                        <select asp-for="paci_Id" class="form-control" disabled asp-items="ViewBag.paci_Id">
+                            <option>-- Seleccione un paciente --</option>
                         </select>
                         <span asp-validation-for="paci_Id" class="text-danger"></span>
-                        <label id="paciVali" class="text-danger" hidden>El campo es obligatorio</label>
                     </div>
                     <div class="form-group mt-2">
                         <label asp-for="meto_Id" class="control-label"></label>
-                        <select asp-for="meto_Id" class="form-control" asp-items="ViewBag.meto_Id">
-                            <option value="">-- Seleccione un método --</option>
+                        <select asp-for="meto_Id" class="form-control" disabled asp-items="ViewBag.meto_Id">
+                            <option>-- Seleccione un método --</option>
                         </select>
                         <span asp-validation-for="meto_Id" class="text-danger"></span>
-                        <label id="metoVali" class="text-danger" hidden>El campo es obligatorio</label>
                     </div>
                     <br />
                     @*<a asp-action="Index" class="btn btn-danger">Cerrar</a>*@
-                    <button type="button" id="subirFactura" class="btn btn-info">Siguiente</button>
+                    <input type="submit" disabled id="subirFactura" class="btn btn-info" value="Siguiente" />
                 </form>
             </div>
         </div>
@@ -59,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="cons_Id" class="control-label"></label>
-                        <select asp-for="cons_Id" class="form-control" disabled asp-items="ViewBag.cons_Id">
+                        <select asp-for="cons_Id" class="form-control" asp-items="ViewBag.cons_Id">
                             <option value="">-- Seleccione una consulta --</option>
                         </select>
                         <span asp-validation-for="cons_Id" class="text-danger"></span>
@@ -99,7 +95,7 @@
                             <td>@detalle.cons_Nombre</td>
                             <td>@detalle.cons_Costo</td>
                             <td>
-                                <button data-id="@detalle.factdeta_Id" data-paci_Id="@detalle.paci_Id"  data-fact_Id="@detalle.fact_Id" data-meto_Id="@detalle.meto_Id" class="btn btn-danger btnEliminarDetalle">Borrar</button>
+                                <a asp-id="@detalle.factdeta_Id" class="btn btn-danger btnEliminarDetalle">Borrar</a>
                             </td>
                         </tr>
 
@@ -143,38 +139,12 @@
 }
 
 <script>
-
-    var canInsert = false;
-
     $(document).ready(function () {
         if ($("#paci_Id").prop('disabled')) {
             $("#cons_Id").prop('disabled', false);
             $("#medi_Id").prop('disabled', false);
             $("#factdeta_Cantidad").prop('disabled', false);
         }
-
-        $("#subirFactura").click(function () {
-
-            if ($("#meto_Id").val() == "") {
-                canInsert = false;
-                $("#metoVali").prop('hidden', false);
-            } else {
-                canInsert = true;
-                $("#metoVali").prop('hidden', true);
-            }
-
-            if ($("#paci_Id").val() == "") {
-                canInsert = false;
-                $("#paciVali").prop('hidden', false);
-            } else {
-                canInsert = true;
-                $("#paciVali").prop('hidden', true);
-            }
-
-            if ($("#paci_Id").val() > 0 && $("#meto_Id").val() > 0) {
-                $("#formCreate").submit();
-            }
-        });
 
         $("#subirFacturaDetalles").click(function () {
             if ($("#cons_Id").val() == "") {
@@ -190,7 +160,7 @@
             $.ajax({
                 url: '/Consulta/Costo',
                 type: 'GET',
-                data: { id: idCons},
+                data: { id: idCons },
                 success: function (response) {
                     console.log(response);
                     $("#cons_Costo").val(response);
@@ -201,7 +171,6 @@
             });
         });
     });
-
 
 </script>
 

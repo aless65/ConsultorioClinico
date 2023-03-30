@@ -68,5 +68,20 @@ namespace Consultorio.DataAccess.Repository
 
             return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Editar_Consultas, parametros, commandType: CommandType.StoredProcedure);
         }
+
+        public IEnumerable<VW_tbConsultas> ListDdl()
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+            return db.Query<VW_tbConsultas>(ScriptsDataBase.UDP_Consultas_DDL, null, commandType: CommandType.StoredProcedure);
+        }
+
+        public decimal CostoConsulta(int id)
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@cons_Id", id, DbType.Int32, ParameterDirection.Input);
+            return db.QueryFirst<decimal>(ScriptsDataBase.UDP_Consultas_Costo, parametros, commandType: CommandType.StoredProcedure);
+        }
     }
 }

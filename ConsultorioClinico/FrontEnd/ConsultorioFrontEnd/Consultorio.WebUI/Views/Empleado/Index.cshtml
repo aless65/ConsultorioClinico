@@ -71,8 +71,18 @@
             </table>
         </div>
         @*<partial name="_Create" model="new Consultorio.WebUI.Models.CargoViewModel()" />
-        <partial name="_Edit" model="new Consultorio.WebUI.Models.CargoViewModel()" />*@
+            <partial name="_Edit" model="new Consultorio.WebUI.Models.CargoViewModel()" />*@
         <partial name="_Delete" />
     </div>
 </div>
 
+@if (ViewBag.Script != null)
+{
+    <script>
+        $(document).ready(function () {
+            @Html.Raw(ViewBag.Script)
+        })
+    </script>
+
+    ViewBag.Script = null;
+}

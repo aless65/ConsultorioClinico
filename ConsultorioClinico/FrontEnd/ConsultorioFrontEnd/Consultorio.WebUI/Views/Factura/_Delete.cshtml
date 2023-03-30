@@ -1,0 +1,49 @@
+﻿@model Consultorio.WebUI.Models.FacturasYDetallesViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form asp-action="Delete">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar cargo</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div hidden>
+                        <div class="form-group">
+                            <label asp-for="paci_Id" class="control-label"></label>
+                            <select asp-for="paci_Id" class="form-control" asp-items="ViewBag.paci_Id">
+                                <option>-- Seleccione un paciente --</option>
+                            </select>
+                            <span asp-validation-for="paci_Id" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label asp-for="meto_Id" class="control-label"></label>
+                            <select asp-for="meto_Id" class="form-control" asp-items="ViewBag.meto_Id">
+                                <option>-- Seleccione un método --</option>
+                            </select>
+                            <span asp-validation-for="meto_Id" class="text-danger"></span>
+                            <input asp-for="fact_Id" class="form-control" hidden />
+                        </div>
+                    </div>
+                    <input id="id" name="id" hidden />
+                    ¿Realmente desea eliminar este registro?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary">Sí</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $('.btnEliminarDetalle').click(function () {
+        $("#deleteModal").appendTo('body').modal('show');
+        $("#id").val($(this).data("id"));
+    });
+</script>

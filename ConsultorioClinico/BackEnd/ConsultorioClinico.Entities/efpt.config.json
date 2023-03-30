@@ -130,7 +130,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-BPGLHI0\\SQLEXPRESSLOCAL.CONSULTORIOCLINICO",
+   "UiHint": "DESKTOP-EEOQVVU\\SQLEXPRESS.CONSULTORIOCLINICO",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,
