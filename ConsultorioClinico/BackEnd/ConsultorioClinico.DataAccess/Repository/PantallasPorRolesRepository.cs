@@ -28,15 +28,30 @@ namespace Consultorio.DataAccess.Repository
 
             RequestStatus result = new RequestStatus();
 
-            var parametros = new DynamicParameters();
-            parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
+            if (item.role_Id == 0)
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
+                parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
 
-            var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Eliminar_PantallasRoles, parametros, commandType: CommandType.StoredProcedure);
+                var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Eliminar_PantallasRoles, parametros, commandType: CommandType.StoredProcedure);
 
-            result.MessageStatus = answer;
+                result.MessageStatus = answer;
 
-            return result;
+                return result;
+            }
+            else
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@role_Id", item.role_Id, DbType.String, ParameterDirection.Input);
+                parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
+
+                var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Eliminar_PantallasRolesEditar, parametros, commandType: CommandType.StoredProcedure);
+
+                result.MessageStatus = answer;
+
+                return result;
+            }
         }
 
         public RequestStatus Insert(tbPantallasPorRoles item)
@@ -45,16 +60,32 @@ namespace Consultorio.DataAccess.Repository
 
             RequestStatus result = new RequestStatus();
 
-            var parametros = new DynamicParameters();
-            parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
-            parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@pantrole_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+            if (item.role_Id == 0)
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
+                parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
+                parametros.Add("@pantrole_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
 
-            var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Insertar_PantallasRoles, parametros, commandType: CommandType.StoredProcedure);
+                var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Insertar_PantallasRoles, parametros, commandType: CommandType.StoredProcedure);
 
-            result.MessageStatus = answer;
+                result.MessageStatus = answer;
 
-            return result;
+                return result;
+            }
+            else
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@role_Id", item.role_Id, DbType.String, ParameterDirection.Input);
+                parametros.Add("@pant_Id", item.pant_Id, DbType.Int32, ParameterDirection.Input);
+                parametros.Add("@pantrole_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
+
+                var answer = db.QueryFirst<string>(ScriptsDataBase.UDP_Insertar_PantallasRolesEditar, parametros, commandType: CommandType.StoredProcedure);
+
+                result.MessageStatus = answer;
+
+                return result;
+            }
         }
 
         public IEnumerable<tbPantallasPorRoles> List()

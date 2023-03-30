@@ -441,7 +441,14 @@ namespace Consultorio.WebUI.Controllers
                                     "$('#subirFactura').prop('disabled', true);";
                     TempData["script"] = script;
 
-                    return View("Create", item);
+                    if (ViewBag.esEditar == false)
+                    {
+                        return View("Create", item);
+                    }
+                    else
+                    {
+                        return View("Edit", item);
+                    }
                 }
                 else
                 {
@@ -449,5 +456,6 @@ namespace Consultorio.WebUI.Controllers
                 }
             }
         }
+
     }
 }

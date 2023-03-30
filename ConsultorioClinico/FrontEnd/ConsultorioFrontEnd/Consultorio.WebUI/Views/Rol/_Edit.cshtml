@@ -7,17 +7,70 @@
     </div>
     <form asp-action="Edit" id="formEdit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input asp-for="role_Id" id="carg_IdEdit" class="form-control" hidden />
+        <input asp-for="role_Id" id="carg_IdEdit" class="form-control carg_IdEdit" hidden />
         <div class="form-group mt-10">
             <label asp-for="role_Nombre" class="control-label"></label>
             <input asp-for="role_Nombre" id="carg_NombreEdit" class="form-control" />
             <span asp-validation-for="role_Nombre" id="lblNombreEdit" class="text-danger">Este campo es obligatorio</span>
         </div>
-        <div class="form-group mt-3 mb-2">
-            <input type="button" id="enviarEdit" value="Editar" class="btn btn-primary" />
-        </div>
     </form>
+
+    <div class="row mt-4">
+        <div class="col-6" id="asignarPantallas">
+            <!-- Default Accordion -->
+            <div class="accordion" id="_dm-defaultAccordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" id="_dm-defAccHeadingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#_dm-defAccCollapseOne" aria-expanded="true" aria-controls="_dm-defAccCollapseOne">
+                            Acceso
+                        </button>
+                    </div>
+                    <div id="_dm-defAccCollapseOne" class="accordion-collapse collapse show" aria-labelledby="_dm-defAccHeadingOne" data-bs-parent="#_dm-defaultAccordion">
+                        <div class="accordion-body SeguridadEdit">
+                            @*<div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="6" /> Roles
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="5" /> Usuarios
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" id="_dm-defAccHeadingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#_dm-defAccCollapseTwo" aria-expanded="false" aria-controls="_dm-defAccCollapseTwo">
+                            Consultorio
+                        </button>
+                    </div>
+                    <div id="_dm-defAccCollapseTwo" class="accordion-collapse collapse show" aria-labelledby="_dm-defAccHeadingTwo" data-bs-parent="#_dm-defaultAccordion">
+                        <div class="accordion-body ConsultorioEdit">
+                            @*<div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="2" />
+                                    <label for="2" class="form-check-label">
+                                        Facturas
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="1" /> Consultas
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="3" /> Cargos
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="4" /> Empleados
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END : Default Accordion -->
+        </div>
+    </div>
+    <div class="form-group mt-3 mb-2">
+        <input type="button" id="enviarEdit" value="Editar" class="btn btn-primary" />
+    </div>
 </div>
+
 
 <script>
     $(document).ready(function () {
@@ -27,13 +80,103 @@
             var cargId = $(this).data("id");
             var cargNombre = $(this).data("nombre");
 
-            $("#carg_IdEdit").val(cargId);
-            $("#carg_NombreEdit").val(cargNombre);
 
-            $("#edit").fadeIn('slow');
-            $(".card-body").animate({ height: $("#edit").height() + 35 }, 500);
-            $("#index").hide();
+            $.ajax({
+                url: '/Rol/MenuPantallasEdit',
+                type: 'GET',
+                data: { id: cargId },
+                success: function (pantallasEdit) {
+                    console.log(pantallasEdit);
+                    $(".ConsultorioEdit").empty();
+                    $(".SeguridadEdit").empty();
+                    $.each(pantallasEdit, function (index, item) {
 
+                        if (item.pant_Menu == "Consultorio") {
+                            var checkbox = $('<input>', {
+                                type: 'checkbox',
+                                class: 'form-check-input',
+                                id: item.pant_Id,
+                                value: item.pant_Nombre
+                            });
+                            if (item.seleccionada == 1) {
+                                checkbox.attr('checked', 'checked');
+                            }
+                            $(".ConsultorioEdit").append($('<div>', {
+                                class: 'form-check',
+                            }).append(checkbox).append($('<label>', {
+                                class: 'form-check-label',
+                                for: item.pant_Id,
+                                text: item.pant_Nombre
+                            })));
+                        }
+
+                        if (item.pant_Menu == "Seguridad") {
+                            var checkbox = $('<input>', {
+                                type: 'checkbox',
+                                class: 'form-check-input',
+                                id: item.pant_Id,
+                                value: item.pant_Nombre
+                            });
+                            if (item.seleccionada == 1) {
+                                checkbox.attr('checked', 'checked');
+                            }
+                            $(".SeguridadEdit").append($('<div>', {
+                                class: 'form-check',
+                            }).append(checkbox).append($('<label>', {
+                                class: 'form-check-label',
+                                for: item.pant_Id,
+                                text: item.pant_Nombre
+                            })));
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log("a seguir intentando bro");
+                }
+            });
+
+            $(document).ajaxComplete(function () {
+
+                $("#edit").fadeIn('slow');
+                $(".card-body").animate({ height: $("#edit").height() + 35 }, 500);
+                $("#index").hide();
+                $("#carg_IdEdit").val(cargId);
+                $("#carg_NombreEdit").val(cargNombre);
+
+                $(".form-check-input").prop('disabled', false);
+            })
+        });
+
+        $(document).on('change', '.form-check-input', function () {
+            console.log('dio click mi rey');
+            if ($(this).is(':checked')) {
+                var checkboxId = $(this).attr('id');
+                $.ajax({
+                    url: '/Rol/CreatePantallaPorRol',
+                    type: 'POST',
+                    data: { pant_Id: checkboxId, role_Nombre: $("#role_Nombre").val(), role_Id: $(".carg_IdEdit").val() },
+                    success: function (response) {
+                        console.log($("#role_Id").val());
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("a seguir intentando bro");
+                    }
+                });
+            } else {
+                var checkboxId = $(this).attr('id');
+
+                $.ajax({
+                    url: '/Rol/DeletePantallaPorRol',
+                    type: 'POST',
+                    data: { pant_Id: checkboxId, role_Nombre: $("#role_Nombre").val(), role_Id: $(".carg_IdEdit").val() },
+                    success: function (response) {
+                        console.log("felicidades, te salió tu locura");
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("a seguir intentando bro");
+                    }
+                });
+            }
         });
 
         $('.EditarDetalle').on('click', function () {

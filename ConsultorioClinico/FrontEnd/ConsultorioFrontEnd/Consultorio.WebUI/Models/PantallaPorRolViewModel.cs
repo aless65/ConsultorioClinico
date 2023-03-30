@@ -12,6 +12,8 @@ namespace Consultorio.WebUI.Models
         public int role_Id { get; set; }
         [NotMapped]
         public string role_Nombre { get; set; }
+        [NotMapped]
+        public int? Seleccionada { get; set; }
         public int pant_Id { get; set; }
         public int pantrole_UsuCreacion { get; set; }
         public DateTime pantrole_FechaCreacion { get; set; }

@@ -23,7 +23,7 @@
     </form>
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-6" id="asignarPantallas">
             <!-- Default Accordion -->
             <div class="accordion" id="_dm-defaultAccordion">
                 <div class="accordion-item">
@@ -33,13 +33,13 @@
                         </button>
                     </div>
                     <div id="_dm-defAccCollapseOne" class="accordion-collapse collapse show" aria-labelledby="_dm-defAccHeadingOne" data-bs-parent="#_dm-defaultAccordion">
-                        <div class="accordion-body">
-                            <div class="form-check">
+                        <div class="accordion-body Seguridad">
+                            @*<div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="6" /> Roles
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="5" /> Usuarios
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>
@@ -50,8 +50,8 @@
                         </button>
                     </div>
                     <div id="_dm-defAccCollapseTwo" class="accordion-collapse collapse show" aria-labelledby="_dm-defAccHeadingTwo" data-bs-parent="#_dm-defaultAccordion">
-                        <div class="accordion-body">
-                            <div class="form-check">
+                        <div class="accordion-body Consultorio">
+                            @*<div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="2" />
                                 <label for="2" class="form-check-label">
                                     Facturas
@@ -65,7 +65,7 @@
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="4" /> Empleados
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
         </div>
     </div>
     <div class="form-group mt-3 mb-2">
-        <input type="button" value="Finalizar" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-primary" id="Finalizar">Finalizar</a>
     </div>
 </div>
 
@@ -92,6 +92,61 @@
 <script>
     $(document).ready(function () {
 
+        $.ajax({
+            url: '/Rol/MenuPantallas',
+            type: 'GET',
+            data: {},
+            success: function (pantallas) {
+                $.each(pantallas, function (index, item) {
+
+                    if (item.pant_Menu == "Consultorio") {
+                        $(".Consultorio").append($('<div>', {
+                            class: 'form-check',
+                        }).append($('<input>', {
+                            type: 'checkbox',
+                            class: 'form-check-input',
+                            id: item.pant_Id,
+                            value: item.pant_Nombre
+                        })).append($('<label>', { 
+                            class: 'form-check-label',
+                            for: item.pant_Id,
+                            text: item.pant_Nombre
+                        })));
+
+                        //$("#menuGeneral").prop('hidden', false);
+                        //$("#subMenuGeneral").prop('hidden', false);
+                    }
+
+                    if (item.pant_Menu == "Seguridad") {
+                        $(".Seguridad").append($('<div>', {
+                            class: 'form-check',
+                        }).append($('<input>', {
+                            type: 'checkbox',
+                            class: 'form-check-input',
+                            id: item.pant_Id,
+                            value: item.pant_Nombre
+                        })).append($('<label>', {
+                            class: 'form-check-label',
+                            for: item.pant_Id,
+                            text: item.pant_Nombre
+                        })));
+
+                        //$("#menuAcceso").prop('hidden', false);
+                        //$("#subMenuAcceso").prop('hidden', false);
+                    }
+                })
+                console.log(pantallas);
+            },
+            error: function (xhr, status, error) {
+                console.log("a seguir intentando bro");
+            }
+        });
+
+        $(document).ajaxComplete(function () {
+            $(".form-check-input").prop('disabled', true);
+            $("#Finalizar").prop('disabled', true);
+        });
+
         $('#New').on('click', function () {
 
             $("#nombreCreateValidation").prop('hidden', true);
@@ -99,18 +154,19 @@
             $("#create").fadeIn('slow');
             $(".card-body").animate({ height: $("#create").height() + 35 }, 500);
             $("#index").hide();
+
+            $("#enviarCrear").click(function () {
+                if ($("#role_Nombre").val() == "") {
+                    $("#nombreCreateValidation").prop('hidden', false);
+                } else {
+                    $("#nombreCreateValidation").prop('hidden', true);
+                    $("#formCreate").submit();
+                }
+            });
         });
 
-        $("#enviarCrear").click(function () {
-            if ($("#role_Nombre").val() == "") {
-                $("#nombreCreateValidation").prop('hidden', false);
-            } else {
-                $("#nombreCreateValidation").prop('hidden', true);
-                $("#formCreate").submit();
-            }
-        });
-
-        $('.form-check-input').click(function () {
+        $(document).on('change', '.form-check-input', function () {
+            console.log('dio click mi rey');
             if ($(this).is(':checked')) {
                 var checkboxId = $(this).attr('id');
                 $.ajax({
@@ -140,6 +196,7 @@
                 });
             }
         });
+        
     });
 </script>
 

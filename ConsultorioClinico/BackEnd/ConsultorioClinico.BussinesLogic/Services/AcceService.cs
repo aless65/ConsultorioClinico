@@ -12,11 +12,13 @@ namespace Consultorio.BussinesLogic.Services
     {
         private readonly RolesRepository _rolesRepository;
         private readonly PantallasPorRolesRepository _pantallasPorRolesRepository;
+        private readonly PantallasRepository _pantallasRepository;
 
-        public AcceService(RolesRepository rolesRepository, PantallasPorRolesRepository pantallasPorRolesRepository)
+        public AcceService(RolesRepository rolesRepository, PantallasPorRolesRepository pantallasPorRolesRepository, PantallasRepository pantallasRepository)
         {
             _rolesRepository = rolesRepository;
             _pantallasPorRolesRepository = pantallasPorRolesRepository;
+            _pantallasRepository = pantallasRepository;
         }
 
         #region Roles
@@ -128,6 +130,36 @@ namespace Consultorio.BussinesLogic.Services
                     return result.SetMessage(delete.MessageStatus, ServiceResultType.Success);
                 else
                     return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Pantallas
+        public ServiceResult ListaPantallas()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallasRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListaPantallasDeRol(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallasRepository.findPant(id);
+                return result.Ok(list);
             }
             catch (Exception ex)
             {

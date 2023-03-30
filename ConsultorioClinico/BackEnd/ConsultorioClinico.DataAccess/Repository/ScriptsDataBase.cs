@@ -81,7 +81,14 @@ namespace Consultorio.DataAccess.Repository
 
         #region Roles por Pantalla
         public static string UDP_Insertar_PantallasRoles = "acce.UDP_tbPantallasPorRoles_Insert";
+        public static string UDP_Insertar_PantallasRolesEditar = "acce.UDP_tbPantallasPorRoles_InsertEdit";
         public static string UDP_Eliminar_PantallasRoles = "acce.UDP_tbPantallasPorRoles_Delete";
+        public static string UDP_Eliminar_PantallasRolesEditar = "acce.UDP_tbPantallasPorRoles_DeleteEdit";
+        #endregion
+
+        #region Pantallas
+        public static string UDP_Listar_Pantallas = "acce.UDP_tbPantallas_List";
+        public static string UDP_Encontrar_Pantallas = "acce.UDP_tbPantallasPorRoles_Find";
         #endregion
     }
 }

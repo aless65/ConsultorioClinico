@@ -1476,6 +1476,31 @@ BEGIN
 	SELECT * FROM cons.tbFacturas WHERE fact_Id = @fact_Id
 END
 
+/*Procedimientos pantalla*/
+GO 
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallas_List
+AS
+BEGIN
+	SELECT * FROM acce.tbPantallas
+END
+
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find 
+	@role_Id	INT
+AS
+BEGIN
+  SELECT T1.pant_Id, 
+	     pant_Nombre, 
+		 pant_Url, 
+		 pant_Menu, 
+		 pant_HtmlId, 
+		 pant_UsuCreacion, 
+		 pant_FechaCreacion,
+		 (SELECT pantrole_Estado FROM [acce].[tbPantallasPorRoles] T2 WHERE T2.pant_Id = T1.pant_Id AND T2.role_Id = @role_Id) AS Seleccionada
+  FROM acce.tbPantallas T1
+END
+
+
 /*Procedimientos roles y roles por pantalla*/
 GO
 CREATE OR ALTER VIEW acce.VW_tbRoles
@@ -1621,6 +1646,46 @@ BEGIN
 
 		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
 		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
+
+		SELECT 'Operación realizada con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_InsertEdit
+	@role_Id				INT,
+	@pant_Id				INT,
+	@pantrole_UsuCreacion	INT
+AS
+BEGIN
+	BEGIN TRY
+
+		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
+		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
+
+		SELECT 'Operación realizada con éxito'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END
+
+--Insertar roles por pantalla edit
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_DeleteEdit
+	@role_Id				INT,
+	@pant_Id				INT
+AS
+BEGIN
+	BEGIN TRY
+
+		DELETE 
+		FROM acce.tbPantallasPorRoles
+		WHERE role_Id = @role_Id
+		AND pant_Id = @pant_Id
 
 		SELECT 'Operación realizada con éxito'
 	END TRY
