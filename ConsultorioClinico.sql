@@ -1844,9 +1844,14 @@ AS
 BEGIN
 	SELECT cons_Costo FROM cons.tbConsultas WHERE cons_Id = @cons_Id
 END
-	WHERE paci_Id = @paci_Id
-END
 GO
+
+
+
+
+
+
+
 --**************Listar Usuarios**************--
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_List

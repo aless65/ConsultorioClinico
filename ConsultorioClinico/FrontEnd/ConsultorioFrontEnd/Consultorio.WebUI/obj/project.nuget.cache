@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "CX7qS6tNmNRUtRF9DJSAt0NQMg+v82IxAAbodwrkFytimmiPN2KEvbZQroFTt2JiSccld46LG9DqbAijTHIRQA==",
+  "dgSpecHash": "3tgXvt19FyCEGmFCuuGRkJpldFxLS8hsrU6htnBboGbFAVnsyJ3vC6RW7C8LHrdihg1e95eMwS70S6DQXcZk2A==",
   "success": true,
   "projectFilePath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\FrontEnd\\ConsultorioFrontEnd\\Consultorio.WebUI\\Consultorio.WebUI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\LAB01\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
@@ -16,6 +17,7 @@
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.codeanalysis.csharp.workspaces\\3.8.0\\microsoft.codeanalysis.csharp.workspaces.3.8.0.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.codeanalysis.razor\\5.0.0\\microsoft.codeanalysis.razor.5.0.0.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\3.8.0\\microsoft.codeanalysis.workspaces.common.3.8.0.nupkg.sha512",
+    "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\LAB01\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
