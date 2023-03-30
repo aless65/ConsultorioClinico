@@ -30,7 +30,11 @@ namespace Consultorio.DataAccess.Repository
 
         public VW_tbUsuarios_View find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@user_Id", id, DbType.Int32, ParameterDirection.Input);
+            return db.QueryFirst<VW_tbUsuarios_View>(ScriptsDataBase.UDP_Encontrar_Usuarios, parametros, commandType: CommandType.StoredProcedure);
         }
 
         public RequestStatus Insert(VW_tbUsuarios_View item)
@@ -40,7 +44,7 @@ namespace Consultorio.DataAccess.Repository
             var parametros = new DynamicParameters();
             parametros.Add("@user_NombreUsuario", item.user_NombreUsuario, DbType.String, ParameterDirection.Input);
             parametros.Add("@user_Contrasena", item.user_Contrasena, DbType.String, ParameterDirection.Input);
-            parametros.Add("@user_EsAdmin", item.user_EsAdmin, DbType.Boolean, ParameterDirection.Input);
+            parametros.Add("@user_EsAdmin", item.user_EsAdmin, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@user_UsuCreacion", 1, DbType.Int32, ParameterDirection.Input);
@@ -61,7 +65,7 @@ namespace Consultorio.DataAccess.Repository
             RequestStatus result = new RequestStatus();
             var parametros = new DynamicParameters();
             parametros.Add("@user_Id", item.user_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@user_EsAdmin", item.user_EsAdmin, DbType.Boolean, ParameterDirection.Input);
+            parametros.Add("@user_EsAdmin", item.user_EsAdmin, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@empe_Id", item.empe_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@user_UsuModificacion", 1, DbType.Int32, ParameterDirection.Input);

@@ -120,6 +120,58 @@ namespace Consultorio.BussinesLogic.Services
             }
             
         }
+
+        public ServiceResult EliminarPantallasPorRoles(tbPantallasPorRoles item)
+        {
+            var result = new ServiceResult();
+
+            try
+            {
+                var delete = _pantallasPorRolesRepository.Delete(item);
+
+                if (delete.MessageStatus == "Operación realizada con éxito")
+                    return result.SetMessage(delete.MessageStatus, ServiceResultType.Success);
+                else
+                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Pantallas
+        public ServiceResult ListaPantallas()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallasRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+
+        }
+
+        public ServiceResult ListaPantallasDeRol(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallasRepository.findPant(id);
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
+
         #region Usuarios
         public ServiceResult ListaUsuarios()
         {
@@ -192,6 +244,19 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
+        public ServiceResult FindUsuario(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var encontrar = _usuarioRepository.find(id);
+                return result.Ok(encontrar);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
         public IEnumerable<VW_tbUsuarios_View> Login(string user, string contrasena)
         {
             try
@@ -205,57 +270,6 @@ namespace Consultorio.BussinesLogic.Services
             }
         }
 
-        #endregion
-
-        public ServiceResult EliminarPantallasPorRoles(tbPantallasPorRoles item)
-        {
-            var result = new ServiceResult();
-
-            try
-            {
-                var delete = _pantallasPorRolesRepository.Delete(item);
-
-                if (delete.MessageStatus == "Operación realizada con éxito")
-                    return result.SetMessage(delete.MessageStatus, ServiceResultType.Success);
-                else
-                    return result.SetMessage("Por favor llene todos los campos", ServiceResultType.Conflict);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex.Message);
-            }
-        }
-        #endregion
-
-        #region Pantallas
-        public ServiceResult ListaPantallas()
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _pantallasRepository.List();
-                return result.Ok(list);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex.Message);
-            }
-
-        }
-
-        public ServiceResult ListaPantallasDeRol(int id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _pantallasRepository.findPant(id);
-                return result.Ok(list);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex.Message);
-            }
-        }
         #endregion
     }
 }

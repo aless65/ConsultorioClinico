@@ -146,7 +146,7 @@ namespace Consultorio.WebUI.Controllers
                         var jsonResponse = await responseRol.Content.ReadAsStringAsync();
                         JObject jsonObj = JObject.Parse(jsonResponse);
 
-                        ViewBag.rol_Id = new SelectList(jsonObj["data"].ToList(), "role_Id", "role_Nombre");
+                        ViewBag.role_Id = new SelectList(jsonObj["data"].ToList(), "role_Id", "role_Nombre");
                     }
 
                     if (responseEmp.IsSuccessStatusCode)
@@ -154,7 +154,7 @@ namespace Consultorio.WebUI.Controllers
                         var jsonResponse = await responseEmp.Content.ReadAsStringAsync();
                         JObject jsonObj = JObject.Parse(jsonResponse);
 
-                        ViewBag.emp_Id = new SelectList(jsonObj["data"].ToList(), "empe_Id", "empe_Nombres");
+                        ViewBag.empe_Id = new SelectList(jsonObj["data"].ToList(), "empe_Id", "empe_Nombres");
                     }
 
                     return View(usuario);
@@ -190,7 +190,7 @@ namespace Consultorio.WebUI.Controllers
                         var jsonResponse = await responseRol.Content.ReadAsStringAsync();
                         JObject jsonObj = JObject.Parse(jsonResponse);
 
-                        ViewBag.rol_Id = new SelectList(jsonObj["data"].ToList(), "role_Id", "role_Nombre");
+                        ViewBag.role_Id = new SelectList(jsonObj["data"].ToList(), "role_Id", "role_Nombre");
                     }
 
                     if (responseEmp.IsSuccessStatusCode)
@@ -198,7 +198,7 @@ namespace Consultorio.WebUI.Controllers
                         var jsonResponse = await responseEmp.Content.ReadAsStringAsync();
                         JObject jsonObj = JObject.Parse(jsonResponse);
 
-                        ViewBag.emp_Id = new SelectList(jsonObj["data"].ToList(), "empe_Id", "empe_Nombres");
+                        ViewBag.empe_Id = new SelectList(jsonObj["data"].ToList(), "empe_Id", "empe_Nombres");
                     }
 
                     //var errorContent = await response.Content.ReadAsStringAsync();
