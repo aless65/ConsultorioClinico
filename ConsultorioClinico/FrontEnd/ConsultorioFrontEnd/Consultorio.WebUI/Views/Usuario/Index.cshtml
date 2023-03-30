@@ -13,7 +13,7 @@
         <div id="index">
             <p>
                 <button id="New" class="btn btn-primary">Nuevo</button>
-                @*<a asp-action="Create" class="btn btn-primary">Nuevo</a>*@
+                <a asp-action="Create" class="btn btn-primary">Nuevo</a>
                 @*<h2>@ViewBag.message</h2>*@
             </p>
             <table class="table table-striped thead-dark" id="DataTable">
@@ -60,7 +60,7 @@
                 </tbody>
             </table>
         </div>
-        <partial name="_Create" model="new Consultorio.WebUI.Models.UsuariosViewModel()" />
+        @*<partial name="Create" model="new Consultorio.WebUI.Models.UsuariosViewModel()" />*@
     </div>
 </div>
 <script>

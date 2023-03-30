@@ -171,6 +171,19 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public IEnumerable<VW_tbUsuarios_View> Login(string user, string contrasena)
+        {
+            try
+            {
+                return _usuarioRepository.Login(user, contrasena);
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         #endregion
     }
 }

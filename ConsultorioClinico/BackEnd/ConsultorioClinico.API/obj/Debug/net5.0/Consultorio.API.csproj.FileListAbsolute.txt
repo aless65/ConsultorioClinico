@@ -722,3 +722,4 @@ C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\Co
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\ref\Consultorio.API.dll
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.pdb
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.genruntimeconfig.cache
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.MvcApplicationPartsAssemblyInfo.cs

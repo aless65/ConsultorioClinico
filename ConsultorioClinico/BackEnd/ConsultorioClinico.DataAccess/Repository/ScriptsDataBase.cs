@@ -76,9 +76,10 @@ namespace Consultorio.DataAccess.Repository
 
         #region Usuarios
         public static string UDP_Listar_Usuarios = "acce.UDP_tbUsuarios_List";
-        public static string UDP_Insertar_Usuarios = "acce.UDP_InsertUsuario";
+        public static string UDP_Insertar_Usuarios = "acce.UDP_InsertUsuarios";
         public static string UDP_Editar_Usuarios = "acce.UDP_tbUsuarios_UPDATE";
         public static string UDP_Eliminar_Usuarios = "acce.UDP_tbUsuarios_DELETE";
+        public static string UDP_Login = "acce.UDP_Login";
         #endregion
     }
 }

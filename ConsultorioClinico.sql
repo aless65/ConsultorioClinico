@@ -88,7 +88,7 @@ CREATE OR ALTER PROCEDURE acce.UDP_InsertUsuario
 	@user_Contrasena		NVARCHAR(200),
 	@user_EsAdmin			BIT,					
 	@role_Id				INT, 
-	@empe_Id				INT										
+	@empe_Id				INT									
 AS
 BEGIN
 	DECLARE @password NVARCHAR(MAX)=(SELECT HASHBYTES('Sha2_512', @user_Contrasena));
@@ -96,11 +96,53 @@ BEGIN
 	VALUES(@user_NombreUsuario, @password, @user_EsAdmin, @role_Id, @empe_Id, 1);
 END;
 GO
-
-GO
 EXEC acce.UDP_InsertUsuario 'admin', '123', 1, 1, 1;
 
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_InsertUsuarios
+	@user_NombreUsuario		NVARCHAR(100),	
+	@user_Contrasena		NVARCHAR(200),
+	@user_EsAdmin			BIT,					
+	@role_Id				INT, 
+	@empe_Id				INT,
+	@user_UsuCreacion		INT			
+AS
+BEGIN
+	DECLARE @password NVARCHAR(MAX)=(SELECT HASHBYTES('Sha2_512', @user_Contrasena));
 
+	BEGIN TRY
+		IF NOT EXISTS (SELECT user_NombreUsuario 
+					   FROM acce.tbUsuarios 
+					   WHERE user_NombreUsuario = @user_NombreUsuario)
+			BEGIN			
+				INSERT INTO acce.tbUsuarios(user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion)
+				VALUES(@user_NombreUsuario, @password, @user_EsAdmin, @role_Id, @empe_Id, @user_UsuCreacion);
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE IF EXISTS (SELECT user_NombreUsuario 
+					    FROM acce.tbUsuarios  
+					    WHERE user_NombreUsuario = @user_NombreUsuario
+						AND user_Estado = 1)
+			BEGIN
+				UPDATE acce.tbUsuarios
+				SET user_Estado = 1,
+					user_Contrasena = @password,
+					user_EsAdmin = @user_EsAdmin,
+					role_Id = @role_Id,
+					empe_Id = @empe_Id
+				WHERE user_NombreUsuario = @user_NombreUsuario
+
+				SELECT 'El registro se ha insertado con éxito'
+			END
+		ELSE
+			SELECT 'Ya existe un cargo con este nombre'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END;
+GO
 --********* ALTERAR TABLA ROLES **************--
 --********* AGREGAR CAMPOS AUDITORIA**************--
 GO
