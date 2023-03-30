@@ -28,6 +28,7 @@ namespace Consultorio.BussinesLogic
             service.AddScoped<RolesRepository>();
             service.AddScoped<PantallasPorRolesRepository>();
             service.AddScoped<PantallasRepository>();
+            service.AddScoped<UsuarioRepository>();
             ConsultorioContext.BuildConnectionString(connectionString);
         }
             

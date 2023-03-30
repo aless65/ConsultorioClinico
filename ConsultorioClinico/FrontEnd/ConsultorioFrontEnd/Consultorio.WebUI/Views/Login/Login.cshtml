@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="~/css/stylelogin.css">
+</head>
+
+<body>
+    <div class="wrapper" style="background-color: pink;">
+        <div class="inner">
+            <div class="image-holder">
+                <img src="~/img/Background.png" alt="">
+            </div>
+            <form action="@Url.Action("Index","Login")" method="post" id="formlogin">
+                <h3>Login</h3>
+                <div class="form-holder active">
+                    <input type="text" name="usuario" placeholder="Usuario" class="form-control">
+                </div>
+                <div class="form-holder">
+                    <input type="password" name="contrasena" placeholder="Contraseña" class="form-control" style="font-size: 15px;">
+                </div>
+                <div class="alert alert-danger" style="color:red">@Html.ValidationMessage("Validacion")</div>
+                <div class="alert alert-danger" style="color: red">@Html.ValidationMessage("Validacion1")</div>
+                <div class="checkbox">
+                    <label>
+                        <a href="/Login/Recover">Has olvidado la contraseña?</a>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="form-login">
+                    <button>Iniciar Sesion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/js/acce/jquery-3.3.1.min.js"></script>
+<script src="~/js/acce/main.js"></script>

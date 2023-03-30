@@ -583,7 +583,6 @@ C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\Co
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.AssemblyInfoInputs.cache
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.AssemblyInfo.cs
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.csproj.CoreCompileInputs.cache
-C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\bin\Debug\net5.0\appsettings.json
@@ -723,3 +722,4 @@ C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\Co
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\ref\Consultorio.API.dll
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.pdb
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.genruntimeconfig.cache
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\BackEnd\ConsultorioClinico.API\obj\Debug\net5.0\Consultorio.API.MvcApplicationPartsAssemblyInfo.cs

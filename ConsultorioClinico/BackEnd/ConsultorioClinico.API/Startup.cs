@@ -36,6 +36,7 @@ namespace ConsultorioClinico.API
             services.DataAccess(Configuration.GetConnectionString("ConsultorioConn"));
             services.BusinessLogic();
             services.AddAutoMapper(x => x.AddProfile<MappingProfileExtensions>(), AppDomain.CurrentDomain.GetAssemblies());
+            services.AddSession();
 
             services.AddControllersWithViews();
         }

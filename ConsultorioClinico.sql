@@ -88,19 +88,61 @@ CREATE OR ALTER PROCEDURE acce.UDP_InsertUsuario
 	@user_Contrasena		NVARCHAR(200),
 	@user_EsAdmin			BIT,					
 	@role_Id				INT, 
-	@empe_Id				INT										
+	@empe_Id				INT									
 AS
 BEGIN
 	DECLARE @password NVARCHAR(MAX)=(SELECT HASHBYTES('Sha2_512', @user_Contrasena));
 	INSERT acce.tbUsuarios(user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion)
 	VALUES(@user_NombreUsuario, @password, @user_EsAdmin, @role_Id, @empe_Id, 1);
 END;
-
-
 GO
 EXEC acce.UDP_InsertUsuario 'admin', '123', 1, 1, 1;
 
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_InsertUsuarios
+	@user_NombreUsuario		NVARCHAR(100),	
+	@user_Contrasena		NVARCHAR(200),
+	@user_EsAdmin			BIT,					
+	@role_Id				INT, 
+	@empe_Id				INT,
+	@user_UsuCreacion		INT			
+AS
+BEGIN
+	DECLARE @password NVARCHAR(MAX)=(SELECT HASHBYTES('Sha2_512', @user_Contrasena));
 
+	BEGIN TRY
+		IF NOT EXISTS (SELECT user_NombreUsuario 
+					   FROM acce.tbUsuarios 
+					   WHERE user_NombreUsuario = @user_NombreUsuario)
+			BEGIN			
+				INSERT INTO acce.tbUsuarios(user_NombreUsuario, user_Contrasena, user_EsAdmin, role_Id, empe_Id, user_UsuCreacion)
+				VALUES(@user_NombreUsuario, @password, @user_EsAdmin, @role_Id, @empe_Id, @user_UsuCreacion);
+
+				SELECT 'El registro se ha insertado con ï¿½xito'
+			END
+		ELSE IF EXISTS (SELECT user_NombreUsuario 
+					    FROM acce.tbUsuarios  
+					    WHERE user_NombreUsuario = @user_NombreUsuario
+						AND user_Estado = 1)
+			BEGIN
+				UPDATE acce.tbUsuarios
+				SET user_Estado = 1,
+					user_Contrasena = @password,
+					user_EsAdmin = @user_EsAdmin,
+					role_Id = @role_Id,
+					empe_Id = @empe_Id
+				WHERE user_NombreUsuario = @user_NombreUsuario
+
+				SELECT 'El registro se ha insertado con ï¿½xito'
+			END
+		ELSE
+			SELECT 'Ya existe un cargo con este nombre'
+	END TRY
+	BEGIN CATCH
+		SELECT 'Ha ocurrido un error'
+	END CATCH
+END;
+GO
 --********* ALTERAR TABLA ROLES **************--
 --********* AGREGAR CAMPOS AUDITORIA**************--
 GO
@@ -194,7 +236,7 @@ CREATE TABLE cons.tbCargos(
 	CONSTRAINT FK_tbCargos_tbUsuarios_carg_UsuModificacion_user_Id	FOREIGN KEY(carg_UsuModificacion) REFERENCES acce.tbUsuarios(user_Id)
 );
 
---********TABLA ÁREAS****************---
+--********TABLA ï¿½REAS****************---
 CREATE TABLE cons.tbAreas(
 	area_Id					INT IDENTITY,
 	area_Nombre				NVARCHAR(150) NOT NULL,
@@ -369,11 +411,11 @@ VALUES ('Soltero(a)', 1),
 	   ('Casado(a)', 1),
 	   ('Divorciado(a)', 1),
 	   ('Viudo(a)', 1),
-	   ('Unión Libre', 1)
+	   ('Uniï¿½n Libre', 1)
 
 GO
 INSERT INTO cons.tbCargos(carg_Nombre, carg_UsuCreacion)
-VALUES ('Médico general', 1),
+VALUES ('Mï¿½dico general', 1),
 		('Secretaria de  Gerencia', 1),
 		('Encargada de Carnets Sanitarios y Pre-Nupciales', 1),
 		('Administrador', 1),
@@ -384,16 +426,16 @@ VALUES ('Médico general', 1),
 		('Gerente', 1)
 GO
 INSERT INTO cons.tbAreas(area_Nombre,area_UsuCreacion,area_FechaCreacion,area_UsuModificacion,area_FechaModificacion,area_Estado)
-VALUES ('Anestesiología', 1, GETDATE(), NULL, NULL, 1),
-       ('Cardiología', 1, GETDATE(), NULL, NULL, 1),
+VALUES ('Anestesiologï¿½a', 1, GETDATE(), NULL, NULL, 1),
+       ('Cardiologï¿½a', 1, GETDATE(), NULL, NULL, 1),
        ('Cuidados Intensivos', 1, GETDATE(), NULL, NULL, 1),
-       ('Ginecología', 1, GETDATE(), NULL, NULL, 1),
-       ('Dermatología', 1, GETDATE(), NULL, NULL, 1),
-       ('Traumatología', 1, GETDATE(), NULL, NULL, 1),
+       ('Ginecologï¿½a', 1, GETDATE(), NULL, NULL, 1),
+       ('Dermatologï¿½a', 1, GETDATE(), NULL, NULL, 1),
+       ('Traumatologï¿½a', 1, GETDATE(), NULL, NULL, 1),
        ('Farmacia', 1, GETDATE(), NULL, NULL, 1),
        ('Medicina Preventiva', 1, GETDATE(), NULL, NULL, 1),
-       ('Radiodiagnóstico', 1, GETDATE(), NULL, NULL, 1),
-       ('Laboratorio Clínico', 1, GETDATE(), NULL, NULL, 1);
+       ('Radiodiagnï¿½stico', 1, GETDATE(), NULL, NULL, 1),
+       ('Laboratorio Clï¿½nico', 1, GETDATE(), NULL, NULL, 1);
 
 GO
 INSERT INTO cons.tbProveedores (prov_Nombre, prov_Correo, prov_Telefono, prov_UsuCreacion, prov_FechaCreacion, prov_UsuModificacion, prov_FechaModificacion, prov_Estado)
@@ -419,9 +461,9 @@ VALUES		('Halothano', 1, 10.50, 15.00, 100, 1, GETDATE(), NULL, NULL, 1),
 			('Clorfenamina', 3, 15.00, 22.50, 55, 1, GETDATE(), NULL, NULL, 1),
 			('Paracetamol', 3, 25.00, 32.50, 21, 1, GETDATE(), NULL, NULL, 1),
 			('Ibuprofeno', 3, 40.00, 60.00 , 30, 1, GETDATE(), NULL, NULL, 1),
-			('Tanque de Oxígeno', 3, 1500.00, 2120.50, 150, 1, GETDATE(), NULL, NULL, 1)
+			('Tanque de Oxï¿½geno', 3, 1500.00, 2120.50, 150, 1, GETDATE(), NULL, NULL, 1)
 
---********TABLA CLÍNICAS****************---
+--********TABLA CLï¿½NICAS****************---
 CREATE TABLE cons.tbClinicas(
 	clin_Id					INT IDENTITY,
 	clin_Nombre				NVARCHAR(200) NOT NULL,
@@ -445,14 +487,14 @@ INSERT INTO cons.tbClinicas(clin_Nombre,
 							clin_Direccion, 
 							empe_Id, 
 							clin_UsuCreacion)
-VALUES ('Los Andes', '0501', 'Residencial Los Andes, calle no sé avenida peor', 1, 1),
-		('Los Castaños', '0501', 'Barrio Los Cedros, 2da avenida, 3ra calle', 1, 1),
-		('Centro Cáceres', '0703', 'Los Castaños, 8va avenida, 6ta calle', 1, 1),
+VALUES ('Los Andes', '0501', 'Residencial Los Andes, calle no sï¿½ avenida peor', 1, 1),
+		('Los Castaï¿½os', '0501', 'Barrio Los Cedros, 2da avenida, 3ra calle', 1, 1),
+		('Centro Cï¿½ceres', '0703', 'Los Castaï¿½os, 8va avenida, 6ta calle', 1, 1),
 		('Centro Enmanuel', '0401', 'Barrio Los Cedros, 2da avenida, 3ra calle', 1, 1),
-		('Climedenti', '0903', 'Plaza Alicía, 4ta avenida, 5ta calle', 1, 1),
-		('Clínica Médica San Isidro', '0903', 'Residencial Salamanca, 4ta avenida, 31 calle', 1, 1),
+		('Climedenti', '0903', 'Plaza Alicï¿½a, 4ta avenida, 5ta calle', 1, 1),
+		('Clï¿½nica Mï¿½dica San Isidro', '0903', 'Residencial Salamanca, 4ta avenida, 31 calle', 1, 1),
 		('Honduras Medical Center', '1205', 'Mall Las Cascadas, 4ta avenida, 12va calle', 1, 1),
-		('Torre Médica Zafiro', '1205', 'Avenida los Proceres, 20va avenida, 1era calle', 1, 1)
+		('Torre Mï¿½dica Zafiro', '1205', 'Avenida los Proceres, 20va avenida, 1era calle', 1, 1)
 
 GO
 --********TABLA EMPLEADOS****************---
@@ -497,7 +539,7 @@ INSERT INTO cons.tbEmpleados(empe_Nombres, empe_Apellido,
 							 carg_Id, clin_Id,
 							 empe_UsuCreacion)
 VALUES('Juan','Molina','0501200506728','M',1,'2005-05-06','0501','Valle de Sula','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
-		('Fernando','Castañeda','0902250500728','M',1,'2001-02-04','0902','Calle las Brisas','87756952','fernandocastañeda1@gmail.com','2023-07-02',NULL,1,1,1),
+		('Fernando','Castaï¿½eda','0902250500728','M',1,'2001-02-04','0902','Calle las Brisas','87756952','fernandocastaï¿½eda1@gmail.com','2023-07-02',NULL,1,1,1),
 		('Selvin','Medina','1201200501228','M',1,'2002-01-09','1201','La Rivera','98789658','selvinmedi@gmail.com','2023-01-03',NULL,1,1,1),
 		('Axel','Gomez','0501200506728','M',1,'2000-01-10','0501','Bosques de Jucutuma','99220345','gomez03@gmail.com','2023-06-02',NULL,1,1,1),
 		('Andrea','Montenegro','0311200506728','M',1,'1999-02-11','0301','Col. Felipe','88541230','andreamontenegro@gmail.com','2023-03-01',NULL,1,1,1),
@@ -539,16 +581,16 @@ CREATE TABLE cons.tbPacientes(
 GO
 INSERT INTO cons.tbPacientes (paci_Nombres, paci_Apellidos, paci_Identidad, paci_TipoSangre, paci_FechaNacimiento, estacivi_Id, paci_Telefono, paci_UsuCreacion, paci_Estado)
 VALUES
-('Juan', 'Pérez', '1234567891011', 'O+', '1990-01-01', 1, '2009-09-09', 1, 1),
-('María', 'González', '234567890234', 'B-', '1985-03-15', 2, '2018-08-08', 1, 1),
-('Luis', 'Martínez', '3456789019823', 'AB+', '1995-05-20', 2, '2017-07-07', 1, 1),
-('Ana', 'Fernández', '4567890124671', 'A+', '1998-07-12', 1, '2016-06-06', 1, 1),
-('Pedro', 'Sánchez', '5678901230923', 'O-', '1980-09-30', 2, '2015-05-05', 1, 1),
-('Sofía', 'López', '6789012344610', 'B+', '1982-11-25', 3, '2014-04-04', 1, 1),
-('Ricardo', 'García', '7890123451725', 'AB-', '1992-02-14', 1, '2013-03-03', 1, 1),
-('Laura', 'Hernández', '8901234562763', 'A-', '1996-04-18', 2, '2012-02-02', 1, 1),
-('Fernando', 'Díaz', '9012345672763', 'O+', '1988-06-07', 4, '2021-11-11', 1, 1),
-('Carla', 'Ramírez', '0123456780090', 'B-', '1984-08-23', 1, '2023-10-14', 1, 1);
+('Juan', 'Pï¿½rez', '1234567891011', 'O+', '1990-01-01', 1, '2009-09-09', 1, 1),
+('Marï¿½a', 'Gonzï¿½lez', '234567890234', 'B-', '1985-03-15', 2, '2018-08-08', 1, 1),
+('Luis', 'Martï¿½nez', '3456789019823', 'AB+', '1995-05-20', 2, '2017-07-07', 1, 1),
+('Ana', 'Fernï¿½ndez', '4567890124671', 'A+', '1998-07-12', 1, '2016-06-06', 1, 1),
+('Pedro', 'Sï¿½nchez', '5678901230923', 'O-', '1980-09-30', 2, '2015-05-05', 1, 1),
+('Sofï¿½a', 'Lï¿½pez', '6789012344610', 'B+', '1982-11-25', 3, '2014-04-04', 1, 1),
+('Ricardo', 'Garcï¿½a', '7890123451725', 'AB-', '1992-02-14', 1, '2013-03-03', 1, 1),
+('Laura', 'Hernï¿½ndez', '8901234562763', 'A-', '1996-04-18', 2, '2012-02-02', 1, 1),
+('Fernando', 'Dï¿½az', '9012345672763', 'O+', '1988-06-07', 4, '2021-11-11', 1, 1),
+('Carla', 'Ramï¿½rez', '0123456780090', 'B-', '1984-08-23', 1, '2023-10-14', 1, 1);
 
 GO
 
@@ -574,13 +616,13 @@ INSERT INTO cons.tbConsultorios(consltro_Nombre, area_Id, empe_Id, consltro_UsuC
 VALUES ('Vida', 1, 1, 1, 1),
 		('Vitals', 2, 2, 1, 1),
 		('C.E.R', 1, 3, 1, 1),
-		('Médico Chinchilla', 3, 4, 1, 1),
+		('Mï¿½dico Chinchilla', 3, 4, 1, 1),
 		('Valladares', 2, 5, 1, 1),
 		('Buena Fe', 3, 6, 1, 1),
 		('Brisas', 1, 7, 1, 1),
 		('MEDIAFAM', 2, 8, 1, 1),
 		('Guerrero', 3, 9, 1, 1),
-		('San José', 1, 10, 1, 1)
+		('San Josï¿½', 1, 10, 1, 1)
 GO
 
 CREATE TABLE cons.tbConsultas(
@@ -623,7 +665,7 @@ CREATE TABLE cons.tbMetodosPago(
 );
 INSERT INTO cons.tbMetodosPago (meto_Nombre, meto_UsuCreacion, meto_FechaCreacion, meto_UsuModificacion, meto_FechaModificacion, meto_Estado)
 VALUES	('Efectivo', 1, GETDATE(), NULL, NULL, 1),
-		('Tarjeta de crédito', 1, GETDATE(), NULL, NULL, 1),
+		('Tarjeta de crï¿½dito', 1, GETDATE(), NULL, NULL, 1),
 		('Cheque', 1, GETDATE(), NULL, NULL, 1),
 		('Transferencia Bancaria', 1, GETDATE(), NULL, NULL, 1),
 		('Paypal', 1, GETDATE(), NULL, NULL, 1)
@@ -678,7 +720,7 @@ CREATE TABLE cons.tbFacturasDetalles(
 	CONSTRAINT FK_tbFacturasDetalles_tbConsultas_cons_Id							FOREIGN KEY(cons_Id)				   REFERENCES cons.tbConsultas(cons_Id)
 );
 
-/*Procedimientos de login y restablecimiento de contraseña*/
+/*Procedimientos de login y restablecimiento de contraseï¿½a*/
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_Login
 	@user_NombreUsuario		NVARCHAR(100),
@@ -791,7 +833,7 @@ BEGIN
 				INSERT INTO cons.tbCargos(carg_Nombre, carg_UsuCreacion)
 				VALUES(@carg_Nombre, @carg_UsuCreacion)
 
-				SELECT 'El registro se ha insertado con éxito'
+				SELECT 'El registro se ha insertado con ï¿½xito'
 			END
 		ELSE IF EXISTS (SELECT carg_Nombre 
 					    FROM cons.tbCargos 
@@ -802,7 +844,7 @@ BEGIN
 				SET carg_Estado = 1
 				WHERE carg_Nombre = @carg_Nombre
 
-				SELECT 'El registro se ha insertado con éxito'
+				SELECT 'El registro se ha insertado con ï¿½xito'
 			END
 		ELSE
 			SELECT 'Ya existe un cargo con este nombre'
@@ -838,7 +880,7 @@ BEGIN
 							carg_FechaModificacion = GETDATE()
 						WHERE carg_Id = @carg_Id
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE IF EXISTS (SELECT carg_Nombre 
 								FROM cons.tbCargos
@@ -849,7 +891,7 @@ BEGIN
 						SET carg_Estado = 1
 						WHERE carg_Nombre = @carg_Nombre
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE
 					SELECT 'Ya existe un cargo con este nombre'
@@ -876,7 +918,7 @@ BEGIN
 			SET carg_Estado = 0
 			WHERE carg_Id = @carg_Id
 
-			SELECT 'El registro ha sido eliminado con éxito'
+			SELECT 'El registro ha sido eliminado con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -951,7 +993,7 @@ BEGIN
 											 cons_UsuCreacion)
 				VALUES(@cons_Inicio, @cons_Final, @paci_Id, @consltro_Id, @cons_Costo, @cons_UsuCreacion)
 
-				SELECT 'El registro ha sido ingresado con éxito'
+				SELECT 'El registro ha sido ingresado con ï¿½xito'
 			END
 		ELSE IF EXISTS (SELECT * FROM cons.tbConsultas
 						   WHERE cons_Inicio = @cons_Inicio 
@@ -967,7 +1009,7 @@ BEGIN
 				      AND consltro_Id = @consltro_Id
 				      AND paci_Id = @paci_Id
 
-				SELECT 'El registro ha sido ingresado con éxito'
+				SELECT 'El registro ha sido ingresado con ï¿½xito'
 			END 
 		ELSE
 			SELECT 'Esta consulta ya existe'
@@ -1014,7 +1056,7 @@ BEGIN
 							  cons_UsuModificacion = @cons_UsuModificacion
 						WHERE cons_Id = @cons_Id
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE IF EXISTS (SELECT* 
 								FROM cons.tbConsultas
@@ -1033,7 +1075,7 @@ BEGIN
 						AND paci_Id = @paci_Id
 						AND cons_Id != cons_Id
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE
 					SELECT 'Esta consulta ya existe'
@@ -1060,7 +1102,7 @@ BEGIN
 			SET cons_Estado = 0
 			WHERE cons_Id = @cons_Id
 
-			SELECT 'El registro ha sido eliminado con éxito'
+			SELECT 'El registro ha sido eliminado con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1157,7 +1199,7 @@ BEGIN
 					   @empe_FechaFinal, @carg_Id, 
 					   @clin_Id, @empe_UsuCreacion)
 
-				SELECT 'El registro se ha insertado con éxito'
+				SELECT 'El registro se ha insertado con ï¿½xito'
 			END
 		ELSE IF EXISTS (SELECT empe_Identidad 
 					   FROM cons.tbEmpleados 
@@ -1181,10 +1223,10 @@ BEGIN
 					clin_Id = @clin_Id		
 				WHERE empe_Identidad = @empe_Identidad
 
-				SELECT 'El registro se ha insertado con éxito'
+				SELECT 'El registro se ha insertado con ï¿½xito'
 			END
 		ELSE
-			SELECT 'Ya existe un empleado con este número de identidad'
+			SELECT 'Ya existe un empleado con este nï¿½mero de identidad'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1243,7 +1285,7 @@ BEGIN
 							  empe_FechaModificacion = GETDATE()
 						WHERE empe_Id = @empe_Id
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE IF EXISTS (SELECT * 
 								FROM cons.tbEmpleados
@@ -1270,10 +1312,10 @@ BEGIN
 							empe_FechaModificacion = GETDATE()
 						WHERE empe_Identidad = @empe_Identidad 
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE
-					SELECT 'Un empleado con el mismo número de identidad ya existe'
+					SELECT 'Un empleado con el mismo nï¿½mero de identidad ya existe'
 			END
 	END TRY
 	BEGIN CATCH
@@ -1296,7 +1338,7 @@ BEGIN
 			SET empe_Estado = 0
 			WHERE empe_Id = @empe_Id
 
-			SELECT 'El registro ha sido eliminado con éxito'
+			SELECT 'El registro ha sido eliminado con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1541,7 +1583,7 @@ BEGIN
 				INSERT INTO acce.tbRoles(role_Nombre, role_UsuCreacion)
 				VALUES(@role_Nombre, @role_UsuCreacion)
 
-				SELECT 'El registro se ha insertado con éxito'
+				SELECT 'El registro se ha insertado con ï¿½xito'
 			END
 		ELSE IF EXISTS (SELECT role_Nombre 
 					    FROM acce.tbRoles 
@@ -1552,7 +1594,7 @@ BEGIN
 				SET role_Estado = 1
 				WHERE role_Nombre = @role_Nombre
 
-				SELECT 'El registro se ha insertado con éxito'
+				SELECT 'El registro se ha insertado con ï¿½xito'
 			END
 		ELSE
 			SELECT 'Ya existe un rol con este nombre'
@@ -1588,7 +1630,7 @@ BEGIN
 							role_FechaModificacion = GETDATE()
 						WHERE role_Id = @role_Id
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE IF EXISTS (SELECT role_Nombre 
 								FROM acce.tbRoles 
@@ -1599,7 +1641,7 @@ BEGIN
 						SET role_Estado = 1
 						WHERE role_Nombre = @role_Nombre
 
-						SELECT 'El registro ha sido editado con éxito'
+						SELECT 'El registro ha sido editado con ï¿½xito'
 					END
 				ELSE
 					SELECT 'Ya existe un rol con este nombre'
@@ -1626,7 +1668,7 @@ BEGIN
 			SET role_Estado = 0
 			WHERE role_Id = @role_Id
 
-			SELECT 'El registro ha sido eliminado con éxito'
+			SELECT 'El registro ha sido eliminado con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1647,7 +1689,7 @@ BEGIN
 		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
 		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
 
-		SELECT 'Operación realizada con éxito'
+		SELECT 'Operaciï¿½n realizada con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1666,7 +1708,7 @@ BEGIN
 		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
 		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
 
-		SELECT 'Operación realizada con éxito'
+		SELECT 'Operaciï¿½n realizada con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1687,7 +1729,7 @@ BEGIN
 		WHERE role_Id = @role_Id
 		AND pant_Id = @pant_Id
 
-		SELECT 'Operación realizada con éxito'
+		SELECT 'Operaciï¿½n realizada con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1709,7 +1751,7 @@ BEGIN
 		WHERE role_Id = @role_Id
 		AND pant_Id = @pant_Id
 
-		SELECT 'Operación realizada con éxito'
+		SELECT 'Operaciï¿½n realizada con ï¿½xito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1755,7 +1797,7 @@ BEGIN
 	SELECT * FROM cons.VW_tbPacientes
 END
 
---Métodos de pago
+--Mï¿½todos de pago
 GO
 CREATE OR ALTER VIEW cons.VW_tbMetodosPago
 AS
@@ -1801,4 +1843,110 @@ CREATE OR ALTER PROCEDURE cons.UDP_tbConsultas_Costo
 AS
 BEGIN
 	SELECT cons_Costo FROM cons.tbConsultas WHERE cons_Id = @cons_Id
+END
+	WHERE paci_Id = @paci_Id
+END
+GO
+--**************Listar Usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_List
+AS
+BEGIN
+SELECT * FROM acce.tbUsuarios
+END
+
+--**************Editar usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_UPDATE
+	@user_Id					INT,
+	@user_EsAdmin				BIT,
+	@role_Id					INT,
+	@empe_Id					INT,
+	@user_UsuModificacion		INT
+AS
+BEGIN
+	UPDATE acce.tbUsuarios
+	SET user_EsAdmin = @user_EsAdmin,
+		role_Id = @role_Id,
+		empe_Id = @empe_Id,
+		user_UsuModificacion = @user_UsuModificacion,
+		user_FechaModificacion = GETDATE()
+	WHERE user_Id = @user_Id
+END
+
+--**************Eliminar usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_DELETE
+	@user_Id	INT
+AS
+BEGIN
+	UPDATE acce.tbUsuarios
+	SET user_Estado = 0
+	WHERE user_Id = @user_Id
+END
+
+GO
+--**************UDP para vista de usuarios**************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_View 
+@user_Id INT
+AS
+BEGIN
+SELECT * FROM acce.VW_tbUsuarios_View WHERE user_Id = @user_Id
+END
+
+--**************Vista usuarios**************--
+GO
+CREATE OR ALTER VIEW acce.VW_tbUsuarios_View
+AS
+SELECT t1.user_Id, t1.user_NombreUsuario, 
+t1.user_Contrasena, t1.user_EsAdmin, 
+t1.role_Id,t2.role_Nombre, t1.empe_Id,(SELECT t3.empe_Nombres + ' '+ empe_Apellido) AS empe_NombreCompleto, 
+t1.user_UsuCreacion, t4.user_NombreUsuario AS user_UsuCreacion_Nombre,t1.user_FechaCreacion, 
+t1.user_UsuModificacion,t5.user_NombreUsuario AS user_UsuModificacion_Nombre, t1.user_FechaModificacion, 
+t1.user_Estado FROM acce.tbUsuarios t1 INNER JOIN acce.tbRoles t2
+ON t1.role_Id = t2.role_Id
+INNER JOIN cons.tbEmpleados t3
+ON t3.empe_Id = t1.empe_Id 
+INNER JOIN acce.tbUsuarios t4
+ON t1.user_UsuCreacion = T4.user_Id
+LEFT JOIN acce.tbUsuarios t5
+ON t1.user_UsuModificacion = t5.user_Id
+
+--************INICIAR SESIï¿½N******************--
+--************Cambiar Contrasena*******************--
+GO
+CREATE OR ALTER PROCEDURE UDP_RecuperarContrasena
+	@user_NombreUsuario	NVARCHAR(100),
+	@user_Contrasena	NVARCHAR(100)
+AS
+BEGIN
+	DECLARE @user_ContrasenaEncript NVARCHAR(MAX) = HASHBYTES('SHA2_512', @user_Contrasena)
+	IF EXISTS (SELECT user_NombreUsuario FROM acce.tbUsuarios WHERE user_NombreUsuario = @user_NombreUsuario)
+	BEGIN
+	UPDATE acce.tbUsuarios 
+	SET user_Contrasena = @user_ContrasenaEncript
+	WHERE user_NombreUsuario = @user_NombreUsuario
+	SELECT 1
+	END
+	ELSE
+	BEGIN
+	SELECT 0
+	END
+END
+
+--**************Login**************--
+GO
+CREATE OR ALTER PROCEDURE UDP_Login
+	@user_NombreUsuario	NVARCHAR(100),
+	@user_Contrasena	NVARCHAR(100)
+AS
+BEGIN
+	DECLARE @user_ContrasenaEncript NVARCHAR(MAX) = HASHBYTES('SHA2_512', @user_Contrasena)
+
+	SELECT user_NombreUsuario,[empe_Nombres], [empe_Apellido], [role_Id], [user_id],user_EsAdmin,t1.empe_Id
+	FROM [acce].[tbUsuarios] T1 INNER JOIN [cons].[tbEmpleados] T2
+	ON T1.empe_Id = T2.empe_Id
+	WHERE [user_NombreUsuario] = @user_NombreUsuario
+	AND [user_Contrasena] = @user_ContrasenaEncript
 END

@@ -89,6 +89,12 @@ namespace Consultorio.DataAccess.Repository
         #region Pantallas
         public static string UDP_Listar_Pantallas = "acce.UDP_tbPantallas_List";
         public static string UDP_Encontrar_Pantallas = "acce.UDP_tbPantallasPorRoles_Find";
+        #region Usuarios
+        public static string UDP_Listar_Usuarios = "acce.UDP_tbUsuarios_List";
+        public static string UDP_Insertar_Usuarios = "acce.UDP_InsertUsuarios";
+        public static string UDP_Editar_Usuarios = "acce.UDP_tbUsuarios_UPDATE";
+        public static string UDP_Eliminar_Usuarios = "acce.UDP_tbUsuarios_DELETE";
+        public static string UDP_Login = "acce.UDP_Login";
         #endregion
     }
 }
