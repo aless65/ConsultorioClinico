@@ -1,0 +1,45 @@
+﻿@model Consultorio.WebUI.Models.UsuariosViewModel
+
+
+<div class="modal" id="recuperarmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Recuperar Usuario</h5>
+            </div>
+            <form asp-action="Recuperar" id="recuperarForm">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="form-group col">
+                            <label asp-for="user_NombreUsuario" class="control-label"></label>
+                            <input asp-for="user_NombreUsuario" id="usur_UsuarioR" class="form-control" />
+                            <label for="" id="lblUsuarioR" hidden class="text-danger" style="color:crimson;">Ingrese el Usuario</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label asp-for="user_Contrasena" class="control-label"></label>
+                            <input asp-for="user_Contrasena" id="usur_Contrasenia" class="form-control" />
+                            <label for="" id="lblContraseñaR" hidden class="text-danger" style="color: crimson;">Ingrese la Contraseña*</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" onclick="Recuperar()">Recuperar</button>
+
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cerrar</button>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
