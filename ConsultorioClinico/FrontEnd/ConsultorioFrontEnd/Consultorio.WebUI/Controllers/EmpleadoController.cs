@@ -430,5 +430,28 @@ namespace Consultorio.WebUI.Controllers
                 return View(listado.Where(X => X.empe_Id == id));
             }
         }
+
+        public async Task<IActionResult> GraficaSexo()
+        {
+
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(_baseurl + "api/Empleado/LoadSex");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var grafica = JsonConvert.DeserializeObject<List<GraficaSexoViewModel>>(content);
+
+                    return Json(grafica);
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+
+                }
+            }
+
+        }
     }
 }

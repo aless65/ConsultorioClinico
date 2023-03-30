@@ -38,6 +38,7 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Editar_Empleados = "cons.UDP_tbEmpleados_Update";
         public static string UDP_Eliminar_Empleados = "cons.UDP_tbEmpleados_Delete";
         public static string UDP_Encontrar_Empleados = "cons.UDP_tbEmpleados_Find";
+        public static string UDP_SexoEmpleados_Grafica = "cons.UDP_GraficaSexo_Load";
         #endregion
 
         #region Estados Civiles
@@ -90,6 +91,7 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Listar_Pantallas = "acce.UDP_tbPantallas_List";
         public static string UDP_Encontrar_Pantallas = "acce.UDP_tbPantallasPorRoles_Find";
         #endregion
+
         #region Usuarios
         public static string UDP_Listar_Usuarios = "acce.UDP_tbUsuarios_List";
         public static string UDP_Insertar_Usuarios = "acce.UDP_InsertUsuarios";

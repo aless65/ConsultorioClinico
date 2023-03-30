@@ -542,11 +542,11 @@ VALUES('Juan','Molina','0501200506728','M',1,'2005-05-06','0501','Valle de Sula'
 		('Fernando','Casta�eda','0902250500728','M',1,'2001-02-04','0902','Calle las Brisas','87756952','fernandocasta�eda1@gmail.com','2023-07-02',NULL,1,1,1),
 		('Selvin','Medina','1201200501228','M',1,'2002-01-09','1201','La Rivera','98789658','selvinmedi@gmail.com','2023-01-03',NULL,1,1,1),
 		('Axel','Gomez','0501200506728','M',1,'2000-01-10','0501','Bosques de Jucutuma','99220345','gomez03@gmail.com','2023-06-02',NULL,1,1,1),
-		('Andrea','Montenegro','0311200506728','M',1,'1999-02-11','0301','Col. Felipe','88541230','andreamontenegro@gmail.com','2023-03-01',NULL,1,1,1),
+		('Andrea','Montenegro','0311200506728','F',1,'1999-02-11','0301','Col. Felipe','88541230','andreamontenegro@gmail.com','2023-03-01',NULL,1,1,1),
 		('Daniel','Espinoza','1101200836721','M',1,'2001-10-10','1101','Col. Satelite','89031285','danielespi@outlook.com','2023-01-12',NULL,1,1,1),
 		('Francisco','Antunez','0401200506123','M',1,'2000-09-09','0501','Barrio las Acacias','97350100','fransiscojoelr@gmail.com','2023-03-01',NULL,1,1,1),
-		('Felicia','Ramirez','0401200506125','M',1,'1994-02-09','0401','Colonia Smith','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
-		('Soledad','Perez','0501200506877','M',1,'1998-01-10','0501','Salida a la Lima','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
+		('Felicia','Ramirez','0401200506125','F',1,'1994-02-09','0401','Colonia Smith','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
+		('Soledad','Perez','0501200506877','F',1,'1998-01-10','0501','Salida a la Lima','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1),
 		('Wilfredo','Lopez','0501200526739','M',1,'2001-09-11','0501','Colonia Ideal','98789658','juanmolina@gmail.com','2023-03-01',NULL,1,1,1)
 
 
@@ -1517,6 +1517,35 @@ AS
 BEGIN
 	SELECT * FROM cons.tbFacturas WHERE fact_Id = @fact_Id
 END
+
+--********************PROCEDIMIENTOS GRÁFICAS***********************-
+GO
+CREATE OR ALTER VIEW cons.VW_Grafica_Sexo
+AS
+SELECT ( SELECT COUNT(empe_Sexo) FROM cons.tbEmpleados where empe_Sexo = 'M' group by empe_Sexo ) Masculino,
+		( SELECT COUNT(empe_Sexo) FROM cons.tbEmpleados where empe_Sexo = 'F' group by empe_Sexo ) Femenino
+
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_GraficaSexo_Load
+AS
+BEGIN
+	SELECT * FROM cons.VW_Grafica_Sexo
+END 
+
+--********************PROCEDIMIENTOS REPORTES***********************-
+GO
+CREATE OR ALTER VIEW cons.VW_tbConsultas_Reporte
+AS
+	SELECT [cons_Inicio] AS Inicio,
+		   [cons_Final]	AS Final,
+		   (T2.paci_Nombres + ' ' + T2.paci_Apellidos) AS Paciente,
+		   (T5.empe_Nombres + ' ' + T5.empe_Apellido) AS Médico,
+		   [cons_Costo] AS Costo
+	FROM [cons].[tbConsultas] T1 INNER JOIN cons.tbPacientes T2
+	ON T1.paci_Id = T2.paci_Id INNER JOIN cons.tbConsultorios T4
+	ON T1.consltro_Id = T4.consltro_Id INNER JOIN cons.tbEmpleados T5
+	ON T4.empe_Id = T5.empe_Id
+
 
 /*Procedimientos pantalla*/
 GO 

@@ -92,5 +92,13 @@ namespace Consultorio.DataAccess.Repository
 
             return db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_Editar_Empleados, parametros, commandType: CommandType.StoredProcedure);
         }
+
+        public IEnumerable<VW_Grafica_Sexo> LoadSex()
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            return db.Query<VW_Grafica_Sexo>(ScriptsDataBase.UDP_SexoEmpleados_Grafica, null, commandType: CommandType.StoredProcedure);
+
+        }
     }
 }

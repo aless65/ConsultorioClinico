@@ -196,9 +196,21 @@ namespace Consultorio.BussinesLogic.Services
         {
             return _consultasRepository.CostoConsulta(id);
         }
-    #endregion
+        #endregion
 
         #region Empleados
+        public IEnumerable<VW_Grafica_Sexo> LoadSex()
+        {
+            try
+            {
+                return _empleadosRepository.LoadSex();
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<VW_Grafica_Sexo>();
+            }
+        }
+
         public ServiceResult ListaEmpleados()
         {
             var result = new ServiceResult();

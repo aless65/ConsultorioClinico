@@ -56,5 +56,12 @@ namespace Consultorio.API.Controllers
             var encontrar = _consService.FindEmpleado(id);
             return Ok(encontrar);
         }
+
+        [HttpGet("LoadSex")]
+        public IActionResult CargarSexo()
+        {
+            var listado = _consService.LoadSex();
+            return Ok(listado);
+        }
     }
 }
