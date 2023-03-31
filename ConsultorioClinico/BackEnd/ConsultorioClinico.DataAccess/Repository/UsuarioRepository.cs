@@ -78,8 +78,8 @@ namespace Consultorio.DataAccess.Repository
         {
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@usua_Usuario", user, DbType.String, ParameterDirection.Input);
-            parametros.Add("@usua_Clave", contrasena, DbType.String, ParameterDirection.Input);
+            parametros.Add("@user_NombreUsuario", user, DbType.String, ParameterDirection.Input);
+            parametros.Add("@user_Contrasena", contrasena, DbType.String, ParameterDirection.Input);
             return db.Query<VW_tbUsuarios_View>(ScriptsDataBase.UDP_Login, parametros, commandType: CommandType.StoredProcedure);
         }
     }

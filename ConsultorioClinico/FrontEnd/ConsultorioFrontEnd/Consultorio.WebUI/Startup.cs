@@ -31,9 +31,9 @@ namespace Consultorio.WebUI
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             var configuration = configurationBuilder.Build();
             services.AddHttpClient();
-
-
-            // Registrar la configuración como un servicio inyectable
+            services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
+            services.AddSession();
             services.AddSingleton(configuration);
         }
 
@@ -52,7 +52,7 @@ namespace Consultorio.WebUI
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
