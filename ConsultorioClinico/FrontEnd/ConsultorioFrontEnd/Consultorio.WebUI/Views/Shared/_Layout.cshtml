@@ -542,22 +542,20 @@
                                     <i class="demo-pli-home fs-5 me-2"></i>
                                     <span class="nav-label ms-1" id="menuGeneral">General</span>
                                 </a>-->
+                            <!-- Dashboard submenu list -->
+                            <!--<ul class="mininav-content nav collapse" id="subMenuGeneral" hidden>-->
+                            @*<li class="nav-item">
+                                    <a href="/EstadoCivil/Listado" class="nav-link">Estados Civiles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/Departamento/Listado" class="nav-link">Departamentos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/Municipio/Listado" class="nav-link">Municipios</a>
+                                </li>*@
 
-                                <!-- Dashboard submenu list -->
-                                <!--<ul class="mininav-content nav collapse" id="subMenuGeneral" hidden>-->
-                                    @*<li class="nav-item">
-                                            <a href="/EstadoCivil/Listado" class="nav-link">Estados Civiles</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="/Departamento/Listado" class="nav-link">Departamentos</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="/Municipio/Listado" class="nav-link">Municipios</a>
-                                        </li>*@
-
-                                @*</ul>*@
-                                <!-- END : Dashboard submenu list -->
-
+                            @*</ul>*@
+                            <!-- END : Dashboard submenu list -->
                             <!--</li>-->
                             <!-- END : Link with submenu -->
                             <!-- Link with submenu -->
@@ -567,19 +565,17 @@
                                     <i class="demo-pli-split-vertical-2 fs-5 me-2"></i>
                                     <span class="nav-label ms-1">Consultorio</span>
                                 </a>-->
-
-                                <!-- Layouts submenu list -->
-                                <!--<ul id="subMenuConsultorio" class="mininav-content nav collapse">
-                                    <li class="nav-item">
-                                        <a href="/Cargo/Index" class="nav-link">Cargos</a>
-                                        <a href="/Empleado/Index" class="nav-link">Empleados</a>
-                                        <a href="/Factura/Index" class="nav-link">Facturas</a>
-                                        <a href="/Consulta/Index" class="nav-link">Consultas</a>
-                                        <a href="/Reportes/Index" class="nav-link">Reportes</a>
-                                    </li>
-                                </ul>-->
-                                <!-- END : Layouts submenu list -->
-
+                            <!-- Layouts submenu list -->
+                            <!--<ul id="subMenuConsultorio" class="mininav-content nav collapse">
+                                <li class="nav-item">
+                                    <a href="/Cargo/Index" class="nav-link">Cargos</a>
+                                    <a href="/Empleado/Index" class="nav-link">Empleados</a>
+                                    <a href="/Factura/Index" class="nav-link">Facturas</a>
+                                    <a href="/Consulta/Index" class="nav-link">Consultas</a>
+                                    <a href="/Reportes/Index" class="nav-link">Reportes</a>
+                                </li>
+                            </ul>-->
+                            <!-- END : Layouts submenu list -->
                             <!--</li>-->
                             <!-- END : Link with submenu -->
                             <!-- Regular menu link -->
@@ -899,6 +895,9 @@
     <script src="~/js/toastr/toastr.min.js"></script>
     <script src="~/js/toastr/toastr.js"></script>
 
+    <script src="~/pages/chart.js"></script>
+    <script src="~/vendors/chart.js/chart.min.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -914,7 +913,7 @@
 
     <script>
         $(document).ready(function () {
-            $.getJSON('/Rol/MenuPantallas', {}).done(function (pantallas) {
+            $.getJSON('/Rol/Menu', {}).done(function (pantallas) {
                 var menu = $("#menu");
                 var menuItems = {
                     "Seguridad": [],
@@ -922,6 +921,7 @@
                 };
 
                 $.each(pantallas, function (index, item) {
+                    console.log(item);
                     if (item.pant_Menu == "Consultorio") {
                         menuItems["Consultorio"].push($('<li>', {
                             class: 'nav-item'

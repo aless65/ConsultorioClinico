@@ -249,6 +249,20 @@ namespace Consultorio.BussinesLogic.Services
             }
 
         }
+        public ServiceResult PantallasMenu(int role_Id, bool esAdmin)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallasRepository.PantallasMenu(role_Id, esAdmin);
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+
+        }
 
         public ServiceResult ListaPantallasDeRol(int id)
         {

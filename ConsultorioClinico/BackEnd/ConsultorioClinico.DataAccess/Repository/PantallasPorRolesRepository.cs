@@ -109,5 +109,6 @@ namespace Consultorio.DataAccess.Repository
 
             return db.QueryFirst<int>(ScriptsDataBase.UDP_Permisos, parametros, commandType: CommandType.StoredProcedure);
         }
+
     }
 }

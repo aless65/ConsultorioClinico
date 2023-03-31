@@ -87,6 +87,7 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Eliminar_PantallasRoles = "acce.UDP_tbPantallasPorRoles_Delete";
         public static string UDP_Eliminar_PantallasRolesEditar = "acce.UDP_tbPantallasPorRoles_DeleteEdit";
         public static string UDP_Permisos = "acce.UDP_Permisos";
+        public static string UDP_PantallasMenu = "acce.UDP_tbPantallasPorRoles_Menu";
         #endregion
 
         #region Pantallas

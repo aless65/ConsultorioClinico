@@ -95,7 +95,7 @@
                             <td>@detalle.cons_Nombre</td>
                             <td>@detalle.cons_Costo</td>
                             <td>
-                                <a asp-id="@detalle.factdeta_Id" class="btn btn-danger btnEliminarDetalle">Borrar</a>
+                                <button data-id="@detalle.factdeta_Id" data-paci_Id="@detalle.paci_Id"  data-fact_Id="@detalle.fact_Id" data-meto_Id="@detalle.meto_Id" class="btn btn-danger btnEliminarDetalle">Borrar</button>
                             </td>
                         </tr>
 

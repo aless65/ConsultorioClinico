@@ -30,5 +30,12 @@ namespace Consultorio.API.Controllers
             var list = _acceService.ListaPantallasDeRol(id);
             return Ok(list);
         }
+
+        [HttpGet("PantallaMenu")]
+        public IActionResult PantallasMenu(int role_Id, bool esAdmin)
+        {
+            var list = _acceService.PantallasMenu(role_Id, esAdmin);
+            return Ok(list);
+        }
     }
 }

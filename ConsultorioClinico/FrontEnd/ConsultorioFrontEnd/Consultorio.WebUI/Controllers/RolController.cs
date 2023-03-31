@@ -1,4 +1,5 @@
 ﻿using Consultorio.WebUI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -74,23 +75,16 @@ namespace Consultorio.WebUI.Controllers
 
                     ViewBag.message = jsonObj["message"];
 
-                    if (jsonObj["code"].ToString() == "409")
-                    {
-                        string script = "MostrarMensajeWarning('" + ViewBag.message + "'); $('#New').click();";
-                        TempData["script"] = script;
-                    }
-                    else
-                    {
-                        string script = "$(document).ajaxComplete(function () { " +
-                                            "$('#New').click();" +
-                                            "$('#role_Nombre').prop('disabled', true);" +
-                                            "$('#enviarCrear').prop('disabled', true);" +
-                                            "$('.form-check-input').prop('disabled', false);" +
-                                        "console.log('ahora q') });";
-                        TempData["script"] = script;
+                    
+                    string script = "$(document).ajaxComplete(function () { " +
+                                        "$('#New').click();" +
+                                        "$('#role_Nombre').prop('disabled', true);" +
+                                        "$('#enviarCrear').prop('disabled', true);" +
+                                        "$('.form-check-input').prop('disabled', false);" +
+                                    "console.log('ahora q') });";
+                    TempData["script"] = script;
 
-                        TempData["nombreRol"] = item.role_Nombre;
-                    }
+                    TempData["nombreRol"] = item.role_Nombre;
 
                     return RedirectToAction("Index");
                 }
@@ -117,22 +111,6 @@ namespace Consultorio.WebUI.Controllers
                     JObject jsonObj = JObject.Parse(jsonResponse);
 
                     ViewBag.message = jsonObj["message"];
-
-                    if (jsonObj["code"].ToString() == "200")
-                    {
-                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-                    }
-                    else if (jsonObj["code"].ToString() == "409")
-                    {
-                        string script = "MostrarMensajeWarning('" + ViewBag.message + "'); $('#Edit').click();";
-                        TempData["script"] = script;
-                    }
-                    else
-                    {
-                        string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-                    }
 
                     return RedirectToAction("Index");
                 }
@@ -224,7 +202,9 @@ namespace Consultorio.WebUI.Controllers
                     string pant_Id = (string)jsonObject["pant_Id"];
                     string pant_Nombre = (string)jsonObject["pant_Nombre"];
                     string pant_Menu = (string)jsonObject["pant_Menu"];
-                    items.Add(new { pant_Id = pant_Id, pant_Nombre = pant_Nombre, pant_Menu = pant_Menu });
+                    string pant_Url = (string)jsonObject["pant_Url"];
+                    string pant_HtmlId = (string)jsonObject["pant_HtmlId"];
+                    items.Add(new { pant_Id = pant_Id, pant_Nombre = pant_Nombre, pant_Menu = pant_Menu, pant_Url = pant_Url, pant_HtmlId = pant_HtmlId });
                 }
 
                 return Json(items);
@@ -270,28 +250,41 @@ namespace Consultorio.WebUI.Controllers
 
                     ViewBag.message = jsonObj["message"];
 
-                    if (jsonObj["code"].ToString() == "200")
-                    {
-                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-                    }
-                    else if (jsonObj["code"].ToString() == "409")
-                    {
-                        string script = "MostrarMensajeWarning('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-                    }
-                    else
-                    {
-                        string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-                    }
-
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     return RedirectToAction("Index");
                 }
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Menu()
+        {
+            ViewBag.role_Id = HttpContext.Session.GetInt32("role_Id");
+            ViewBag.user_EsAdmin = HttpContext.Session.GetString("user_EsAdmin");
+
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(_baseurl + $"api/Pantalla/PantallaMenu?role_Id={ViewBag.role_Id}&esAdmin={ViewBag.user_EsAdmin}");
+
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                JObject jsonObj = JObject.Parse(jsonResponse);
+                JArray jsonArray = JArray.Parse(jsonObj["data"].ToString());
+
+                List<object> items = new List<object>();
+                foreach (JObject jsonObject in jsonArray)
+                {
+                    string pant_Id = (string)jsonObject["pant_Id"];
+                    string pant_Nombre = (string)jsonObject["pant_Nombre"];
+                    string pant_Menu = (string)jsonObject["pant_Menu"];
+                    string pant_Url = (string)jsonObject["pant_Url"];
+                    string pant_HtmlId = (string)jsonObject["pant_HtmlId"];
+                    items.Add(new { pant_Id = pant_Id, pant_Nombre = pant_Nombre, pant_Menu = pant_Menu, pant_Url = pant_Url, pant_HtmlId = pant_HtmlId });
+                }
+
+                return Json(items);
             }
         }
 

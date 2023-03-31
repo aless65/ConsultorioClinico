@@ -43,6 +43,18 @@ namespace Consultorio.DataAccess.Repository
             return db.Query<tbPantallas>(ScriptsDataBase.UDP_Listar_Pantallas, null, commandType: CommandType.StoredProcedure);
         }
 
+        public IEnumerable<tbPantallas> PantallasMenu(int role_Id, bool esAdmin)
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@role_Id", role_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("@esAdmin", esAdmin, DbType.Boolean, ParameterDirection.Input);
+
+            return db.Query<tbPantallas>(ScriptsDataBase.UDP_PantallasMenu, parametros, commandType: CommandType.StoredProcedure);
+
+        }
+
         public RequestStatus Update(tbPantallas item, int id)
         {
             throw new NotImplementedException();

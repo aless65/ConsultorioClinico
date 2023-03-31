@@ -40,13 +40,13 @@ CREATE TABLE acce.tbPantallas(
 GO
 
 INSERT INTO acce.tbPantallas(pant_Nombre, pant_Url, pant_Menu, pant_HtmlId, pant_UsuCreacion)
-VALUES ('Consultas', 'Consulta/Index', 'Consultorio', 'consultasItem', 1),
-       ('Facturas', 'Factura/Index', 'Consultorio', 'facturasItem', 1),
-	   ('Cargos', 'Cargo/Index', 'Consultorio', 'cargosItem',1),
-	   ('Empleados', 'Empleado/Index', 'Consultorio', 'empleadosItem', 1),
-	   ('Usuarios', 'Usuario/Index', 'Seguridad', 'usuariosItem', 1),
-	   ('Roles', 'Rol/Index', 'Seguridad', 'rolesItem', 1),
-	   ('Reportes', 'Reportes/Index', 'Consultorio', 'rolesItem', 1)
+VALUES ('Consultas', '/Consulta/Index', 'Consultorio', 'consultasItem', 1),
+       ('Facturas', '/Factura/Index', 'Consultorio', 'facturasItem', 1),
+	   ('Cargos', '/Cargo/Index', 'Consultorio', 'cargosItem',1),
+	   ('Empleados', '/Empleado/Index', 'Consultorio', 'empleadosItem', 1),
+	   ('Usuarios', '/Usuario/Index', 'Seguridad', 'usuariosItem', 1),
+	   ('Roles', '/Rol/Index', 'Seguridad', 'rolesItem', 1),
+	   ('Reportes', '/Reportes/Index', 'Consultorio', 'rolesItem', 1)
 
 GO
 --***********CREACION TABLA ROLES/PANTALLA*****************---
@@ -144,6 +144,8 @@ BEGIN
 	END CATCH
 END;
 GO
+
+EXEC acce.UDP_InsertUsuarios 'lola', '123', 0, 2, 3, 1
 --********* ALTERAR TABLA ROLES **************--
 --********* AGREGAR CAMPOS AUDITORIA**************--
 GO
@@ -1526,6 +1528,8 @@ AS
 SELECT ( SELECT COUNT(empe_Sexo) FROM cons.tbEmpleados where empe_Sexo = 'M' group by empe_Sexo ) Masculino,
 		( SELECT COUNT(empe_Sexo) FROM cons.tbEmpleados where empe_Sexo = 'F' group by empe_Sexo ) Femenino
 
+
+
 GO
 CREATE OR ALTER PROCEDURE cons.UDP_GraficaSexo_Load
 AS
@@ -1578,6 +1582,25 @@ BEGIN
 		 pant_FechaCreacion,
 		 (SELECT pantrole_Estado FROM [acce].[tbPantallasPorRoles] T2 WHERE T2.pant_Id = T1.pant_Id AND T2.role_Id = @role_Id) AS Seleccionada
   FROM acce.tbPantallas T1
+END
+
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Menu
+	@role_Id	INT,
+	@esAdmin	BIT
+AS
+BEGIN
+	IF @esAdmin = 1
+		SELECT * FROM acce.tbPantallas
+	ELSE
+		SELECT T1.pant_Id, 
+			   pant_Nombre, 
+			   pant_Url, 
+			   pant_Menu, 
+		       pant_HtmlId
+		FROM acce.tbPantallas T1 INNER JOIN acce.tbPantallasPorRoles T2
+		ON T1.pant_Id = T2.pant_Id 
+		WHERE role_Id = @role_Id
 END
 
 
