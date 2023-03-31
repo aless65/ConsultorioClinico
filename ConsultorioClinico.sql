@@ -1857,7 +1857,8 @@ GO
 CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_List
 AS
 BEGIN
-SELECT * FROM acce.tbUsuarios
+SELECT * FROM acce.VW_tbUsuarios_View
+WHERE user_Estado = 1
 END
 
 --**************Editar usuarios**************--
@@ -1893,7 +1894,7 @@ END
 GO
 --**************UDP para vista de usuarios**************--
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_View 
+CREATE OR ALTER PROCEDURE acce.UDP_tbUsuarios_Find
 @user_Id INT
 AS
 BEGIN

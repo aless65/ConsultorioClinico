@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Consultorio.WebUI.Models.UsuariosViewModel>
 
-@{
+@*@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+}*@
 
-<div class="card mb-4 col-xl-8 offset-xl-2">
+<div class="card">
     <div class="card-header">
         <h2>Usuarios</h2>
     </div>
@@ -13,7 +13,7 @@
         <div id="index">
             <p>
                 <button id="New" class="btn btn-primary">Nuevo</button>
-                <a asp-action="Create" class="btn btn-primary">Nuevo</a>
+                @*<a asp-action="Create" class="btn btn-primary">Nuevo</a>*@
                 @*<h2>@ViewBag.message</h2>*@
             </p>
             <table class="table table-striped thead-dark" id="DataTable">
@@ -45,14 +45,14 @@
                                 @Html.DisplayFor(modelItem => item.user_Contrasena)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.role_Id)
+                                @Html.DisplayFor(modelItem => item.role_Nombre)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.empe_Id)
+                                @Html.DisplayFor(modelItem => item.empe_NombreCompleto)
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.user_Id }, new { @class = "btn btn-outline-warning" }) |
-                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Detalles", "Details", new { id = item.user_Id }, new { @class = "btn btn-outline-dark" }) |
                                 <button class="btn btn-outline-danger Borrar" data-id="@item.user_Id">
                                     Eliminar
                                 </button>
@@ -62,7 +62,7 @@
                 </tbody>
             </table>
         </div>
-        @*<partial name="Create" model="new Consultorio.WebUI.Models.UsuariosViewModel()" />*@
+        <partial name="_Create" model="new Consultorio.WebUI.Models.UsuariosViewModel()" />
         <partial name="_Delete" />
     </div>
 </div>
@@ -83,5 +83,4 @@
             $(".card-body").animate({ height: $("#index").height() + 30 }, 500);
         });
     })
-
 </script>

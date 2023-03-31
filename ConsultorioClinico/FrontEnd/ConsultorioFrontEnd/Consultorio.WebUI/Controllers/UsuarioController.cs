@@ -251,7 +251,7 @@ namespace Consultorio.WebUI.Controllers
 
                     listado = JsonConvert.DeserializeObject<List<UsuariosViewModel>>(jsonArray.ToString());
                 }
-                return View(listado.Where(X => X.empe_Id == id));
+                return View(listado.Where(X => X.user_Id == id));
             }
         }
     }
