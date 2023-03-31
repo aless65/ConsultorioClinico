@@ -97,5 +97,17 @@ namespace Consultorio.DataAccess.Repository
         {
             throw new NotImplementedException();
         }
+
+        public int Permisos(int role_Id, int pant_Id, bool esAdmin)
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+
+            var parametros = new DynamicParameters();
+            parametros.Add("@role_Id", role_Id, DbType.String, ParameterDirection.Input);
+            parametros.Add("@pant_Id", pant_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@user_esAdmin", esAdmin, DbType.Boolean, ParameterDirection.Input);
+
+            return db.QueryFirst<int>(ScriptsDataBase.UDP_Permisos, parametros, commandType: CommandType.StoredProcedure);
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Encontrar_Consultas = "cons.UDP_tbCargos_Find";
         public static string UDP_Consultas_DDL = "cons.UDP_tbConsultas_DDL";
         public static string UDP_Consultas_Costo = "cons.UDP_tbConsultas_Costo";
+        public static string UDP_Consultas_Reporte = "cons.UDP_VW_tbConsultas_Reporte_List";
         #endregion
 
         #region Empleados
@@ -85,6 +86,7 @@ namespace Consultorio.DataAccess.Repository
         public static string UDP_Insertar_PantallasRolesEditar = "acce.UDP_tbPantallasPorRoles_InsertEdit";
         public static string UDP_Eliminar_PantallasRoles = "acce.UDP_tbPantallasPorRoles_Delete";
         public static string UDP_Eliminar_PantallasRolesEditar = "acce.UDP_tbPantallasPorRoles_DeleteEdit";
+        public static string UDP_Permisos = "acce.UDP_Permisos";
         #endregion
 
         #region Pantallas

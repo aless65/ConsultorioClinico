@@ -1,4 +1,5 @@
 ﻿using Consultorio.WebUI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -28,7 +29,11 @@ namespace Consultorio.WebUI.Controllers
         {
             List<CargoViewModel> listado = new List<CargoViewModel>();
 
-            if(TempData["script"] is string script)
+            ViewBag.pant_Id = 6;
+            ViewBag.role_Id = HttpContext.Session.GetInt32("role_Id");
+            ViewBag.user_EsAdmin = HttpContext.Session.GetString("user_EsAdmin");
+
+            if (TempData["script"] is string script)
             {
                 TempData.Remove("script");
                 ViewBag.Script = script;
@@ -36,6 +41,15 @@ namespace Consultorio.WebUI.Controllers
 
             using (var httpClient = new HttpClient())
             {
+                var permiso = await httpClient.GetAsync(_baseurl + $"api/PantallaPorRol/Permisos?role_Id={ViewBag.role_Id}&pant_Id={ViewBag.pant_Id}&esAdmin={Convert.ToBoolean(ViewBag.user_EsAdmin)}'");
+                var jsonResponsePermiso = await permiso.Content.ReadAsStringAsync();
+                JObject jsonObjPermiso = JObject.Parse(jsonResponsePermiso);
+
+                if (jsonObjPermiso.ToString() == "0")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
                 var response = await httpClient.GetAsync(_baseurl + "api/Cargo/List");
 
                 if (response.IsSuccessStatusCode)

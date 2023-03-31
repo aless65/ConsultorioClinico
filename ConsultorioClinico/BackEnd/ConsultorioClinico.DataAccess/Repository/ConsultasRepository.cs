@@ -54,6 +54,12 @@ namespace Consultorio.DataAccess.Repository
             return db.Query<VW_tbConsultas>(ScriptsDataBase.UDP_Listar_Consultas, null, commandType: CommandType.StoredProcedure);
         }
 
+        public IEnumerable<VW_tbConsultas_Reporte> ListReportes()
+        {
+            using var db = new SqlConnection(ConsultorioContext.ConnectionString);
+            return db.Query<VW_tbConsultas_Reporte>(ScriptsDataBase.UDP_Consultas_Reporte, null, commandType: CommandType.StoredProcedure);
+        }
+
         public RequestStatus Update(VW_tbConsultas item, int id)
         {
             using var db = new SqlConnection(ConsultorioContext.ConnectionString);

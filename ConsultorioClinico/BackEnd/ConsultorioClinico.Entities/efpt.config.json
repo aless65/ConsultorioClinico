@@ -110,6 +110,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[cons].[VW_tbConsultas_Reporte]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[cons].[VW_tbEmpleados]",
          "ObjectType": 3
       },
@@ -138,7 +142,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-BPGLHI0\\SQLEXPRESSLOCAL.CONSULTORIOCLINICO",
+   "UiHint": "DESKTOP-EEOQVVU\\SQLEXPRESS.CONSULTORIOCLINICO",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,

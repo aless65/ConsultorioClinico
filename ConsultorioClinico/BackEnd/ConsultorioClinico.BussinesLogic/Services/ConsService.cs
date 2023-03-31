@@ -191,11 +191,25 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
-
         public decimal CostoConsultas(int id)
         {
             return _consultasRepository.CostoConsulta(id);
         }
+
+        public ServiceResult ListaConsultasReporte()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _consultasRepository.ListReportes();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
         #endregion
 
         #region Empleados

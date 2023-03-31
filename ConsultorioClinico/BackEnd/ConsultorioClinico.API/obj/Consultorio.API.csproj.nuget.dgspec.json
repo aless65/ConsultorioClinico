@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj": {}
+    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
         "projectName": "Consultorio.API",
-        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
-        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\obj\\",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\Consultorio.API.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.API\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +32,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
-                "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj"
               }
             }
           }
@@ -97,17 +101,21 @@
         }
       }
     },
-    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
         "projectName": "Consultorio.BussinesLogic",
-        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
-        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\obj\\",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\Consultorio.BussinesLogic.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.BussinesLogic\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -121,8 +129,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
-                "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj"
               }
             }
           }
@@ -155,17 +163,21 @@
         }
       }
     },
-    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
         "projectName": "Consultorio.DataAccess",
-        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\Consultorio.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -179,8 +191,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
-                "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj"
               }
             }
           }
@@ -235,17 +247,21 @@
         }
       }
     },
-    "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
         "projectName": "Consultorio.Entities",
-        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
-        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\obj\\",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\Consultorio.Entities.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\ConsultorioClinico\\ConsultorioClinico\\BackEnd\\ConsultorioClinico.Entities\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -45,7 +45,8 @@ VALUES ('Consultas', 'Consulta/Index', 'Consultorio', 'consultasItem', 1),
 	   ('Cargos', 'Cargo/Index', 'Consultorio', 'cargosItem',1),
 	   ('Empleados', 'Empleado/Index', 'Consultorio', 'empleadosItem', 1),
 	   ('Usuarios', 'Usuario/Index', 'Seguridad', 'usuariosItem', 1),
-	   ('Roles', 'Rol/Index', 'Seguridad', 'rolesItem', 1)
+	   ('Roles', 'Rol/Index', 'Seguridad', 'rolesItem', 1),
+	   ('Reportes', 'Reportes/Index', 'Consultorio', 'rolesItem', 1)
 
 GO
 --***********CREACION TABLA ROLES/PANTALLA*****************---
@@ -1536,7 +1537,8 @@ END
 GO
 CREATE OR ALTER VIEW cons.VW_tbConsultas_Reporte
 AS
-	SELECT [cons_Inicio] AS Inicio,
+	SELECT cons_Id AS Id,
+		   [cons_Inicio] AS Inicio,
 		   [cons_Final]	AS Final,
 		   (T2.paci_Nombres + ' ' + T2.paci_Apellidos) AS Paciente,
 		   (T5.empe_Nombres + ' ' + T5.empe_Apellido) AS Médico,
@@ -1545,7 +1547,14 @@ AS
 	ON T1.paci_Id = T2.paci_Id INNER JOIN cons.tbConsultorios T4
 	ON T1.consltro_Id = T4.consltro_Id INNER JOIN cons.tbEmpleados T5
 	ON T4.empe_Id = T5.empe_Id
+	WHERE cons_Estado = 1
 
+GO
+CREATE OR ALTER PROCEDURE cons.UDP_VW_tbConsultas_Reporte_List
+AS
+BEGIN
+	SELECT * FROM VW_tbConsultas_Reporte
+END
 
 /*Procedimientos pantalla*/
 GO 
@@ -1787,6 +1796,23 @@ BEGIN
 	END CATCH
 END
 
+--Procedimiento para permisos
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_Permisos 
+	@role_Id		INT,
+	@pant_Id		INT,
+	@user_esAdmin	BIT
+AS
+BEGIN
+	IF @user_esAdmin = 1
+		SELECT 1
+	ELSE
+	IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id)
+		SELECT 1
+	ELSE 
+		SELECT 0
+END
+
 /*DROPDOWNLISTS*/
 --Estados civiles
 GO
@@ -1971,16 +1997,14 @@ END
 
 --**************Login**************--
 GO
-CREATE OR ALTER PROCEDURE UDP_Login
+CREATE OR ALTER PROCEDURE acce.UDP_Login
 	@user_NombreUsuario	NVARCHAR(100),
 	@user_Contrasena	NVARCHAR(100)
 AS
 BEGIN
 	DECLARE @user_ContrasenaEncript NVARCHAR(MAX) = HASHBYTES('SHA2_512', @user_Contrasena)
 
-	SELECT user_NombreUsuario,[empe_Nombres], [empe_Apellido], [role_Id], [user_id],user_EsAdmin,t1.empe_Id
-	FROM [acce].[tbUsuarios] T1 INNER JOIN [cons].[tbEmpleados] T2
-	ON T1.empe_Id = T2.empe_Id
+	SELECT * FROM acce.VW_tbUsuarios_View 
 	WHERE [user_NombreUsuario] = @user_NombreUsuario
 	AND [user_Contrasena] = @user_ContrasenaEncript
 END

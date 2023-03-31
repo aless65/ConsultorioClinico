@@ -23,10 +23,12 @@ namespace Consultorio.API.Controllers
             _mapper = mapper;
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        [HttpGet("Permisos")]
+        public int Permisos(int role_Id, int pant_Id, bool esAdmin)
+        {
+            var permiso = _acceService.Permisos(role_Id, pant_Id, esAdmin);
+            return permiso;
+        }
 
         [HttpPost("Insert")]
         public IActionResult Insert(PantallaPorRolViewModel item)

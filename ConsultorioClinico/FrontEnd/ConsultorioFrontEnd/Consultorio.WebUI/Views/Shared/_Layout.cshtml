@@ -1,4 +1,4 @@
-﻿@*@using Microsoft.Extensions.DependencyInjection*@
+﻿@using Microsoft.Extensions.DependencyInjection
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,13 +35,13 @@
 
 </head>
 <body class="jumping">
-    @*@using Microsoft.AspNetCore.Http
+    @using Microsoft.AspNetCore.Http
     @{ var session = Context.RequestServices.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
         int user_Id = ViewBag.user_Id = session?.GetInt32("user_Id");
         if (user_Id == 0)
         {
             <script>window.location.href = '/Login/Index';</script>
- } }*@
+        } }
     <!-- PAGE CONTAINER -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <div id="root" class="root mn--max hd--expanded">
@@ -61,7 +61,6 @@
                         </ol>
                     </nav>-->
                     <!-- END : Breadcrumb -->
-
                     <!--<h1 class="page-title mb-0 mt-2">Blank Page</h1>
 
                     <p class="lead">
@@ -108,7 +107,7 @@
                     <div class="brand-wrap">
 
                         <!-- Brand logo -->
-                        <a href="./index.html" class="brand-img stretched-link">
+                        <a href="/Home/Index" class="brand-img stretched-link">
                             <img src="~/img/icono.png" alt="Nifty Logo" class="Nifty logo" width="40" height="40">
                         </a>
 
@@ -534,18 +533,18 @@
                     <!-- Navigation Category -->
                     <div class="mainnav__categoriy py-3">
                         <h6 class="mainnav__caption mt-0 px-3 fw-bold">Navigation</h6>
-                        <ul class="mainnav__menu nav flex-column">
+                        <ul class="mainnav__menu nav flex-column" id="menu">
 
-                            <!-- Link with submenu -->
-                            <li class="nav-item has-sub">
+                            <!--<!-- Link with submenu -->
+                            <!--<li class="nav-item has-sub">
 
                                 <a href="#" id="menuGeneral" class="mininav-toggle nav-link collapsed" hidden>
                                     <i class="demo-pli-home fs-5 me-2"></i>
                                     <span class="nav-label ms-1" id="menuGeneral">General</span>
-                                </a>
+                                </a>-->
 
                                 <!-- Dashboard submenu list -->
-                                <ul class="mininav-content nav collapse" id="subMenuGeneral" hidden>
+                                <!--<ul class="mininav-content nav collapse" id="subMenuGeneral" hidden>-->
                                     @*<li class="nav-item">
                                             <a href="/EstadoCivil/Listado" class="nav-link">Estados Civiles</a>
                                         </li>
@@ -556,34 +555,35 @@
                                             <a href="/Municipio/Listado" class="nav-link">Municipios</a>
                                         </li>*@
 
-                                </ul>
+                                @*</ul>*@
                                 <!-- END : Dashboard submenu list -->
 
-                            </li>
+                            <!--</li>-->
                             <!-- END : Link with submenu -->
                             <!-- Link with submenu -->
-                            <li class="nav-item has-sub">
+                            <!--<li class="nav-item has-sub">
 
                                 <a href="#" id="menuConsultorio" class="mininav-toggle nav-link collapsed">
                                     <i class="demo-pli-split-vertical-2 fs-5 me-2"></i>
                                     <span class="nav-label ms-1">Consultorio</span>
-                                </a>
+                                </a>-->
 
                                 <!-- Layouts submenu list -->
-                                <ul id="subMenuConsultorio" class="mininav-content nav collapse">
+                                <!--<ul id="subMenuConsultorio" class="mininav-content nav collapse">
                                     <li class="nav-item">
                                         <a href="/Cargo/Index" class="nav-link">Cargos</a>
                                         <a href="/Empleado/Index" class="nav-link">Empleados</a>
                                         <a href="/Factura/Index" class="nav-link">Facturas</a>
                                         <a href="/Consulta/Index" class="nav-link">Consultas</a>
+                                        <a href="/Reportes/Index" class="nav-link">Reportes</a>
                                     </li>
-                                </ul>
+                                </ul>-->
                                 <!-- END : Layouts submenu list -->
 
-                            </li>
+                            <!--</li>-->
                             <!-- END : Link with submenu -->
                             <!-- Regular menu link -->
-                            <li class="nav-item has-sub">
+                            <!--<li class="nav-item has-sub">
 
                                 <a href="#" id="menuAcceso" class="mininav-toggle nav-link collapsed">
                                     <i class="demo-pli-gear fs-5 me-2"></i>
@@ -596,7 +596,7 @@
                                     </li>
                                 </ul>
 
-                            </li>
+                            </li>-->
                             <!-- END : Regular menu link -->
 
                         </ul>
@@ -898,86 +898,10 @@
     <!-- Toastr -->
     <script src="~/js/toastr/toastr.min.js"></script>
     <script src="~/js/toastr/toastr.js"></script>
-    
-    <!-- Chart JS Scripts [ OPTIONAL ] -->
-    <script src="~/vendors/chart.js/chart.min.js" defer></script>
 
-    <!-- Initialize [ SAMPLE ] -->
-    <script src="~/pages/chart.js" defer></script>
 
     <script>
         $(document).ready(function () {
-            //$.getJSON('/Home/PantallasMenu', {})
-            //    .done(function (pantallas) {
-            //        /*var pantallasSelect = $("#probando");*/
-            //        /*pantallasSelect.empty();*/
-            //        $.each(pantallas, function (index, item) {
-
-            //            if (item.pant_Menu == "General") {
-            //                $("#subMenuGeneral").append($('<li>', {
-            //                    class: 'nav-item',
-            //                }).append($('<a>', {
-            //                    href: item.pant_Url,
-            //                    class: 'nav-link',
-            //                    text: item.pant_Nombre,
-            //                    id: item.pant_HtmlId
-            //                })));
-
-            //                $("#menuGeneral").prop('hidden', false);
-            //                $("#subMenuGeneral").prop('hidden', false);
-            //            }
-
-            //            if (item.pant_Menu == "Maquillaje") {
-            //                $("#subMenuMaquillaje").append($('<li>', {
-            //                    class: 'nav-item',
-            //                }).append($('<a>', {
-            //                    href: item.pant_Url,
-            //                    class: 'nav-link',
-            //                    text: item.pant_Nombre,
-            //                    id: item.pant_HtmlId
-            //                })));
-
-            //                $("#menuMaquillaje").prop('hidden', false);
-            //                $("#subMenuMaquillaje").prop('hidden', false);
-            //            }
-
-            //            if (item.pant_Menu == "Seguridad") {
-            //                $("#subMenuAcceso").append($('<li>', {
-            //                    class: 'nav-item',
-            //                }).append($('<a>', {
-            //                    href: item.pant_Url,
-            //                    class: 'nav-link',
-            //                    text: item.pant_Nombre,
-            //                    id: item.pant_HtmlId
-            //                })));
-
-            //                $("#menuAcceso").prop('hidden', false);
-            //                $("#subMenuAcceso").prop('hidden', false);
-            //            }
-            //        })
-
-            //        //$("#muni_Id").prop("disabled", false);
-            //        //var municipiosSelect = $('#muni_Id');
-            //        //municipiosSelect.empty();
-            //        //municipiosSelect.append($('<option>', {
-            //        //    value: '',
-            //        //    text: '--Selecciona un municipio--'
-            //        //}));
-            //        //$.each(municipios, function (index, item) {
-            //        //    municipiosSelect.append($('<option>', {
-            //        //        value: item.muni_id,
-            //        //        text: item.muni_Nombre
-            //        //    }));
-            //        //    console.log(item.muni_Id)
-            //        //});
-
-            //        console.log(pantallas);
-
-            //        /*$("#muni_Id").val(sessionStorage.getItem('muniId'));*/
-            //    })
-            //    .fail(function (jqXHR, textStatus, errorThrown) {
-            //        console.error('Error al cargar los municipios: ' + textStatus + ', ' + errorThrown);
-            //    });
 
             $('#DataTable').DataTable({
                 language: {
@@ -985,12 +909,80 @@
                 }
             });
 
-            //$('input').keypress(function (e) {
-            //    if (e.which == 39 || e.which == 44) { // Código ASCII para ' " y ,
-            //        return false; // Bloquear la entrada del caracter
-            //    }
-            //});
+        });
+    </script>
 
+    <script>
+        $(document).ready(function () {
+            $.getJSON('/Rol/MenuPantallas', {}).done(function (pantallas) {
+                var menu = $("#menu");
+                var menuItems = {
+                    "Seguridad": [],
+                    "Consultorio": []
+                };
+
+                $.each(pantallas, function (index, item) {
+                    if (item.pant_Menu == "Consultorio") {
+                        menuItems["Consultorio"].push($('<li>', {
+                            class: 'nav-item'
+                        }).append($('<a>', {
+                            class: "nav-link",
+                            href: item.pant_Url,
+                            text: item.pant_Nombre,
+                            id: item.pant_HtmlId
+                        })));
+                    } else if (item.pant_Menu == "Seguridad") {
+                        menuItems["Seguridad"].push($('<li>', {
+                            class: 'nav-item',
+                        }).append($('<a>', {
+                            href: item.pant_Url,
+                            class: 'nav-link',
+                            text: item.pant_Nombre,
+                            id: item.pant_HtmlId
+                        })));
+                    }
+                });
+
+                $.each(menuItems, function (section, items) {
+                    if (items.length > 0) {
+                        var sectionElement = $('<li>', {
+                            class: 'nav-item has-sub'
+                        }).append($('<a>', {
+                            class: 'mininav-toggle nav-link collapsed',
+                            href: '#',
+                            text: section,
+                            id: 'menu' + section
+                        })).append($('<ul>', {
+                            class: 'mininav-content nav collapse',
+                            id: 'SubMenu' + section
+                        }).append(items));
+                        menu.append(sectionElement);
+                    }
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.error('Error al cargar los municipios: ' + textStatus + ', ' + errorThrown);
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            //$("#menuTerminal").addClass('show');
+            //$("#SubMenuTerminal").addClass('active');
+        });
+
+        $(document).on('click', '.mininav-toggle', function (e) {
+            e.preventDefault();
+
+            var $this = $(this);
+
+            if (!$this.parent().hasClass('open')) {
+                $this.closest('.nav').find('.nav-item.open .nav-link').trigger('click');
+            }
+
+            $this.parent().toggleClass('open');
+            $this.next().toggleClass('show');
         });
     </script>
 

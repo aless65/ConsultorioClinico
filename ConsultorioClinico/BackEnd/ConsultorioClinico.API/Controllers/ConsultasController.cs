@@ -37,6 +37,13 @@ namespace Consultorio.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ListReporte")]
+        public IActionResult ListReporte()
+        {
+            var list = _consService.ListaConsultasReporte();
+            return Ok(list);
+        }
+
         [HttpGet("FindID")]
         public VW_tbConsultas Find(int id)
         {

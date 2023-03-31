@@ -130,32 +130,7 @@ namespace Consultorio.WebUI.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    JObject jsonObj = JObject.Parse(jsonResponse);
-
-                    ViewBag.message = jsonObj["message"];
-
-                    if (jsonObj["code"].ToString() == "200")
-                    {
-                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-
-                        return RedirectToAction("Index");
-                    }
-                    else if (jsonObj["code"].ToString() == "409")
-                    {
-                        string script = "MostrarMensajeWarning('" + ViewBag.message + "'); $('#New').click();";
-                        TempData["script"] = script;
-
-                        return View(item);
-                    }
-                    else
-                    {
-                        string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-
-                        return View(item);
-                    }
+                    return RedirectToAction("Index");
 
                 }
                 else
@@ -278,32 +253,7 @@ namespace Consultorio.WebUI.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    JObject jsonObj = JObject.Parse(jsonResponse);
-
-                    ViewBag.message = jsonObj["message"];
-
-                    if (jsonObj["code"].ToString() == "200")
-                    {
-                        string script = "MostrarMensajeSuccess('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-
-                        return RedirectToAction("Index");
-                    }
-                    else if (jsonObj["code"].ToString() == "409")
-                    {
-                        string script = "MostrarMensajeWarning('" + ViewBag.message + "'); $('#New').click();";
-                        TempData["script"] = script;
-
-                        return View(item);
-                    }
-                    else
-                    {
-                        string script = "MostrarMensajeDanger('" + ViewBag.message + "');";
-                        TempData["script"] = script;
-
-                        return View(item);
-                    }
+                    return RedirectToAction("Index");
 
                 }
                 else

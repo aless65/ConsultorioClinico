@@ -30,6 +30,13 @@ namespace Consultorio.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("Login")]
+        public IActionResult Login(string user, string contrasena)
+        {
+            var list = _acceService.Login(user, contrasena);
+            return Ok(list);
+        }
+
         [HttpPost("Insert")]
         public IActionResult Insert(VW_tbUsuarios_View item)
         {
