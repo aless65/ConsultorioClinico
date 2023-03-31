@@ -37,7 +37,7 @@
 <body class="jumping">
     @using Microsoft.AspNetCore.Http
     @{ var session = Context.RequestServices.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
-        int user_Id = ViewBag.user_Id = session?.GetInt32("user_Id");
+        int user_Id = ViewBag.user_Id = Convert.ToInt32(session?.GetInt32("user_Id"));
         if (user_Id == 0)
         {
             <script>window.location.href = '/Login/Index';</script>

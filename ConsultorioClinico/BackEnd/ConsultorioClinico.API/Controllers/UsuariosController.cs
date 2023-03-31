@@ -57,5 +57,12 @@ namespace Consultorio.API.Controllers
             var delete = _acceService.EliminarUsuarios(id);
             return Ok(delete);
         }
+
+        [HttpGet("Find")]
+        public IActionResult Find(int id)
+        {
+            var encontrar = _acceService.FindUsuario(id);
+            return Ok(encontrar);
+        }
     }
 }

@@ -94,6 +94,19 @@ namespace Consultorio.BussinesLogic.Services
                 return result.Error(ex.Message);
             }
         }
+        public ServiceResult FindUsuario(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var encontrar = _usuarioRepository.find(id);
+                return result.Ok(encontrar);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
         public IEnumerable<VW_tbUsuarios_View> Login(string user, string contrasena)
         {
             try

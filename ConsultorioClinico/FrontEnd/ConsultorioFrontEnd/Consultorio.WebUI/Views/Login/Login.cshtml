@@ -1,5 +1,5 @@
-﻿
-@{
+﻿@{
+    ViewData["Title"] = "Login";
     Layout = null;
 }
 
@@ -12,6 +12,7 @@
 
     <!-- STYLE CSS -->
     <link rel="stylesheet" href="~/css/stylelogin.css">
+        <link rel="stylesheet" href="~/css/Login/index.css">
 </head>
 
 <body>
@@ -46,3 +47,57 @@
 </html>
 <script src="~/js/acce/jquery-3.3.1.min.js"></script>
 <script src="~/js/acce/main.js"></script>
+<script>
+    function IniciarSesion() {
+        var usuario = $('#usuario').val();
+        var password = $('#password').val();
+
+
+        $("#lblUsuario1").attr('hidden', false);
+        $("#lblContraseña1").attr('hidden', false);
+        $("#lblUsuario2").attr('hidden', true);
+        $("#lblContraseña2").attr('hidden', true);
+
+        if (usuario != "" && password != "") {
+            $('#loginform').submit();
+        }
+        else {
+            if (usuario == "") {
+                $("#lblUsuario1").attr('hidden', true);
+                $("#lblUsuario2").attr('hidden', false);
+            }
+            if (password == "") {
+                $("#lblContraseña1").attr('hidden', true);
+                $("#lblContraseña2").attr('hidden', false);
+            }
+        }
+
+    }
+
+
+
+    function Recuperar() {
+        var usuario = $('#usur_UsuarioR').val();
+        var password = $('#usur_Contrasenia').val();
+
+
+        $("#lblUsuarioR").attr('hidden', true);
+        $("#lblContraseñaR").attr('hidden', true);
+
+        if (usuario != "" && password != "") {
+            $('#recuperarForm').submit();
+        }
+        else {
+            if (usuario == "") {
+                $("#lblUsuarioR").attr('hidden', false);
+            }
+            if (password == "") {
+                $("#lblContraseñaR").attr('hidden', false);
+            }
+        }
+
+    }
+    function abrirRecuperar() {
+        $("#recuperarmodal").appendTo('body').modal('show');
+    }
+</script>
