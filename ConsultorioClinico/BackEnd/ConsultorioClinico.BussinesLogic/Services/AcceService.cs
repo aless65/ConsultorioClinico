@@ -214,10 +214,8 @@ namespace Consultorio.BussinesLogic.Services
             {
                 var insert = _pantallasPorRolesRepository.Insert(item);
 
-                if (insert.MessageStatus == "Operaci?n realizada con ?xito")
-                    return result.SetMessage(insert.MessageStatus, ServiceResultType.Success);
-                else
-                    return result.SetMessage(insert.MessageStatus, ServiceResultType.Conflict);
+                return result.Ok(insert);
+           
             }
             catch (Exception ex)
             {

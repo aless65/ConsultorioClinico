@@ -1571,7 +1571,7 @@ CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find
 	@role_Id	INT
 AS
 BEGIN
-  SELECT T1.pant_Id, 
+  SELECT DISTINCT T1.pant_Id, 
 	     pant_Nombre, 
 		 pant_Url, 
 		 pant_Menu, 
@@ -1591,14 +1591,14 @@ BEGIN
 	IF @esAdmin = 1
 		SELECT * FROM acce.tbPantallas
 	ELSE
-		SELECT T1.pant_Id, 
+		SELECT DISTINCT T1.pant_Id, 
 			   pant_Nombre, 
 			   pant_Url, 
 			   pant_Menu, 
 		       pant_HtmlId
 		FROM acce.tbPantallas T1 INNER JOIN acce.tbPantallasPorRoles T2
 		ON T1.pant_Id = T2.pant_Id 
-		WHERE role_Id = @role_Id
+		WHERE role_Id = 7
 END
 
 
@@ -1745,10 +1745,13 @@ BEGIN
 	BEGIN TRY
 		DECLARE @role_Id INT = (SELECT role_Id FROM acce.tbRoles WHERE role_Nombre = @role_Nombre)
 
-		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
-		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
-
-		SELECT 'Operaci�n realizada con �xito'
+		IF EXISTS (SELECT * FROM [acce].[tbPantallasPorRoles] WHERE [role_Id] = @role_Id AND [pant_Id] = @pant_Id)
+			BEGIN
+				SELECT 'Nada'
+			END
+		ELSE
+				INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
+				VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1763,11 +1766,14 @@ CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_InsertEdit
 AS
 BEGIN
 	BEGIN TRY
-
-		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
-		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
-
-		SELECT 'Operaci�n realizada con �xito'
+		
+		IF EXISTS (SELECT * FROM [acce].[tbPantallasPorRoles] WHERE [role_Id] = @role_Id AND [pant_Id] = @pant_Id)
+			BEGIN
+				SELECT 'Operación realizada con éxito'
+			END
+		ELSE
+				INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
+				VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1788,7 +1794,7 @@ BEGIN
 		WHERE role_Id = @role_Id
 		AND pant_Id = @pant_Id
 
-		SELECT 'Operaci�n realizada con �xito'
+		SELECT 'Operación realizada con éxito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
