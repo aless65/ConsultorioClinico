@@ -1729,7 +1729,7 @@ BEGIN
 			SET role_Estado = 0
 			WHERE role_Id = @role_Id
 
-			SELECT 'El registro ha sido eliminado con �xito'
+			SELECT 'El registro ha sido eliminado con éxito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1738,7 +1738,7 @@ END
 
 --Insertar roles por pantalla
 GO
-CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert 
 	@role_Nombre			NVARCHAR(100),
 	@pant_Id				INT,
 	@pantrole_UsuCreacion	INT
@@ -1750,7 +1750,7 @@ BEGIN
 		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
 		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
 
-		SELECT 'Operaci�n realizada con �xito'
+		SELECT 'Operación realizada con éxito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1769,7 +1769,7 @@ BEGIN
 		INSERT INTO [acce].[tbPantallasPorRoles]([role_Id], [pant_Id], [pantrole_UsuCreacion])
 		VALUES (@role_Id, @pant_Id, @pantrole_UsuCreacion)
 
-		SELECT 'Operaci�n realizada con �xito'
+		SELECT 'Operación realizada con éxito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1790,7 +1790,7 @@ BEGIN
 		WHERE role_Id = @role_Id
 		AND pant_Id = @pant_Id
 
-		SELECT 'Operaci�n realizada con �xito'
+		SELECT 'Operación realizada con éxito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
@@ -1812,7 +1812,7 @@ BEGIN
 		WHERE role_Id = @role_Id
 		AND pant_Id = @pant_Id
 
-		SELECT 'Operaci�n realizada con �xito'
+		SELECT 'Operación realizada con éxito'
 	END TRY
 	BEGIN CATCH
 		SELECT 'Ha ocurrido un error'
