@@ -20,6 +20,6 @@ namespace Consultorio.WebUI.Models
         public DateTime? pant_FechaModificacion { get; set; }
         public bool? pant_Estado { get; set; }
         [NotMapped]
-        public int? Seleccionada { get; set; }
+        public int? seleccionada { get; set; }
     }
 }

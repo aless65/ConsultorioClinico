@@ -544,3 +544,7 @@ C:\Users\PC\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\Cons
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Login\Index.cshtml.g.cs
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Reportes\ConsultasReporte.cshtml.g.cs
 C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Reportes\Index.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Usuario\Details.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Usuario\Edit.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Usuario\_Create.cshtml.g.cs
+C:\Users\LAB01\Documents\GitHub\ConsultorioClinico\ConsultorioClinico\FrontEnd\ConsultorioFrontEnd\Consultorio.WebUI\obj\Debug\net5.0\Razor\Views\Usuario\_Delete.cshtml.g.cs

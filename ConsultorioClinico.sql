@@ -732,13 +732,11 @@ AS
 BEGIN
 	DECLARE @contraEncriptada NVARCHAR(MAX) = HASHBYTES('SHA2_512', @user_Contrasena)
 
-	SELECT [user_Id],
-		   [user_NombreUsuario],
-		   [user_EsAdmin],
-		   [role_Id]
-	FROM [acce].[tbUsuarios]
+	SELECT *
+	FROM acce.VW_tbUsuarios_View
 	WHERE [user_NombreUsuario] = @user_NombreUsuario
 	AND [user_Contrasena] = @contraEncriptada
+	AND user_Estado = 1
 END
 
 GO 
